@@ -44,6 +44,7 @@ if [ $rep = "n" ]; then
     fset cam ExposureMode Auto
     fset cam FrameStartTriggerMode Software
     fset cam Ttrig $ttrig   
+    fset cam ExposureValue 1000
 else
     echo "Replay cam$cam t=$rep"
    filter read_ch_log log_cam$cam -i -o img
