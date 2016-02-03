@@ -1,0 +1,30 @@
+#!/bin/sh
+
+if [ "$1" =  "-t" ]; then
+    meng_rmc_map=`fget aws1_ctrl meng_max_rmc meng_nuf_rmc meng_nut_rmc meng_nub_rmc meng_rmc_min`
+    seng_rmc_map=`fget aws1_ctrl seng_max_rmc seng_nuf_rmc seng_nut_rmc seng_nub_rmc seng_min_rmc`
+    rud_rmc_map=`fget aws1_ctrl rud_max_rmc rud_nut_rmc rud_min_rmc`
+    rud_sta_map=`fget aws1_ctrl rud_sta_max rud_sta_nut rud_sta_min`
+    meng_map=`fget aws1_ctrl meng_max meng_nuf meng_nut meng_nub meng_min`
+    seng_map=`fget aws1_ctrl seng_max seng_nuf seng_nut seng_nub seng_min`
+    rud_map=`fget aws1_ctrl rud_max rud_nut rud_min`
+    rud_sta_out_map=`fget aws1_ctrl rud_sta_out_max rud_sta_out_nut rud_sta_out_min`
+    echo "Control points"
+    echo meng_rmc $meng_rmc_map
+    echo seng_rmc $seng_rmc_map
+    echo rud_rmc $rud_rmc_map
+    echo rud_sta $rud_sta_map
+    echo meng_out $meng_map
+    echo seng_out $seng_map
+    echo rud_out $rud_map
+    echo rud_sta_out $rud_sta_out_map
+fi
+
+awsc=`fget aws1_ctrl awsrud awsmeng awsseng`
+rmcc=`fget aws1_ctrl rmcrud rmcmeng rmcseng rud_sta`
+outc=`fget aws1_ctrl ctrl meng seng rud rud_sta_out`
+
+echo "Control values"
+echo rmcc $rmcc
+echo awsc $awsc
+echo outc $outc

@@ -1,0 +1,34 @@
+#!/bin/sh
+
+channel nmea aws_nmea_in
+channel nmea aws_nmea_out
+channel nmea gff_nmea_in
+channel nmea gff_nmea_out
+channel nmea ais_nmea_in
+channel nmea ais_nmea_out
+channel nmea ap_nmea_in
+channel nmea ap_nmea_out
+
+filter nmea gff -i gff_nmea_out -o gff_nmea_in
+fset gff src COM
+fset gff fnmea /dev/ttyUL1
+fset gff bps 9600
+
+filter nmea ais -i ais_nmea_out -o ais_nmea_in
+fset ais src COM
+fset ais fnmea /dev/ttyUL2
+fset ais bps 38400
+
+filter nmea ap -i ap_nmea_in -o ap_nmea_out
+fset ap src COM
+fset ap fnmea /dev/ttyUL3
+fset ap bps 4800
+
+filter aws1_nmea_sw aws1_nmea_sw -i aws_nmea_in ap_nmea_out gff_nmea_out ais_nmea_out -o aws_nmea_out ap_nmea_in gff_nmea_in ais_nmea_in
+fset aws1_nmea_sw aws_ctrl no
+fset aws1_nmea_sw awsint 1
+fset aws1_nmea_sw apint 1
+fset aws1_nmea_sw gffint 1
+fset aws1_nmea_sw aisint 1
+
+
