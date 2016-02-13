@@ -1,0 +1,6 @@
+#!/bin/sh
+
+./aws1_ctrl.aws
+./aws1_nmea.aws
+
+go
