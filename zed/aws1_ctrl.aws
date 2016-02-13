@@ -13,4 +13,8 @@ fset aws1_ctrl seng_max 226 seng_nuf 153 seng_nut 130 seng_nub 103 seng_min 78
 fset aws1_ctrl rud_max 5 rud_nut 127 rud_min 250
 fset aws1_ctrl rud_sta_out_max 233 rud_sta_out_nut 143 rud_sta_out_min 49
 fset aws1_ctrl awsrud 127 awsmeng 127 awsseng 127
-fset aws1_ctrl verb yes
+fset aws1_ctrl udp yes
+fset aws1_ctrl acs udp
+fset aws1_ctrl acsport 20100
+fset aws1_ctrl verb no
+fset aws1_ctrl sim yes
