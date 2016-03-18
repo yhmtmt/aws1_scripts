@@ -4,4 +4,4 @@ filter aws1_ui aws1_ui -i -o
 fset aws1_ui acdhost 192.168.128.3
 fset aws1_ui acdport 20100
 fset aws1_ui verb no
-fset aws1_ui js 2
+fset aws1_ui js 0
