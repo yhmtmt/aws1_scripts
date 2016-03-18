@@ -8,31 +8,47 @@ channel nmea ais_nmea_in
 channel nmea ais_nmea_out
 channel nmea ap_nmea_in
 channel nmea ap_nmea_out
+channel nmea gps_nmea_in
+channel nmea gps_nmea_out
+
+verb=no
 
 filter nmea gff -i gff_nmea_out -o gff_nmea_in
 fset gff src COM
 fset gff fnmea /dev/ttyUL3
 fset gff bps 38400
-fset gff verb yes
+fset gff verb $verb
 
 filter nmea ais -i ais_nmea_out -o ais_nmea_in
 fset ais src COM
 fset ais fnmea /dev/ttyUL2
 fset ais bps 38400
-fset ais verb yes
+fset ais verb $verb
 
 filter nmea ap -i ap_nmea_out -o ap_nmea_in
 fset ap src COM
 fset ap fnmea /dev/ttyUL1
 fset ap bps 4800
-fset ap verb yes
+fset ap verb $verb
 
-filter aws1_nmea_sw aws1_nmea_sw -i aws_nmea_out ap_nmea_in gff_nmea_in ais_nmea_in -o aws_nmea_in ap_nmea_out gff_nmea_out ais_nmea_out
+filter aws1_nmea_sw aws1_nmea_sw -i aws_nmea_out ap_nmea_in gff_nmea_in ais_nmea_in gps_nmea_in -o aws_nmea_in ap_nmea_out gff_nmea_out ais_nmea_out gps_nmea_out
 fset aws1_nmea_sw aws_ctrl no
 fset aws1_nmea_sw awsint 1
 fset aws1_nmea_sw apint 1
 fset aws1_nmea_sw gffint 1
 fset aws1_nmea_sw aisint 1
-fset aws1_nmea_sw verb yes
+fset aws1_nmea_sw verb $verb
+
+filter nmea gps -i gps_nmea_out -o gps_nmea_in
+fset gps src COM
+fset gps fnmea /dev/ttyUL5
+fset gps bps 9600
+fset gps verb $verb
+
+filter ahrs ahrs -i -o
+fset ahrs bps 57600
+fset ahrs src COM
+fset ahrs dev /dev/ttyUL4
+fset ahrs verb $verb
 
 
