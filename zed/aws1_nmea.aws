@@ -1,5 +1,6 @@
 #!/bin/sh
 
+channel state state
 channel nmea aws_nmea_in
 channel nmea aws_nmea_out
 channel nmea gff_nmea_in
@@ -21,13 +22,13 @@ fset gff verb $verb
 
 filter nmea ais -i ais_nmea_out -o ais_nmea_in
 fset ais src COM
-fset ais fnmea /dev/ttyUL2
+fset ais fnmea /dev/ttyUL1
 fset ais bps 38400
 fset ais verb $verb
 
 filter nmea ap -i ap_nmea_out -o ap_nmea_in
 fset ap src COM
-fset ap fnmea /dev/ttyUL1
+fset ap fnmea /dev/ttyUL2
 fset ap bps 4800
 fset ap verb $verb
 
@@ -37,6 +38,7 @@ fset aws1_nmea_sw awsint 1
 fset aws1_nmea_sw apint 1
 fset aws1_nmea_sw gffint 1
 fset aws1_nmea_sw aisint 1
+fset aws1_nmea_sw gpsint 1
 fset aws1_nmea_sw verb $verb
 
 filter nmea gps -i gps_nmea_out -o gps_nmea_in
@@ -46,9 +48,8 @@ fset gps bps 9600
 fset gps verb $verb
 
 filter ahrs ahrs -i -o
+fset ahrs ch_state state
 fset ahrs bps 57600
 fset ahrs src COM
 fset ahrs dev /dev/ttyUL4
 fset ahrs verb $verb
-
-
