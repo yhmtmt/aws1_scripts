@@ -49,7 +49,7 @@ fset gps verb $verb
 
 filter ahrs ahrs -i -o
 fset ahrs ch_state state
-fset ahrs bps 57600
-fset ahrs src COM
+fset ahrs br 57600
+fset ahrs cmd ot
 fset ahrs dev /dev/ttyUL4
 fset ahrs verb $verb
