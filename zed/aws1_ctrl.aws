@@ -12,12 +12,8 @@ fset aws1_ctrl device /dev/zgpio2
 fset aws1_ctrl ctrl yes
 fset aws1_ctrl verb no
 fset aws1_ctrl sim no
-#fset aws1_ctrl udp yes
 fset aws1_ctrl acsport 20100
-fset aws1_ctrl udp no
-fset aws1_ctrl ch yes
 fset aws1_ctrl acs chan
-#fset aws1_ctrl acs udp
 
 fset aws1_ctrl meng_max_rmc 21 meng_nuf_rmc 91 meng_nut_rmc 107 meng_nub_rmc 124 meng_min_rmc 151
 fset aws1_ctrl seng_max_rmc 24 seng_nuf_rmc 91 seng_nut_rmc 107 seng_nub_rmc 124 seng_min_rmc 151
