@@ -4,6 +4,6 @@
 ./aws1_nmea.aws
 
 filter ch_share share -i state aws1_ctrl_in -o aws1_ctrl_out
-fset port 20100
+fset share port 20100
 
 go

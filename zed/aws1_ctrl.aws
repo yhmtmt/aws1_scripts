@@ -4,8 +4,8 @@ channel aws1_ctrl aws1_ctrl_in
 channel aws1_ctrl aws1_ctrl_out
 
 filter aws1_ctrl aws1_ctrl -i -o
-fset aws1_ctrl ch_ctrl_in = aws1_ctrl_in
-fset aws1_ctrl ch_ctro_out = aws1_ctrl_out
+fset aws1_ctrl ch_ctrl_in aws1_ctrl_in
+fset aws1_ctrl ch_ctrl_out aws1_ctrl_out
 fset aws1_ctrl device /dev/zgpio2
 fset aws1_ctrl ctrl yes
 fset aws1_ctrl verb no
