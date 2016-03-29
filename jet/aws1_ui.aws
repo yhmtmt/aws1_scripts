@@ -5,16 +5,16 @@ channel aws1_ctrl aws1_ctrl_in
 channel aws1_ctrl aws1_ctrl_out
 
 filter aws1_ui aws1_ui -i -o
-fset ch_state state
-fset ch_ctrl_in aws1_ctrl_in
-fset ch_ctrl_out aws1_ctrl_out
+fset aws1_ui ch_state state
+fset aws1_ui ch_ctrl_in aws1_ctrl_in
+fset aws1_ui ch_ctrl_out aws1_ctrl_out
 fset aws1_ui acdhost 192.168.128.3
 fset aws1_ui acdport 20100
-fset aws1_ui verb no
+fset aws1_ui verb yes
 fset aws1_ui js 0
-fset udpctrl no
+fset aws1_ui udpctrl no
 
 filter ch_share share -i aws1_ctrl_out -o state aws1_ctrl_in
-fset port_dst 20100
-fset host_dst 192.168.128.3
+fset share port_dst 20100
+fset share host_dst 192.168.128.3
 
