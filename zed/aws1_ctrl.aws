@@ -1,5 +1,16 @@
 #!/bin/sh
 
+
+verb=n
+
+channel state state
+filter ahrs ahrs -i -o
+fset ahrs ch_state state
+fset ahrs br 57600
+fset ahrs cmd ot
+fset ahrs dev /dev/ttyUL4
+fset ahrs verb $verb
+
 channel aws1_ctrl aws1_ctrl_in
 channel aws1_ctrl aws1_ctrl_out
 
@@ -10,7 +21,7 @@ fset aws1_ctrl ch_ctrl_in aws1_ctrl_in
 fset aws1_ctrl ch_ctrl_out aws1_ctrl_out
 fset aws1_ctrl device /dev/zgpio2
 fset aws1_ctrl ctrl yes
-fset aws1_ctrl verb no
+fset aws1_ctrl verb $verb
 fset aws1_ctrl sim no
 fset aws1_ctrl acsport 20100
 fset aws1_ctrl acs chan
