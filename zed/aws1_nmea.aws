@@ -21,12 +21,20 @@ echo "Setting up aws1_nmea_sw"
 channel nmea aws_nmea_in
 channel nmea aws_nmea_out
 
+echo "Creating aws1_nmea_sw." 
+
 filter aws1_nmea_sw aws1_nmea_sw
 fset aws1_nmea_sw aws_nmea_i aws_nmea_out
 fset aws1_nmea_sw aws_nmea_o aws_nmea_in
 fset aws1_nmea_sw aws_ctrl no
 fset aws1_nmea_sw awsint 1
 fset aws1_nmea_sw verb $verb
+
+ch_state=`chls | grep state | awk '{print $1}'`
+if [ $ch_state = "state" ]; then
+    echo "Channel state found. Connecting to aws1_nmea_sw."
+    fset aws1_nmea_sw ch_state state 
+done
 
 if [ $ap = y ]; then
     echo "Setting up autopilot's nmea filter."
@@ -71,7 +79,6 @@ if [ $ais = y ]; then
     fset ais bps 38400
     fset ais verb $verb
 fi
-
 
 if [ $gps = y ]; then
     echo "Setting up GPS's nmea filter"

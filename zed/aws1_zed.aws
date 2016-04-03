@@ -1,9 +1,26 @@
 #!/bin/sh
 
-./aws1_ctrl.aws
-./aws1_nmea.aws gff ais ap gps verb
+ctrl=n
+nmea=n
+
+for arg in $*
+do
+    case $arg in
+	"ctrl") ctrl=y;;
+	"nmea") nmea=y;;
+    esac
+done
+
+if [ $ctrl = y ]; then
+    ./aws1_ctrl.aws
+fi
+
+if [ $nmea = y ]; then
+    ./aws1_nmea.aws gff ais ap gps verb
+fi
 
 filter ch_share share -i state aws1_ctrl_in -o aws1_ctrl_out
 fset share port 20100
 fset share verb no
+
 go
