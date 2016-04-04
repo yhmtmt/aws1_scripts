@@ -12,7 +12,7 @@ fset aws1_ui ch_ctrl_in aws1_ctrl_in
 fset aws1_ui ch_ctrl_out aws1_ctrl_ui
 fset aws1_ui acdhost 192.168.128.3
 fset aws1_ui acdport 20100
-fset aws1_ui width 1280 height 720
+fset aws1_ui width 1024 height 768
 fset aws1_ui verb yes
 fset aws1_ui js 0
 fset aws1_ui udpctrl no
