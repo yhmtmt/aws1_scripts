@@ -19,7 +19,7 @@ if [ $nmea = y ]; then
     ./aws1_nmea.aws gff ais ap gps verb
 fi
 
-filter ch_share share -i state aws1_ctrl_out -o aws1_ctrl_ui
+filter ch_share share -i state aws1_ctrl_out -o aws1_ctrl_ui aws1_ctrl_ap1
 fset share port 20100
 fset share verb no
 

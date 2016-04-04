@@ -12,10 +12,14 @@ fset ahrs dev /dev/ttyUL4
 fset ahrs verb $verb
 
 channel aws1_ctrl aws1_ctrl_ui
+channel aws1_ctrl aws1_ctrl_ap1
+channel aws1_ctrl aws1_ctrl_ap2
 channel aws1_ctrl aws1_ctrl_out
 
 filter aws1_ctrl aws1_ctrl -i -o
 fset aws1_ctrl ch_ctrl_ui aws1_ctrl_ui
+fset aws1_ctrl ch_ctrl_ap1 aws1_ctrl_ap1
+fset aws1_ctrl ch_ctrl_ap2 aws2_ctrl_ap2
 fset aws1_ctrl ch_ctrl_out aws1_ctrl_out
 fset aws1_ctrl device /dev/zgpio2
 fset aws1_ctrl verb $verb
