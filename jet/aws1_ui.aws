@@ -23,7 +23,7 @@ fset aws1_ap ch_state state
 fset aws1_ap ch_ctrl_in aws1_ctrl_in
 fset aws1_ap ch_ctrl_out aws1_ctrl_ap1
 
-filter ch_share share -i aws1_ctrl_ui -o state aws1_ctrl_in aws1_ctrl_ap1
+filter ch_share share -i aws1_ctrl_ui aws1_ctrl_ap1 -o state aws1_ctrl_in 
 fset share port_dst 20100
 fset share host_dst 192.168.128.3
 

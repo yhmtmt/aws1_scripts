@@ -16,7 +16,7 @@ if [ $ctrl = y ]; then
 fi
 
 if [ $nmea = y ]; then
-    ./aws1_nmea.aws gff ais ap gps verb
+    ./aws1_nmea.aws gff ais ap gps
 fi
 
 filter ch_share share -i state aws1_ctrl_out -o aws1_ctrl_ui aws1_ctrl_ap1
