@@ -1,0 +1,16 @@
+#!/bin/sh
+
+if [ $# -ne 2 ]; then
+    echo "Usage: ahrs <port> <baud rate>"
+fi
+
+filter ahrs ahrs -i -o
+fset ahrs port $1
+fset ahrs br $2
+fset ahrs cmd ob
+fset ahrs verb y
+cyc 0.0344827
+go
+
+
+
