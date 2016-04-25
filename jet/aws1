@@ -1,5 +1,5 @@
 #!/bin/sh
-nohup aws &
+nohup aws > /dev/null &
 sleep 3
 ./aws1_ui.aws
 go

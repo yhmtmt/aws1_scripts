@@ -21,6 +21,7 @@ fset aws1_ui width 1024 height 768
 fset aws1_ui verb no
 fset aws1_ui js 0
 fset aws1_ui udpctrl no
+fset aws1_ui mode map
 
 #Autopilot filter
 filter aws1_ap aws1_ap -i -o
@@ -53,3 +54,5 @@ fset aws1_ui_test rud_max 5 rud_nut 127 rud_min 250
 fset aws1_ui_test rud_sta_out_max 243 rud_sta_out_nut 143 rud_sta_out_min 39
 fset aws1_ui_test awsrud 127 awsmeng 127 awsseng 127
 
+#state setting
+fset aws1_ui_test lat 35 lon 135 alt 0 cog 180 sog 5 yaw 135 depth 8 
