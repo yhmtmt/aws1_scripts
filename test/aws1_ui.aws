@@ -7,7 +7,6 @@ channel aws1_ctrl aws1_ctrl_in
 channel aws1_ctrl aws1_ctrl_ui
 channel aws1_ctrl aws1_ctrl_ap1
 
-
 # User interface filter
 filter aws1_ui aws1_ui -i -o
 fset aws1_ui ch_state state
@@ -39,6 +38,7 @@ fset obj_manager dtold 1800000000
 # test filter
 filter aws1_ui_test aws1_ui_test -i -o
 fset aws1_ui_test ch_state state
+fset aws1_ui_test ch_ais_obj ais_obj
 fset aws1_ui_test ch_ctrl_ui aws1_ctrl_ui
 fset aws1_ui_test ch_ctrl_ap1 aws1_ctrl_ap1
 #fset aws1_ui_test ch_ctrl_ap2

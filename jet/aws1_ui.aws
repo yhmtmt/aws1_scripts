@@ -1,6 +1,7 @@
 #!/bin/sh
 
 channel state state
+channel ais_obj ais_obj
 channel aws1_ctrl aws1_ctrl_in
 channel aws1_ctrl aws1_ctrl_ui
 channel aws1_ctrl aws1_ctrl_ap1
@@ -8,6 +9,7 @@ channel aws1_ctrl aws1_ctrl_ap1
 # User interface filter
 filter aws1_ui aws1_ui -i -o
 fset aws1_ui ch_state state
+fset aws1_ui ch_ais_obj ais_obj
 fset aws1_ui ch_ctrl_in aws1_ctrl_in
 fset aws1_ui ch_ctrl_out aws1_ctrl_ui
 fset aws1_ui acdhost 192.168.128.3
@@ -23,7 +25,14 @@ fset aws1_ap ch_state state
 fset aws1_ap ch_ctrl_in aws1_ctrl_in
 fset aws1_ap ch_ctrl_out aws1_ctrl_ap1
 
-filter ch_share share -i aws1_ctrl_ui aws1_ctrl_ap1 -o state aws1_ctrl_in 
+#Object manager
+filter obj_manager obj_manager -i -o
+fset obj_manager ch_state state
+fset obj_manager ch_ais_obj ais_obj
+fset obj_manager range 10000
+fset obj_manager dtold 1800000000
+
+filter ch_share share -i aws1_ctrl_ui aws1_ctrl_ap1 -o state aws1_ctrl_in ais_obj
 fset share port_dst 20100
 fset share host_dst 192.168.128.3
 
