@@ -27,5 +27,4 @@ fset share verb n
 # time sync (server)
 filter tsync tsync -i -o
 fset tsync port 20200
-
 go

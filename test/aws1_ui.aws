@@ -1,5 +1,13 @@
 #!/bin/sh
 
+ahrs=n
+for arg in $*
+do
+    case $arg in
+	"ahrs") ahrs=y;;
+    esac
+done
+
 channel state state
 channel ais_obj ais_obj
 channel wp wp
@@ -56,3 +64,13 @@ fset aws1_ui_test awsrud 127 awsmeng 127 awsseng 127
 
 #state setting
 fset aws1_ui_test lat 35 lon 135 alt 0 cog 180 sog 5 yaw 135 depth 8 
+
+if [ $ahrs = y ]; then
+    fset aws1_ui_test ahrs y
+
+    filter ahrs ahrs -i -o
+    fset ahrs ch_state state
+    fset ahrs br 57600
+    fset ahrs port 23
+    fset ahrs cmd ot
+fi
