@@ -2,6 +2,7 @@
 
 channel state state
 channel ais_obj ais_obj
+channel wp wp
 channel aws1_ctrl aws1_ctrl_in
 channel aws1_ctrl aws1_ctrl_ui
 channel aws1_ctrl aws1_ctrl_ap1
@@ -10,6 +11,7 @@ channel aws1_ctrl aws1_ctrl_ap1
 filter aws1_ui aws1_ui -i -o
 fset aws1_ui ch_state state
 fset aws1_ui ch_ais_obj ais_obj
+fset aws1_ui ch_wp wp
 fset aws1_ui ch_ctrl_in aws1_ctrl_in
 fset aws1_ui ch_ctrl_out aws1_ctrl_ui
 fset aws1_ui acdhost 192.168.128.3

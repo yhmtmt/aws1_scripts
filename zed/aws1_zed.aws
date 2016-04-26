@@ -21,6 +21,6 @@ fi
 
 filter ch_share share -i state aws1_ctrl_out ais_obj -o aws1_ctrl_ui aws1_ctrl_ap1
 fset share port 20100
-fset share verb no
+fset share verb n
 
 go
