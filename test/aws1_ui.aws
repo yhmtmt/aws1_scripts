@@ -1,6 +1,8 @@
 #!/bin/sh
 
 channel state state
+channel ais_obj ais_obj
+channel wp wp
 channel aws1_ctrl aws1_ctrl_in
 channel aws1_ctrl aws1_ctrl_ui
 channel aws1_ctrl aws1_ctrl_ap1
@@ -8,14 +10,17 @@ channel aws1_ctrl aws1_ctrl_ap1
 # User interface filter
 filter aws1_ui aws1_ui -i -o
 fset aws1_ui ch_state state
+fset aws1_ui ch_ais_obj ais_obj
+fset aws1_ui ch_wp wp
 fset aws1_ui ch_ctrl_in aws1_ctrl_in
 fset aws1_ui ch_ctrl_out aws1_ctrl_ui
 fset aws1_ui acdhost 192.168.128.3
 fset aws1_ui acdport 20100
 fset aws1_ui width 1024 height 768
-fset aws1_ui verb yes
+fset aws1_ui verb no
 fset aws1_ui js 0
 fset aws1_ui udpctrl no
+fset aws1_ui mode map
 
 #Autopilot filter
 filter aws1_ap aws1_ap -i -o
@@ -23,9 +28,17 @@ fset aws1_ap ch_state state
 fset aws1_ap ch_ctrl_in aws1_ctrl_in
 fset aws1_ap ch_ctrl_out aws1_ctrl_ap1
 
+#Object manager
+filter obj_manager obj_manager -i -o
+fset obj_manager ch_state state
+fset obj_manager ch_ais_obj ais_obj
+fset obj_manager range 10000
+fset obj_manager dtold 1800000000
+
 # test filter
 filter aws1_ui_test aws1_ui_test -i -o
 fset aws1_ui_test ch_state state
+fset aws1_ui_test ch_ais_obj ais_obj
 fset aws1_ui_test ch_ctrl_ui aws1_ctrl_ui
 fset aws1_ui_test ch_ctrl_ap1 aws1_ctrl_ap1
 #fset aws1_ui_test ch_ctrl_ap2
@@ -41,3 +54,5 @@ fset aws1_ui_test rud_max 5 rud_nut 127 rud_min 250
 fset aws1_ui_test rud_sta_out_max 243 rud_sta_out_nut 143 rud_sta_out_min 39
 fset aws1_ui_test awsrud 127 awsmeng 127 awsseng 127
 
+#state setting
+fset aws1_ui_test lat 35 lon 135 alt 0 cog 180 sog 5 yaw 135 depth 8 

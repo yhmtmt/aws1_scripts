@@ -68,8 +68,11 @@ if [ $ais = y ]; then
     echo "Setting up AIS's nmea filter"
     channel nmea ais_nmea_in
     channel nmea ais_nmea_out
+    channel ais_obj ais_obj
+
     fset aws1_nmea_sw ais_nmea_i ais_nmea_in
     fset aws1_nmea_sw ais_nmea_o ais_nmea_out
+    fset aws1_nmea_sw ais_obj ais_obj
     fset aws1_nmea_sw aisint 1
 
     filter nmea ais -i ais_nmea_out -o ais_nmea_in
