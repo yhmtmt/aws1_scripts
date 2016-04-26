@@ -19,8 +19,13 @@ if [ $nmea = y ]; then
     ./aws1_nmea.aws gff ais ap gps
 fi
 
+# Channel sharing
 filter ch_share share -i state aws1_ctrl_out ais_obj -o aws1_ctrl_ui aws1_ctrl_ap1
 fset share port 20100
 fset share verb n
+
+# time sync (server)
+filter tsync tsync -i -o
+fset tsync port 20200
 
 go
