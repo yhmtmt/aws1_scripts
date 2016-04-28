@@ -1,0 +1,17 @@
+#!/bin/sh
+
+channel nmea ais_in
+channel nmea ais_out
+
+filter nmea ais -i ais_in -o ais_out
+fset ais src COM
+fset ais bps 38400
+fset ais port 22
+
+filter aws1_nmea_sw aws1_nmea_sw 
+fset aws1_nmea_sw ais_nmea_i ais_out
+fset aws1_nmea_sw ais_nmea_o ais_in
+fset aws1_nmea_sw aisint 1
+fset aws1_nmea_sw verb y
+
+go

@@ -1,0 +1,23 @@
+#!/bin/sh
+
+channel state state
+channel nmea gps_in
+channel nmea gps_out
+
+filter nmea gps -i gps_in -o gps_out
+fset gps src COM
+fset gps bps 4800
+fset gps port 4
+fset gps verb y
+
+filter aws1_nmea_sw aws1_nmea_sw 
+fset aws1_nmea_sw state state
+fset aws1_nmea_sw gps_nmea_i gps_out
+fset aws1_nmea_sw gps_nmea_o gps_in
+fset aws1_nmea_sw gpsint 1
+fset aws1_nmea_sw verb y
+
+filter tsync tsync -i -o
+fset tsync port 20200
+
+go
