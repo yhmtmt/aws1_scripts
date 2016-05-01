@@ -1,0 +1,6 @@
+#!/bin/sh
+if [ $# -lt 3 ]; then
+   echo "ap_pid_eng <P> <I> <D>"
+fi
+
+fset aws1_ap ps $1 is $2 ds $3

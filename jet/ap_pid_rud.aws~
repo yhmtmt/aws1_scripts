@@ -1,0 +1,3 @@
+#!/bin/sh
+
+fset aws1_ap pc $1 ic $2 dc $3

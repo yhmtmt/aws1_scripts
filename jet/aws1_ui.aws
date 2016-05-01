@@ -27,6 +27,8 @@ fset aws1_ap ch_state state
 fset aws1_ap ch_wp wp
 fset aws1_ap ch_ctrl_in aws1_ctrl_in
 fset aws1_ap ch_ctrl_out aws1_ctrl_ap1
+fset aws1_ap Interval 30
+fset aws1_ap pc 1.0 ic 0.0 dc 0.0 ps 1.0 is 0.0 ds 1.0
 
 #Object manager
 filter obj_manager obj_manager -i -o
@@ -44,3 +46,5 @@ fset share host_dst 192.168.128.3
 filter tsync tsync -i -o
 fset tsync host_svr 192.168.128.3
 fset tsync port_svr 20200
+
+go
