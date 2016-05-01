@@ -24,6 +24,7 @@ fset aws1_ui udpctrl no
 #Autopilot filter
 filter aws1_ap aws1_ap -i -o
 fset aws1_ap ch_state state
+fset aws1_ap ch_wp wp
 fset aws1_ap ch_ctrl_in aws1_ctrl_in
 fset aws1_ap ch_ctrl_out aws1_ctrl_ap1
 
