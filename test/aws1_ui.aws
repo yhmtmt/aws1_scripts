@@ -1,10 +1,14 @@
 #!/bin/sh
 
 ahrs=n
+ais=n
+gps=n
 for arg in $*
 do
     case $arg in
 	"ahrs") ahrs=y;;
+	"ais") ais=y;;
+	"gps") gps=y;;
     esac
 done
 
@@ -74,3 +78,41 @@ if [ $ahrs = y ]; then
     fset ahrs port 23
     fset ahrs cmd ot
 fi
+
+filter aws1_nmea_sw aws1_nmea_sw -i -o
+fset aws1_nmea_sw state state
+fset aws1_nmea_sw verb no
+
+if [ $gps = y ]; then
+    fset aws1_ui_test gps y
+    channel nmea gps_in
+    channel nmea gps_out
+    
+    filter nmea gps -i gps_in -o gps_out
+    fset gps src COM
+    fset gps bps 4800
+    fset gps port 4
+    fset gps verb n
+
+    fset aws1_nmea_sw gps_nmea_i gps_out
+    fset aws1_nmea_sw gps_nmea_o gps_in
+    fset aws1_nmea_sw gpsint 1
+fi
+
+if [ $ais = y ]; then
+    channel nmea ais_in
+    channel nmea ais_out
+
+    filter nmea ais -i ais_in -o ais_out
+    fset ais src COM
+    fset ais bps 38400
+    fset ais port 24
+    fset ais verb n
+
+    fset aws1_nmea_sw ais_obj ais_obj
+    fset aws1_nmea_sw ais_nmea_i ais_out
+    fset aws1_nmea_sw ais_nmea_o ais_in
+    fset aws1_nmea_sw aisint 1
+fi
+
+go
