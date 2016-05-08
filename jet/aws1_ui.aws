@@ -3,17 +3,17 @@
 channel state state
 channel ais_obj ais_obj
 channel wp wp
-channel aws1_ctrl aws1_ctrl_in
-channel aws1_ctrl aws1_ctrl_ui
-channel aws1_ctrl aws1_ctrl_ap1
+channel aws1_ctrl_stat aws1_ctrl_stat
+channel aws1_ctrl_inst aws1_ctrl_ui
+channel aws1_ctrl_inst aws1_ctrl_ap1
 
 # User interface filter
 filter aws1_ui aws1_ui -i -o
 fset aws1_ui ch_state state
 fset aws1_ui ch_ais_obj ais_obj
 fset aws1_ui ch_wp wp
-fset aws1_ui ch_ctrl_in aws1_ctrl_in
-fset aws1_ui ch_ctrl_out aws1_ctrl_ui
+fset aws1_ui ch_ctrl_stat aws1_ctrl_stat
+fset aws1_ui ch_ctrl_inst aws1_ctrl_ui
 fset aws1_ui storage /mnt/ssd1/aws
 fset aws1_ui acdhost 192.168.128.3
 fset aws1_ui acdport 20100
@@ -26,8 +26,8 @@ fset aws1_ui udpctrl no
 filter aws1_ap aws1_ap -i -o
 fset aws1_ap ch_state state
 fset aws1_ap ch_wp wp
-fset aws1_ap ch_ctrl_in aws1_ctrl_in
-fset aws1_ap ch_ctrl_out aws1_ctrl_ap1
+fset aws1_ap ch_ctrl_stat aws1_ctrl_stat
+fset aws1_ap ch_ctrl_inst aws1_ctrl_ap1
 fset aws1_ap Interval 30
 fset aws1_ap pc 1.0 ic 0.0 dc 0.0 ps 1.0 is 0.0 ds 1.0
 
@@ -39,7 +39,7 @@ fset obj_manager range 10000
 fset obj_manager dtold 1800000000
 
 #Channel sharing
-filter ch_share share -i aws1_ctrl_ui aws1_ctrl_ap1 -o state aws1_ctrl_in ais_obj
+filter ch_share share -i aws1_ctrl_ui aws1_ctrl_ap1 -o state aws1_ctrl_stat ais_obj
 fset share port_dst 20100
 fset share host_dst 192.168.128.3
 

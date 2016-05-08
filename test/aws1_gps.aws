@@ -6,8 +6,8 @@ channel nmea gps_out
 
 filter nmea gps -i gps_in -o gps_out
 fset gps src COM
-fset gps bps 4800
-fset gps port 4
+fset gps bps 9600
+fset gps port 26
 fset gps verb y
 
 filter aws1_nmea_sw aws1_nmea_sw 
