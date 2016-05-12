@@ -1,44 +1,65 @@
 #!/bin/sh
 
+prev=null
 ahrs=n
 ais=n
 gps=n
+log=n
+tlog=0
+
+logpath=/mnt/ssd1/aws1/log
+ahrsdev=/dev/ttyUL4
+ahrscom=23
+gpscom=4
+gpsdev=/dev/ttyUL5
+gffcom=0
+gffdev=/dev/ttyUL3
+apcom=0
+apdev=/dev/ttyUL2
+aiscom=24
+aisdev=/dev/ttyUL1
+
 for arg in $*
 do
-    case $arg in
-	"ahrs") ahrs=y;;
-	"ais") ais=y;;
-	"gps") gps=y;;
-    esac
+    if [ prev = log ]; then
+	tlog=$arg
+    else
+	case $arg in
+	    "ahrs") ahrs=y;;
+	    "ais") ais=y;;
+	    "gps") gps=y;;
+	    "log") log=y;;
+	esac
+    fi
+    prev=$arg
 done
 
 channel state state
 channel ais_obj ais_obj
 channel wp wp
-channel aws1_ctrl aws1_ctrl_in
-channel aws1_ctrl aws1_ctrl_ui
-channel aws1_ctrl aws1_ctrl_ap1
+channel aws1_ctrl_stat aws1_ctrl_stat
+channel aws1_ctrl_inst aws1_ctrl_ui
+channel aws1_ctrl_inst aws1_ctrl_ap1
+channel imgr img1
+channel imgr img2
 
 # User interface filter
 filter aws1_ui aws1_ui -i -o
 fset aws1_ui ch_state state
 fset aws1_ui ch_ais_obj ais_obj
 fset aws1_ui ch_wp wp
-fset aws1_ui ch_ctrl_in aws1_ctrl_in
-fset aws1_ui ch_ctrl_out aws1_ctrl_ui
-fset aws1_ui acdhost 192.168.128.3
-fset aws1_ui acdport 20100
+fset aws1_ui ch_ctrl_stat aws1_ctrl_stat
+fset aws1_ui ch_ctrl_inst aws1_ctrl_ui
 fset aws1_ui width 1024 height 768
 fset aws1_ui verb no
 fset aws1_ui js 0
-fset aws1_ui udpctrl no
 fset aws1_ui mode map
 
 #Autopilot filter
 filter aws1_ap aws1_ap -i -o
 fset aws1_ap ch_state state
-fset aws1_ap ch_ctrl_in aws1_ctrl_in
-fset aws1_ap ch_ctrl_out aws1_ctrl_ap1
+fset aws1_ap ch_ctrl_stat aws1_ctrl_stat
+fset aws1_ap ch_ctrl_inst aws1_ctrl_ap1
 
 #Object manager
 filter obj_manager obj_manager -i -o
@@ -47,72 +68,86 @@ fset obj_manager ch_ais_obj ais_obj
 fset obj_manager range 10000
 fset obj_manager dtold 1800000000
 
+if [ $log = n ]; then
 # test filter
-filter aws1_ui_test aws1_ui_test -i -o
-fset aws1_ui_test ch_state state
-fset aws1_ui_test ch_ais_obj ais_obj
-fset aws1_ui_test ch_ctrl_ui aws1_ctrl_ui
-fset aws1_ui_test ch_ctrl_ap1 aws1_ctrl_ap1
+    filter aws1_ui_test aws1_ui_test -i -o
+    fset aws1_ui_test ch_state state
+    fset aws1_ui_test ch_ais_obj ais_obj
+    fset aws1_ui_test ch_ctrl_ui aws1_ctrl_ui
+    fset aws1_ui_test ch_ctrl_ap1 aws1_ctrl_ap1
 #fset aws1_ui_test ch_ctrl_ap2
-fset aws1_ui_test ch_ctrl_out aws1_ctrl_in
-
-fset aws1_ui_test meng_max_rmc 21 meng_nuf_rmc 91 meng_nut_rmc 107 meng_nub_rmc 124 meng_min_rmc 151
-fset aws1_ui_test seng_max_rmc 24 seng_nuf_rmc 91 seng_nut_rmc 107 seng_nub_rmc 124 seng_min_rmc 151
-fset aws1_ui_test rud_max_rmc 220 rud_nut_rmc 111 rud_min_rmc 0
-fset aws1_ui_test rud_sta_max 15 rud_sta_nut 90 rud_sta_min 172
-fset aws1_ui_test meng_max 228 meng_nuf 151 meng_nut 129 meng_nub 104 meng_min 78
-fset aws1_ui_test seng_max 226 seng_nuf 153 seng_nut 130 seng_nub 103 seng_min 78
-fset aws1_ui_test rud_max 5 rud_nut 127 rud_min 250
-fset aws1_ui_test rud_sta_out_max 243 rud_sta_out_nut 143 rud_sta_out_min 39
-fset aws1_ui_test awsrud 127 awsmeng 127 awsseng 127
-
-#state setting
-fset aws1_ui_test lat 35 lon 135 alt 0 cog 180 sog 5 yaw 135 depth 8 
-
-if [ $ahrs = y ]; then
-    fset aws1_ui_test ahrs y
-
-    filter ahrs ahrs -i -o
-    fset ahrs ch_state state
-    fset ahrs br 57600
-    fset ahrs port 23
-    fset ahrs cmd ot
-fi
-
-filter aws1_nmea_sw aws1_nmea_sw -i -o
-fset aws1_nmea_sw state state
-fset aws1_nmea_sw verb no
-
-if [ $gps = y ]; then
-    fset aws1_ui_test gps y
-    channel nmea gps_in
-    channel nmea gps_out
+    fset aws1_ui_test ch_ctrl_stat aws1_ctrl_stat
     
-    filter nmea gps -i gps_in -o gps_out
-    fset gps src COM
-    fset gps bps 4800
-    fset gps port 4
-    fset gps verb n
+    fset aws1_ui_test meng_max_rmc 21 meng_nuf_rmc 91 meng_nut_rmc 107 meng_nub_rmc 124 meng_min_rmc 151
+    fset aws1_ui_test seng_max_rmc 24 seng_nuf_rmc 91 seng_nut_rmc 107 seng_nub_rmc 124 seng_min_rmc 151
+    fset aws1_ui_test rud_max_rmc 220 rud_nut_rmc 111 rud_min_rmc 0
+    fset aws1_ui_test rud_sta_max 15 rud_sta_nut 90 rud_sta_min 172
+    fset aws1_ui_test meng_max 228 meng_nuf 151 meng_nut 129 meng_nub 104 meng_min 78
+    fset aws1_ui_test seng_max 226 seng_nuf 153 seng_nut 130 seng_nub 103 seng_min 78
+    fset aws1_ui_test rud_max 5 rud_nut 127 rud_min 250
+    fset aws1_ui_test rud_sta_out_max 243 rud_sta_out_nut 143 rud_sta_out_min 39
+    fset aws1_ui_test awsrud 127 awsmeng 127 awsseng 127
+    
+#state setting
+    fset aws1_ui_test lat 35 lon 135 alt 0 cog 180 sog 5 yaw 135 depth 8 
+    
+    if [ $ahrs = y ]; then
+	fset aws1_ui_test ahrs y
+	
+	filter ahrs ahrs -i -o
+	fset ahrs ch_state state
+	fset ahrs br 57600
+	fset ahrs port $ahrscom
+	fset ahrs dev $ahrsdev
+	fset ahrs cmd ot
+    fi
+    
+    filter aws1_nmea_sw aws1_nmea_sw -i -o
+    fset aws1_nmea_sw state state
+    fset aws1_nmea_sw verb no
+    
+    if [ $gps = y ]; then
+	fset aws1_ui_test gps y
+	channel nmea gps_in
+	channel nmea gps_out
+	
+	filter nmea gps -i gps_in -o gps_out
+	fset gps src COM
+	fset gps bps 4800
+	fset gps port $gpscom
+	fset gps fnmea $gpsdev
+	fset gps verb n
+	
+	fset aws1_nmea_sw gps_nmea_i gps_out
+	fset aws1_nmea_sw gps_nmea_o gps_in
+	fset aws1_nmea_sw gpsint 1
+    fi
 
-    fset aws1_nmea_sw gps_nmea_i gps_out
-    fset aws1_nmea_sw gps_nmea_o gps_in
-    fset aws1_nmea_sw gpsint 1
+    if [ $ais = y ]; then
+	channel nmea ais_in
+	channel nmea ais_out
+	
+	filter nmea ais -i ais_in -o ais_out
+	fset ais src COM
+	fset ais bps 38400
+	fset ais port $aiscom
+	fset ais fnmea $aisdev
+	fset ais verb n
+	
+	fset aws1_nmea_sw ais_obj ais_obj
+	fset aws1_nmea_sw ais_nmea_i ais_out
+	fset aws1_nmea_sw ais_nmea_o ais_in
+	fset aws1_nmea_sw aisint 1
+    fi
+
+    go
+else
+    filter read_ch_log -i -o img1 img2 state aws1_ctrl_ui aws1_ctrl_ap1 aws1_ctrl_stat ais_obj
+    fset log path $logpath
+    if [ tlog = 0 ]; then
+	echo log <start time>
+    else
+	go tlog
+    fi
 fi
 
-if [ $ais = y ]; then
-    channel nmea ais_in
-    channel nmea ais_out
-
-    filter nmea ais -i ais_in -o ais_out
-    fset ais src COM
-    fset ais bps 38400
-    fset ais port 24
-    fset ais verb n
-
-    fset aws1_nmea_sw ais_obj ais_obj
-    fset aws1_nmea_sw ais_nmea_i ais_out
-    fset aws1_nmea_sw ais_nmea_o ais_in
-    fset aws1_nmea_sw aisint 1
-fi
-
-go

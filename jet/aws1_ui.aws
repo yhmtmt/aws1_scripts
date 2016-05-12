@@ -7,6 +7,22 @@ channel aws1_ctrl_stat aws1_ctrl_stat
 channel aws1_ctrl_inst aws1_ctrl_ui
 channel aws1_ctrl_inst aws1_ctrl_ap1
 
+channel imgr img1
+channel imgr img2
+
+# Stereocamera
+filter avtstereo cam -i -o img1 img2
+
+fset cam host1 172.18.2.10
+fset cam host2 172.18.3.10
+fset cam PixelFormat1 Mono8
+fset cam ReverseY1 yes
+fset cam PixelFormat2 Mono8
+fset cam ReverseY2 yes
+fset cam FrameStartTriggerMode Software
+fset cam Ttrig 2000000
+
+
 # User interface filter
 filter aws1_ui aws1_ui -i -o
 fset aws1_ui ch_state state
@@ -45,5 +61,9 @@ fset share host_dst 192.168.128.3
 filter tsync tsync -i -o
 fset tsync host_svr 192.168.128.3
 fset tsync port_svr 20200
+
+#logging 
+filter write_ch_log log -i img1 img2 state aws1_ctrl_ui aws1_ctrl_ap1 aws1_ctrl_stat ais_obj -o
+fset log path /mnt/ssd1/aws1/log
 
 go
