@@ -52,6 +52,11 @@ fset obj_manager ch_ais_obj ais_obj
 fset obj_manager range 10000
 fset obj_manager dtold 1800000000
 
+#Waypoint manager
+filter wp_manager wp_manager -i -o
+fset wp_manager ch_state state
+fset wp_manager ch_wp wp
+
 #Channel sharing
 filter ch_share share -i aws1_ctrl_ui aws1_ctrl_ap1 -o state aws1_ctrl_stat ais_obj
 fset share port_dst 20100

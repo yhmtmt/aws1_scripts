@@ -1,27 +1,35 @@
 #!/bin/sh
 
 prev=null
-ahrs=n
-ais=n
-gps=n
+
 log=n
 tlog=0
+logpath=f:/aws/log
 
-logpath=/mnt/ssd1/aws1/log
-ahrsdev=/dev/ttyUL4
-ahrscom=23
+gps=n
 gpscom=4
 gpsdev=/dev/ttyUL5
+
+ahrs=n
+ahrsdev=/dev/ttyUL4
+ahrscom=23
+
 gffcom=0
 gffdev=/dev/ttyUL3
+
 apcom=0
 apdev=/dev/ttyUL2
+
+ais=n
 aiscom=24
 aisdev=/dev/ttyUL1
 
+map=n
+mapath=c:/cygwin/home/yhmtmt/share/aws1_map
+
 for arg in $*
 do
-    if [ prev = log ]; then
+    if [ $prev = log ]; then
 	tlog=$arg
     else
 	case $arg in
@@ -29,6 +37,7 @@ do
 	    "ais") ais=y;;
 	    "gps") gps=y;;
 	    "log") log=y;;
+	    "map") map=y;;
 	esac
     fi
     prev=$arg
@@ -48,27 +57,40 @@ filter aws1_ui aws1_ui -i -o
 fset aws1_ui ch_state state
 fset aws1_ui ch_ais_obj ais_obj
 fset aws1_ui ch_wp wp
+fset aws1_ui ch_img img1
 fset aws1_ui ch_ctrl_stat aws1_ctrl_stat
 fset aws1_ui ch_ctrl_inst aws1_ctrl_ui
 fset aws1_ui width 1024 height 768
 fset aws1_ui verb no
 fset aws1_ui js 0
-fset aws1_ui mode map
+fset aws1_ui mode normal
 
-#Autopilot filter
-filter aws1_ap aws1_ap -i -o
-fset aws1_ap ch_state state
-fset aws1_ap ch_ctrl_stat aws1_ctrl_stat
-fset aws1_ap ch_ctrl_inst aws1_ctrl_ap1
+if [ $map = y ]; then
+    channel map map
 
-#Object manager
-filter obj_manager obj_manager -i -o
-fset obj_manager ch_state state
-fset obj_manager ch_ais_obj ais_obj
-fset obj_manager range 10000
-fset obj_manager dtold 1800000000
+    filter map map -i -o
+    fset map ch_map map
+    fset map path $mapath
+    fset map list list.txt
+
+    fset aws1_ui ch_map map
+fi
 
 if [ $log = n ]; then
+
+#Autopilot filter
+    filter aws1_ap aws1_ap -i -o
+    fset aws1_ap ch_state state
+    fset aws1_ap ch_ctrl_stat aws1_ctrl_stat
+    fset aws1_ap ch_ctrl_inst aws1_ctrl_ap1
+    
+#Object manager
+    filter obj_manager obj_manager -i -o
+    fset obj_manager ch_state state
+    fset obj_manager ch_ais_obj ais_obj
+    fset obj_manager range 10000
+    fset obj_manager dtold 1800000000
+    
 # test filter
     filter aws1_ui_test aws1_ui_test -i -o
     fset aws1_ui_test ch_state state
@@ -89,7 +111,7 @@ if [ $log = n ]; then
     fset aws1_ui_test awsrud 127 awsmeng 127 awsseng 127
     
 #state setting
-    fset aws1_ui_test lat 35 lon 135 alt 0 cog 180 sog 5 yaw 135 depth 8 
+    fset aws1_ui_test lat 35.55061306 lon 140.11532166 alt 0 cog 180 sog 5 yaw 135 depth 8 
     
     if [ $ahrs = y ]; then
 	fset aws1_ui_test ahrs y
@@ -142,12 +164,14 @@ if [ $log = n ]; then
 
     go
 else
-    filter read_ch_log -i -o img1 img2 state aws1_ctrl_ui aws1_ctrl_ap1 aws1_ctrl_stat ais_obj
+    filter read_ch_log log -i -o img1 img2 state aws1_ctrl_ui aws1_ctrl_ap1 aws1_ctrl_stat ais_obj
     fset log path $logpath
-    if [ tlog = 0 ]; then
-	echo log <start time>
+    if [ $tlog = 0 ]; then
+	echo "log <start time in sec>"
     else
-	go tlog
+	echo "replay from $tlog"
+	online no
+	go $tlog
     fi
 fi
 
