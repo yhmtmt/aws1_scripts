@@ -58,12 +58,20 @@ fset aws1_ui ch_state state
 fset aws1_ui ch_ais_obj ais_obj
 fset aws1_ui ch_wp wp
 fset aws1_ui ch_img img1
+fset aws1_ui flip_img_x yes flip_img_y no
+fset aws1_ui ch_img2 img2
+fset aws1_ui flip_img2_x yes flip_img2_y no
+fset aws1_ui imv img12
 fset aws1_ui ch_ctrl_stat aws1_ctrl_stat
 fset aws1_ui ch_ctrl_inst aws1_ctrl_ui
 fset aws1_ui width 1024 height 768
 fset aws1_ui verb no
 fset aws1_ui js 0
 fset aws1_ui mode normal
+
+filter wp_manager wp_manager -i -o
+fset wp_manager ch_state state
+fset wp_manager ch_wp wp
 
 if [ $map = y ]; then
     channel map map
