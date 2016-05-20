@@ -31,8 +31,11 @@ fset aws1_ui ch_state state
 fset aws1_ui ch_ais_obj ais_obj
 fset aws1_ui ch_wp wp
 fset aws1_ui ch_img img1
+fset aws1_ui ch_img2 img2
 fset aws1_ui flip_img_x yes
 fset aws1_ui flip_img_y no
+fset aws1_ui flip_img2_x yes
+fset aws1_ui flip_img2_y no
 fset aws1_ui ch_ctrl_stat aws1_ctrl_stat
 fset aws1_ui ch_ctrl_inst aws1_ctrl_ui
 fset aws1_ui storage /mnt/ssd1/aws
