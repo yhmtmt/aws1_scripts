@@ -5,8 +5,8 @@ prev=null
 log=n
 tlog=0
 logpath=f:/aws/log
+#logpath=/mnt/ssd1/aws/log
 
-logpath=/mnt/ssd1/aws/log
 ahrsdev=/dev/ttyUL4
 ahrscom=23
 

@@ -1,5 +1,13 @@
 #!/bin/sh
 
+log=n;
+for arg in $*
+do
+    case $arg in
+	"log") log=y;;
+    esac
+done
+
 channel state state
 channel ais_obj ais_obj
 channel wp wp
@@ -76,8 +84,9 @@ fset tsync host_svr 192.168.128.3
 fset tsync port_svr 20200
 
 #logging 
-
-filter write_ch_log log -i img1 img2 state aws1_ctrl_ui aws1_ctrl_ap1 aws1_ctrl_stat ais_obj -o
-fset log path /mnt/ssd1/aws/log
+if [ $log = y ]; then
+    filter write_ch_log log -i img1 img2 state aws1_ctrl_ui aws1_ctrl_ap1 aws1_ctrl_stat ais_obj -o
+    fset log path /mnt/ssd1/aws/log
+fi
 
 go
