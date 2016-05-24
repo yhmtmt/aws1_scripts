@@ -1,0 +1,24 @@
+#!/bin/sh
+
+log=n
+logtime=0
+logpath=f:/aws/log
+
+if [ $# -ne 2 ]; then
+      echo "Usage: aws1_stereo.aws [log <time>]"
+fi
+
+logtime=$2
+echo "Replay from $logtime"
+
+channel imgr img1 
+channel imgr img2
+
+filter glstvw view -i -o
+fset view caml img1
+fset view camr img2
+
+filter read_ch_log log -i -o img1 img2
+fset log path $logpath
+online no
+go $logtime

@@ -31,6 +31,8 @@ aisdev=/dev/ttyUL1
 map=n
 mapath=c:/cygwin/home/yhmtmt/share/aws1_map
 
+rec=no
+
 for arg in $*
 do
     if [ $prev = log ]; then
@@ -42,6 +44,7 @@ do
 	    "gps") gps=y;;
 	    "log") log=y;;
 	    "map") map=y;;
+	    "rec") rec=yes;;
 	esac
     fi
     prev=$arg
@@ -72,6 +75,7 @@ fset aws1_ui width 1024 height 768
 fset aws1_ui verb no
 fset aws1_ui js 0
 fset aws1_ui mode normal
+fset aws1_ui svw $rec
 
 filter wp_manager wp_manager -i -o
 fset wp_manager ch_state state
