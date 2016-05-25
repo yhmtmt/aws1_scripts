@@ -15,9 +15,12 @@ channel imgr img1
 channel imgr img2
 
 filter glstvw view -i -o
+fset view width 1920 height 1080
 fset view caml img1
 fset view camr img2
-
+fset view fchsbd c:/cygwin/home/yhmtmt/aws/models/chsbd_6_9_0.0254.yml
+fset view fcpl c:/cygwin/home/yhmtmt/aws/campar/cpl.yml
+fset view fcpr c:/cygwin/home/yhmtmt/aws/campar/cpr.yml
 filter read_ch_log log -i -o img1 img2
 fset log path $logpath
 online no
