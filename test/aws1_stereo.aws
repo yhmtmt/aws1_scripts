@@ -16,6 +16,7 @@ channel imgr img2
 
 filter glstvw view -i -o
 fset view width 1920 height 1080
+fset view flipx yes flipy no
 fset view caml img1
 fset view camr img2
 fset view fchsbd c:/cygwin/home/yhmtmt/aws/models/chsbd_6_9_0.0254.yml
