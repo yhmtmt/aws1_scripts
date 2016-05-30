@@ -23,11 +23,11 @@ filter avtstereo cam -i -o img1 img2
 
 fset cam host1 172.18.2.10
 fset cam host2 172.18.3.10
-fset cam PixelFormat1 Mono8
+fset cam PixelFormat1 Mono16
 fset cam ExposureMode1 Auto ExposureMode2 Auto
 fset cam GainMode1 Auto GainMode2 Auto
 #fset cam ReverseX1 yes
-fset cam PixelFormat2 Mono8
+fset cam PixelFormat2 Mono16
 #fset cam ReverseX2 yes
 fset cam FrameStartTriggerMode Software
 fset cam Ttrig 2000000
