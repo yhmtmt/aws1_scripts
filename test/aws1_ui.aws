@@ -7,6 +7,8 @@ tlog=0
 logpath=f:/aws/log
 #logpath=/mnt/ssd1/aws/log
 
+storage=f:/aws
+
 ahrsdev=/dev/ttyUL4
 ahrscom=23
 
@@ -76,10 +78,18 @@ fset aws1_ui verb no
 fset aws1_ui js 0
 fset aws1_ui mode normal
 fset aws1_ui svw $rec
+fset aws1_ui storage $storage
 
 filter wp_manager wp_manager -i -o
 fset wp_manager ch_state state
 fset wp_manager ch_wp wp
+
+#Object manager
+filter obj_manager obj_manager -i -o
+fset obj_manager ch_state state
+fset obj_manager ch_ais_obj ais_obj
+fset obj_manager range 10000
+fset obj_manager dtold 1800000000
 
 if [ $map = y ]; then
     channel map map
@@ -100,13 +110,6 @@ if [ $log = n ]; then
     fset aws1_ap ch_ctrl_stat aws1_ctrl_stat
     fset aws1_ap ch_ctrl_inst aws1_ctrl_ap1
     
-    #Object manager
-    filter obj_manager obj_manager -i -o
-    fset obj_manager ch_state state
-    fset obj_manager ch_ais_obj ais_obj
-    fset obj_manager range 10000
-    fset obj_manager dtold 1800000000
-
 # test filter
     filter aws1_ui_test aws1_ui_test -i -o
     fset aws1_ui_test ch_state state
