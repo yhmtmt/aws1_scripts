@@ -1,0 +1,31 @@
+#!/bin/sh
+
+
+cycle=12
+
+dt=n
+ud=n
+cb=n
+sv=n
+ld=n
+rc=n
+for arg in $*
+do
+    if [ $prev = c ]; then
+	cycle=$arg
+    else
+	case $arg in	
+	    "det") dt=y;;
+	    "ud") ud=y;;
+	    "cb") cb=y;;
+	    "sv") sv=y;;
+	    "ld") ld=y;;
+	    "rc") rc=y;;
+	esac
+    fi
+    prev=$arg	   
+done
+
+step c $cycle
+
+fset view det_chsbd $dt udl $ud udr $ud cbl $cb cbr $cb sv_chsbd $sv ld_chsbd $ld rct $rc
