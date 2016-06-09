@@ -60,6 +60,7 @@ channel aws1_ctrl_inst aws1_ctrl_ui
 channel aws1_ctrl_inst aws1_ctrl_ap1
 channel imgr img1
 channel imgr img2
+channel imgr disp
 
 # User interface filter
 filter aws1_ui aws1_ui -i -o
@@ -70,7 +71,8 @@ fset aws1_ui ch_img img1
 fset aws1_ui flip_img_x yes flip_img_y no
 fset aws1_ui ch_img2 img2
 fset aws1_ui flip_img2_x yes flip_img2_y no
-fset aws1_ui imv img12
+fset aws1_ui ch_disp disp
+fset aws1_ui imv img12d
 fset aws1_ui ch_ctrl_stat aws1_ctrl_stat
 #fset aws1_ui ch_ctrl_inst aws1_ctrl_ui
 fset aws1_ui width 1024 height 768
@@ -83,6 +85,15 @@ fset aws1_ui storage $storage
 filter wp_manager wp_manager -i -o
 fset wp_manager ch_state state
 fset wp_manager ch_wp wp
+
+#Stereo disparity calculator
+filter stereod st -i -o
+fset st ch_caml img1 ch_camr img2 ch_disp disp
+fset st fcpl c:/cygwin/home/yhmtmt/aws/campar/cpl.yml
+fset st fcpr c:/cygwin/home/yhmtmt/aws/campar/cpr.yml
+fset st fstp c:/cygwin/home/yhmtmt/aws/campar/stcp.yml
+fset st numDisparities 32 speckleRange 1 speckleWindowSize 1600 blockSize 11 
+fset st flipx yes flipy yes
 
 #Object manager
 filter obj_manager obj_manager -i -o

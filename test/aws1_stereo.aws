@@ -16,11 +16,13 @@ channel imgr img2
 
 filter glstvw view -i -o
 fset view width 1920 height 1080
-fset view flipx yes flipy no
+fset view flipx yes flipy yes
 fset view caml img1 camr img2
+fset view udl yes udr yes
 fset view fchsbd c:/cygwin/home/yhmtmt/aws/models/chsbd_6_9_0.02605.yml
 fset view fcpl c:/cygwin/home/yhmtmt/aws/campar/cpl.yml
 fset view fcpr c:/cygwin/home/yhmtmt/aws/campar/cpr.yml
+fset view fstp c:/cygwin/home/yhmtmt/aws/campar/stcp.yml
 fset view fchsbdl c:/cygwin/home/yhmtmt/aws/chsbd/chsbdl.yml
 fset view fchsbdr c:/cygwin/home/yhmtmt/aws/chsbd/chsbdr.yml
 fset view fchsbdc c:/cygwin/home/yhmtmt/aws/chsbd/chsbdc.yml

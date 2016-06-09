@@ -8,24 +8,32 @@ ud=n
 cb=n
 sv=n
 ld=n
-rc=n
+cbst=n
+prev=null
+rep=1
 for arg in $*
 do
-    if [ $prev = c ]; then
-	cycle=$arg
-    else
-	case $arg in	
-	    "det") dt=y;;
-	    "ud") ud=y;;
-	    "cb") cb=y;;
-	    "sv") sv=y;;
-	    "ld") ld=y;;
-	    "rc") rc=y;;
-	esac
-    fi
+    case $prev in
+	"c") cycle=$arg;;
+	"rep") rep=$arg;;
+    esac
+    case $arg in	
+	"det") dt=y;;
+	"ud") ud=y;;
+	"cb") cb=y;;
+	"sv") sv=y;;
+	"ld") ld=y;;
+	"cbst") cbst=y;;
+    esac
+
     prev=$arg	   
 done
 
-step c $cycle
-
-fset view det_chsbd $dt udl $ud udr $ud cbl $cb cbr $cb sv_chsbd $sv ld_chsbd $ld rct $rc
+i=0
+while [ $i -ne $rep ]
+do
+    echo "$i th iteration."
+    step c $cycle
+    fset view det_chsbd $dt udl $ud udr $ud cbl $cb cbr $cb sv_chsbd $sv ld_chsbd $ld cbst $cbst
+    i=`expr $i + 1`
+done
