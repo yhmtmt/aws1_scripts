@@ -4,7 +4,7 @@ prev=null
 
 log=n
 tlog=0
-logpath=f:/aws/log
+logpath=f:/aws/log6
 #logpath=/mnt/ssd1/aws/log
 
 storage=f:/aws
@@ -34,6 +34,7 @@ map=n
 mapath=c:/cygwin/home/yhmtmt/share/aws1_map
 
 rec=no
+std=n
 
 for arg in $*
 do
@@ -47,6 +48,7 @@ do
 	    "log") log=y;;
 	    "map") map=y;;
 	    "rec") rec=yes;;
+	    "std") std=yes;;
 	esac
     fi
     prev=$arg
@@ -87,13 +89,15 @@ fset wp_manager ch_state state
 fset wp_manager ch_wp wp
 
 #Stereo disparity calculator
-filter stereod st -i -o
-fset st ch_caml img1 ch_camr img2 ch_disp disp
-fset st fcpl c:/cygwin/home/yhmtmt/aws/campar/cpl.yml
-fset st fcpr c:/cygwin/home/yhmtmt/aws/campar/cpr.yml
-fset st fstp c:/cygwin/home/yhmtmt/aws/campar/stcp.yml
-fset st numDisparities 32 speckleRange 1 speckleWindowSize 1600 blockSize 11 
-fset st flipx yes flipy yes
+if [ $std = y ]; then
+    filter stereod st -i -o
+    fset st ch_caml img1 ch_camr img2 ch_disp disp
+    fset st fcpl c:/cygwin/home/yhmtmt/aws/campar/cpl.yml
+    fset st fcpr c:/cygwin/home/yhmtmt/aws/campar/cpr.yml
+    fset st fstp c:/cygwin/home/yhmtmt/aws/campar/stcp.yml
+    fset st numDisparities 32 speckleRange 1 speckleWindowSize 1600 blockSize 11 
+    fset st flipx yes flipy yes
+fi
 
 #Object manager
 filter obj_manager obj_manager -i -o

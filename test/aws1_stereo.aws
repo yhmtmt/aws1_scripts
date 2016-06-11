@@ -3,9 +3,20 @@
 log=n
 logtime=0
 
-if [ $# -ne 2 ]; then
+if [ $# -le 1 ]; then
       echo "Usage: aws1_stereo.aws [log<number> <time>]"
 fi
+
+lcc=n
+tlcc=y
+
+for arg in $*
+do
+    case $arg in
+	"lcc") lcc=y;;
+	"tlcc") tlcc=y;;
+    esac
+done
 
 logpath=f:/aws/$1
 logtime=$2
@@ -14,27 +25,34 @@ echo "Replay from $logtime"
 channel imgr img1 
 channel imgr img2
 
-channel imgr img1c
-channel imgr img2c
-
-filter lcc lcc1 -i -o
-fset lcc1 ch_in img1 ch_out img1c
-fset lcc1 flipx yes flipy yes
-fset lcc1 update no
-fset lcc1 alpha 0.001 range 3
-fset lcc1 fmap c:/cygwin/home/yhmtmt/aws/campar/lcc1.yml
-
-filter lcc lcc2 -i -o
-fset lcc2 ch_in img2 ch_out img2c
-fset lcc2 flipx yes flipy yes
-fset lcc2 update no
-fset lcc2 alpha 0.001 range 3
-fset lcc2 fmap c:/cygwin/home/yhmtmt/aws/campar/lcc2.yml
-
 filter glstvw view -i -o
+
+if [ $lcc = y ]; then
+    channel imgr img1c
+    channel imgr img2c
+    
+    filter lcc lcc1 -i -o
+    fset lcc1 ch_in img1 ch_out img1c
+    fset lcc1 flipx yes flipy yes
+    fset lcc1 update $tlcc
+    fset lcc1 alpha 0.0001 range 3
+    fset lcc1 fmap c:/cygwin/home/yhmtmt/aws/campar/lcc1.yml
+
+    filter lcc lcc2 -i -o
+    fset lcc2 ch_in img2 ch_out img2c
+    fset lcc2 flipx yes flipy yes
+    fset lcc2 update $tlcc
+    fset lcc2 alpha 0.0001 range 3
+    fset lcc2 fmap c:/cygwin/home/yhmtmt/aws/campar/lcc2.yml
+
+    fset view caml img1c camr img2c
+    fset view flipx no flipy no
+else
+    fset view caml img1 camr img2
+    fset view flipx yes flipy yes
+fi
+
 fset view width 1920 height 1080
-fset view flipx no flipy no
-fset view caml img1c camr img2c
 fset view udl yes udr yes
 fset view fchsbd c:/cygwin/home/yhmtmt/aws/models/chsbd_6_9_0.02605.yml
 fset view fcpl c:/cygwin/home/yhmtmt/aws/campar/cpl.yml
