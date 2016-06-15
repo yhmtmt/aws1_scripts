@@ -3,54 +3,61 @@
 log=n
 logtime=0
 
-if [ $# -le 1 ]; then
-      echo "Usage: aws1_stereo.aws [log<number> <time>]"
+if [ $# -lt 1 ]; then
+      echo "Usage: aws1_stereo.aws [log<number>]"
 fi
 
 lcc=n
-tlcc=y
+tlcc=n
+alg=full
 
 for arg in $*
 do
     case $arg in
 	"lcc") lcc=y;;
 	"tlcc") tlcc=y;;
+	"full") alg=full;;
+	"mm") alg=mm;;
+	"rad") alg=rad;;
     esac
 done
 
-logpath=f:/aws/$1
-logtime=$2
-echo "Replay from $logtime"
+source ./$1
+echo "Replay from $logtime of $logpath"
 
 channel imgr img1 
 channel imgr img2
 
 filter glstvw view -i -o
 
-if [ $lcc = y ]; then
-    channel imgr img1c
-    channel imgr img2c
-    
-    filter lcc lcc1 -i -o
-    fset lcc1 ch_in img1 ch_out img1c
-    fset lcc1 flipx yes flipy yes
-    fset lcc1 update $tlcc
-    fset lcc1 alpha 0.0001 range 3
-    fset lcc1 fmap c:/cygwin/home/yhmtmt/aws/campar/lcc1.yml
+channel imgr img1c
+channel imgr img2c
 
-    filter lcc lcc2 -i -o
-    fset lcc2 ch_in img2 ch_out img2c
-    fset lcc2 flipx yes flipy yes
-    fset lcc2 update $tlcc
-    fset lcc2 alpha 0.0001 range 3
-    fset lcc2 fmap c:/cygwin/home/yhmtmt/aws/campar/lcc2.yml
+filter lcc lcc1 -i -o
+fset lcc1 ch_in img1 ch_out img1c
+fset lcc1 flipx yes flipy yes
+fset lcc1 update $tlcc
+fset lcc1 alg $alg
+fset lcc1 alpha 0.0001 range 3 sigma 3 bias 1.0
+fset lcc1 fmap c:/cygwin/home/yhmtmt/aws/campar/lcc1.yml
+fset lcc1 fcp c:/cygwin/home/yhmtmt/aws/campar/cpl.yml
 
-    fset view caml img1c camr img2c
-    fset view flipx no flipy no
-else
-    fset view caml img1 camr img2
-    fset view flipx yes flipy yes
+filter lcc lcc2 -i -o
+fset lcc2 ch_in img2 ch_out img2c
+fset lcc2 flipx yes flipy yes
+fset lcc2 update $tlcc
+fset lcc2 alg $alg
+fset lcc2 alpha 0.0001 range 3 sigma 3 bias 1.0
+fset lcc2 fmap c:/cygwin/home/yhmtmt/aws/campar/lcc2.yml
+fset lcc2 fcp c:/cygwin/home/yhmtmt/aws/campar/cpr.yml
+
+if [ $lcc = n ]; then
+    fset lcc1 pass y
+    fset lcc2 pass y
 fi
+
+fset view caml img1c camr img2c
+fset view flipx no flipy no
 
 fset view width 1920 height 1080
 fset view udl yes udr yes
@@ -61,6 +68,7 @@ fset view fstp c:/cygwin/home/yhmtmt/aws/campar/stcp.yml
 fset view fchsbdl c:/cygwin/home/yhmtmt/aws/chsbd/chsbdl.yml
 fset view fchsbdr c:/cygwin/home/yhmtmt/aws/chsbd/chsbdr.yml
 fset view fchsbdc c:/cygwin/home/yhmtmt/aws/chsbd/chsbdc.yml
+fset view fcapture c:/cygwin/home/yhmtmt/aws/campar/
 filter read_ch_log log -i -o img1 img2
 fset log path $logpath
 online no
