@@ -9,7 +9,8 @@ fi
 
 lcc=n
 tlcc=n
-alg=full
+alg=quad
+go=y
 
 for arg in $*
 do
@@ -19,6 +20,8 @@ do
 	"full") alg=full;;
 	"mm") alg=mm;;
 	"rad") alg=rad;;
+	"quad") alg=quad;;
+	"go") go=y;;
     esac
 done
 
@@ -39,6 +42,7 @@ fset lcc1 flipx yes flipy yes
 fset lcc1 update $tlcc
 fset lcc1 alg $alg
 fset lcc1 alpha 0.0001 range 3 sigma 3 bias 1.0
+fset lcc1 qs 0.000001 qb 0.0001 
 fset lcc1 fmap c:/cygwin/home/yhmtmt/aws/campar/lcc1.yml
 fset lcc1 fcp c:/cygwin/home/yhmtmt/aws/campar/cpl.yml
 
@@ -48,6 +52,7 @@ fset lcc2 flipx yes flipy yes
 fset lcc2 update $tlcc
 fset lcc2 alg $alg
 fset lcc2 alpha 0.0001 range 3 sigma 3 bias 1.0
+fset lcc2 qs 0.000001 qb 0.0001 
 fset lcc2 fmap c:/cygwin/home/yhmtmt/aws/campar/lcc2.yml
 fset lcc2 fcp c:/cygwin/home/yhmtmt/aws/campar/cpr.yml
 
@@ -56,9 +61,25 @@ if [ $lcc = n ]; then
     fset lcc2 pass y
 fi
 
-fset view caml img1c camr img2c
-fset view flipx no flipy no
+channel imgr img2cm
+channel imgr img1cm
 
+filter bkgmsk bm1 -i -o
+fset bm1 ch_in img1c
+fset bm1 ch_out img1cm
+fset bm1 alpha 0.0001 mth 10 bkgth 0.001
+fset bm1 fmask c:/cygwin/home/yhmtmt/aws/campar/mask1
+fset bm1 update yes
+
+filter bkgmsk bm2 -i -o
+fset bm2 ch_in img2c
+fset bm2 ch_out img2cm
+fset bm2 alpha 0.01 mth 10 bkgth 0.1
+fset bm2 fmask c:/cygwin/home/yhmtmt/aws/campar/mask2
+fset bm2 update yes
+
+fset view caml img1cm camr img2cm
+fset view flipx no flipy no
 fset view width 1920 height 1080
 fset view udl yes udr yes
 fset view fchsbd c:/cygwin/home/yhmtmt/aws/models/chsbd_6_9_0.02605.yml
@@ -72,5 +93,8 @@ fset view fcapture c:/cygwin/home/yhmtmt/aws/campar/
 filter read_ch_log log -i -o img1 img2
 fset log path $logpath
 online no
+
 go $logtime
-pause
+if [ go = n ]; then
+    pause
+fi
