@@ -32,18 +32,40 @@ fset cam PixelFormat2 Mono16
 fset cam FrameStartTriggerMode Software
 fset cam Ttrig 2000000
 
+channel imgr img1c
+channel imgr img2c
+
+filter lcc lcc1 -i -o
+fset lcc1 ch_in img1 ch_out img1c
+fset lcc1 flipx yes flipy yes
+fset lcc1 update no
+fset lcc1 alg quad
+fset lcc1 alpha 0.0001 range 3 sigma 3 bias 1.0
+fset lcc1 qs 0.000001 qb 0.0001 
+fset lcc1 fmap /mnt/ssd1/aws/campar/lcc1.yml
+fset lcc1 fcp /mnt/ssd1/aws/campar/cpl.yml
+
+filter lcc lcc2 -i -o
+fset lcc2 ch_in img2 ch_out img2c
+fset lcc2 flipx yes flipy yes
+fset lcc2 update no
+fset lcc2 alg quad
+fset lcc2 alpha 0.0001 range 3 sigma 3 bias 1.0
+fset lcc2 qs 0.000001 qb 0.0001 
+fset lcc2 fmap /mnt/ssd1/aws/campar/lcc2.yml
+fset lcc2 fcp /mnt/ssd1/aws/campar/cpr.yml
 
 # User interface filter
 filter aws1_ui aws1_ui -i -o
 fset aws1_ui ch_state state
 fset aws1_ui ch_ais_obj ais_obj
 fset aws1_ui ch_wp wp
-fset aws1_ui ch_img img1
-fset aws1_ui ch_img2 img2
-fset aws1_ui flip_img_x yes
-fset aws1_ui flip_img_y no
-fset aws1_ui flip_img2_x yes
-fset aws1_ui flip_img2_y no
+fset aws1_ui ch_img img1c
+fset aws1_ui ch_img2 img2c
+fset aws1_ui flip_img_x no
+fset aws1_ui flip_img_y yes
+fset aws1_ui flip_img2_x no
+fset aws1_ui flip_img2_y yes
 fset aws1_ui ch_ctrl_stat aws1_ctrl_stat
 fset aws1_ui ch_ctrl_inst aws1_ctrl_ui
 fset aws1_ui storage /mnt/ssd1/aws
