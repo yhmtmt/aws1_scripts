@@ -25,8 +25,9 @@ fset cam host1 172.18.2.10
 fset cam host2 172.18.3.10
 fset cam PixelFormat1 Mono16
 fset cam ExposureMode1 Auto ExposureMode2 Auto
-fset cam GainMode1 Auto GainMode2 Auto
-fset cam RegionX1 320 RegionX2 320 Height1 320 Height2 320
+fset cam GainMode1 Auto GainMode2 Aut
+#fset cam RegionX1 320 RegionX2 320 Height1 320 Height2 320
+fset cam RegionY1 270 RegionY2 270 Height1 540 Height2 540
 #fset cam ReverseX1 yes
 fset cam PixelFormat2 Mono16
 #fset cam ReverseX2 yes
@@ -73,7 +74,7 @@ fset aws1_ui storage /mnt/ssd1/aws
 fset aws1_ui width 1000 height 750
 fset aws1_ui verb no
 fset aws1_ui js 0
-
+fset aws1_ui imv img12
 #Autopilot filter
 filter aws1_ap aws1_ap -i -o
 fset aws1_ap ch_state state
