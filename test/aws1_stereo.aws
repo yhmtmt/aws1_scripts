@@ -47,7 +47,7 @@ fset lcc1 alg $alg
 fset lcc1 alpha 0.0001 range 3 sigma 3 bias 1.0
 fset lcc1 qs 0.000001 qb 0.0001 
 fset lcc1 fmap c:/cygwin/home/yhmtmt/aws/campar/lcc1.yml
-fset lcc1 fcp c:/cygwin/home/yhmtmt/aws/campar/cpl.yml
+fset lcc1 fcp $camparl
 
 filter lcc lcc2 -i -o
 fset lcc2 ch_in img2 ch_out img2c
@@ -57,7 +57,7 @@ fset lcc2 alg $alg
 fset lcc2 alpha 0.0001 range 3 sigma 3 bias 1.0
 fset lcc2 qs 0.000001 qb 0.0001 
 fset lcc2 fmap c:/cygwin/home/yhmtmt/aws/campar/lcc2.yml
-fset lcc2 fcp c:/cygwin/home/yhmtmt/aws/campar/cpr.yml
+fset lcc2 fcp $camparr
 
 if [ $lcc = n ]; then
     fset lcc1 pass y
@@ -92,9 +92,9 @@ fset view width 1920 height 1080
 fset view udl yes udr yes
 fset view fchsbd c:/cygwin/home/yhmtmt/aws/models/chsbd_8_12_0.62.yml
 #fset view fchsbd c:/cygwin/home/yhmtmt/aws/models/chsbd_6_9_0.02605.yml
-fset view fcpl c:/cygwin/home/yhmtmt/aws/campar/cpl.yml
-fset view fcpr c:/cygwin/home/yhmtmt/aws/campar/cpr.yml
-fset view fstp c:/cygwin/home/yhmtmt/aws/campar/stcp.yml
+fset view fcpl $camparl
+fset view fcpr $camparr
+fset view fstp $campars
 fset view fchsbdl c:/cygwin/home/yhmtmt/aws/chsbd/chsbdl.yml
 fset view fchsbdr c:/cygwin/home/yhmtmt/aws/chsbd/chsbdr.yml
 fset view fchsbdc c:/cygwin/home/yhmtmt/aws/chsbd/chsbdc.yml
