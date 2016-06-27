@@ -1,0 +1,7 @@
+#!/bin/sh
+
+export logtime=1464400473
+export path_log=$path_log
+export camparl=$path_aws/campar/roi0_960/cpl.yml
+export camparr=$path_aws/campar/roi0_960/cpr.yml
+export campars=$path_aws/campar/roi0_960/stcp.yml
