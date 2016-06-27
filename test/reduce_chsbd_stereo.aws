@@ -1,0 +1,10 @@
+#!/bin/sh
+
+if [ $# -ne 1 ]; 
+then
+    echo "reduce_chsbd_stereo.aws <number>"
+fi
+
+fset view calib_chsbds $1
+fset view red_chsbd yes
+
