@@ -13,7 +13,6 @@ alg=quad
 go=y
 mask=n
 
-
 for arg in $*
 do
     case $arg in
@@ -28,8 +27,9 @@ do
     esac
 done
 
+source ./path
 source ./$1
-echo "Replay from $logtime of $logpath"
+echo "Replay from $logtime of $path_log"
 
 channel imgr img1 
 channel imgr img2
@@ -38,15 +38,16 @@ filter glstvw view -i -o
 
 channel imgr img1c
 channel imgr img2c
+channel state state
 
 filter lcc lcc1 -i -o
 fset lcc1 ch_in img1 ch_out img1c
 fset lcc1 flipx yes flipy yes
 fset lcc1 update $tlcc
 fset lcc1 alg $alg
-fset lcc1 alpha 0.0001 range 3 sigma 3 bias 1.0
-fset lcc1 qs 0.000001 qb 0.0001 
-fset lcc1 fmap c:/cygwin/home/yhmtmt/aws/campar/lcc1.yml
+fset lcc1 alpha 0.0001 range 3 sigma 3 bias 0.0
+fset lcc1 qs 0.000001 qb 0.00001 
+fset lcc1 fmap $path_aws/campar/lcc1.yml
 fset lcc1 fcp $camparl
 
 filter lcc lcc2 -i -o
@@ -54,9 +55,9 @@ fset lcc2 ch_in img2 ch_out img2c
 fset lcc2 flipx yes flipy yes
 fset lcc2 update $tlcc
 fset lcc2 alg $alg
-fset lcc2 alpha 0.0001 range 3 sigma 3 bias 1.0
-fset lcc2 qs 0.000001 qb 0.0001 
-fset lcc2 fmap c:/cygwin/home/yhmtmt/aws/campar/lcc2.yml
+fset lcc2 alpha 0.0001 range 3 sigma 3 bias 0.0
+fset lcc2 qs 0.000001 qb 0.00001 
+fset lcc2 fmap $path_aws/campar/lcc2.yml
 fset lcc2 fcp $camparr
 
 if [ $lcc = n ]; then
@@ -87,20 +88,23 @@ else
     fset view caml img1c camr img2c
 fi
 
+fset view state state
 fset view flipx no flipy no
 fset view width 1920 height 1080
 fset view udl yes udr yes
-fset view fchsbd c:/cygwin/home/yhmtmt/aws/models/chsbd_8_12_0.62.yml
+fset view fchsbd $path_aws/models/chsbd_8_12_0.062.yml
 #fset view fchsbd c:/cygwin/home/yhmtmt/aws/models/chsbd_6_9_0.02605.yml
 fset view fcpl $camparl
 fset view fcpr $camparr
 fset view fstp $campars
-fset view fchsbdl c:/cygwin/home/yhmtmt/aws/chsbd/chsbdl.yml
-fset view fchsbdr c:/cygwin/home/yhmtmt/aws/chsbd/chsbdr.yml
-fset view fchsbdc c:/cygwin/home/yhmtmt/aws/chsbd/chsbdc.yml
-fset view fcapture c:/cygwin/home/yhmtmt/aws/campar/
-filter read_ch_log log -i -o img1 img2
-fset log path $logpath
+fset view fchsbdl $path_aws/chsbd/chsbdl.yml
+fset view fchsbdr $path_aws/chsbd/chsbdr.yml
+fset view fchsbdc $path_aws/chsbd/chsbdc.yml
+fset view fcapture $path_aws/campar/
+fset view roll0 -2.0 pitch0 -2.0 yaw0 -0.0
+fset view dtatt -10500000
+filter read_ch_log log -i -o img1 img2 state
+fset log path $path_log
 online no
 
 go $logtime
