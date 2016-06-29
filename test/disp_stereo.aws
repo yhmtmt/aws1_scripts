@@ -1,0 +1,3 @@
+#!/bin/sh
+
+fset view ldcp yes ldstp yes rctst yes disp yes numDisparities 64 blockSize 3 speckleRange 1 speckleWindowSize 800 update_sgbm yes
