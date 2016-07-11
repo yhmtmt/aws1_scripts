@@ -3,9 +3,6 @@
 prev=null
 
 log=n
-tlog=0
-logpath=f:/aws/log6
-#logpath=/mnt/ssd1/aws/log
 
 storage=f:/aws
 
@@ -36,23 +33,27 @@ mapath=c:/cygwin/home/yhmtmt/share/aws1_map
 rec=no
 std=n
 
+
+if [ $# -lt 1 ]; then
+    echo "Usage: aws1_ui.aws log<#> [options]"
+    exit
+fi
+
 for arg in $*
 do
-    if [ $prev = log ]; then
-	tlog=$arg
-    else
-	case $arg in
-	    "ahrs") ahrs=y;;
-	    "ais") ais=y;;
-	    "gps") gps=y;;
-	    "log") log=y;;
-	    "map") map=y;;
-	    "rec") rec=yes;;
-	    "std") std=yes;;
-	esac
-    fi
-    prev=$arg
+    case $arg in
+	"ahrs") ahrs=y;;
+	"ais") ais=y;;
+	"gps") gps=y;;
+	"log") log=y;;
+	"map") map=y;;
+	"rec") rec=yes;;
+	"std") std=yes;;
+    esac
 done
+
+source ./path
+source ./$1
 
 channel state state
 channel ais_obj ais_obj
@@ -62,7 +63,6 @@ channel aws1_ctrl_inst aws1_ctrl_ui
 channel aws1_ctrl_inst aws1_ctrl_ap1
 channel imgr img1
 channel imgr img2
-channel imgr disp
 
 # User interface filter
 filter aws1_ui aws1_ui -i -o
@@ -73,7 +73,6 @@ fset aws1_ui ch_img img1
 fset aws1_ui flip_img_x yes flip_img_y no
 fset aws1_ui ch_img2 img2
 fset aws1_ui flip_img2_x yes flip_img2_y no
-fset aws1_ui ch_disp disp
 fset aws1_ui imv img12d
 fset aws1_ui ch_ctrl_stat aws1_ctrl_stat
 #fset aws1_ui ch_ctrl_inst aws1_ctrl_ui
@@ -90,13 +89,19 @@ fset wp_manager ch_wp wp
 
 #Stereo disparity calculator
 if [ $std = y ]; then
+    channel obst obst
+    channel imgr disp
+    
     filter stereod st -i -o
-    fset st ch_caml img1 ch_camr img2 ch_disp disp
-    fset st fcpl c:/cygwin/home/yhmtmt/aws/campar/cpl.yml
-    fset st fcpr c:/cygwin/home/yhmtmt/aws/campar/cpr.yml
-    fset st fstp c:/cygwin/home/yhmtmt/aws/campar/stcp.yml
+    fset st ch_caml img1 ch_camr img2 ch_disp disp ch_obst obst ch_state state
+    fset st fcpl $camparl
+    fset st fcpr $camparr
+    fset st fstp $campars
     fset st numDisparities 32 speckleRange 1 speckleWindowSize 1600 blockSize 11 
     fset st flipx yes flipy yes
+
+    fset aws1_ui ch_obst obst
+    fset aws1_ui ch_disp disp
 fi
 
 #Object manager
@@ -199,13 +204,13 @@ if [ $log = n ]; then
     go
 else
     filter read_ch_log log -i -o img1 img2 state aws1_ctrl_ui aws1_ctrl_ap1 aws1_ctrl_stat ais_obj
-    fset log path $logpath
-    if [ $tlog = 0 ]; then
+    fset log path $path_log
+    if [ $logtime = 0 ]; then
 	echo "log <start time in sec>"
     else
-	echo "replay from $tlog"
+	echo "replay from $logtime"
 	online no
-	go $tlog
+	go $logtime
     fi
 fi
 

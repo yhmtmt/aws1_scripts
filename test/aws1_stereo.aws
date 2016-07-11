@@ -4,7 +4,8 @@ log=n
 logtime=0
 
 if [ $# -lt 1 ]; then
-      echo "Usage: aws1_stereo.aws [log<number>]"
+    echo "Usage: aws1_stereo.aws [log<number>]"
+    exit
 fi
 
 lcc=n
