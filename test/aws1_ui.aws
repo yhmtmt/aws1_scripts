@@ -32,6 +32,8 @@ mapath=c:/cygwin/home/yhmtmt/share/aws1_map
 
 rec=no
 std=n
+tlcc=n
+alg=quad
 
 
 if [ $# -lt 1 ]; then
@@ -39,21 +41,30 @@ if [ $# -lt 1 ]; then
     exit
 fi
 
+arg_prev="null"
+log_name="null"
+
 for arg in $*
 do
-    case $arg in
-	"ahrs") ahrs=y;;
-	"ais") ais=y;;
-	"gps") gps=y;;
-	"log") log=y;;
-	"map") map=y;;
-	"rec") rec=yes;;
-	"std") std=yes;;
-    esac
+    if [ $arg_prev = "log" ]; then
+	log_name=$arg
+    else
+	case $arg in
+	    "log") log=y;;
+	    "ahrs") ahrs=y;;
+	    "ais") ais=y;;
+	    "gps") gps=y;;
+	    "log") log=y;;
+	    "map") map=y;;
+	    "rec") rec=y;;
+	    "std") std=y;;
+	esac
+    fi
+    arg_prev=$arg
 done
 
 source ./path
-source ./$1
+source ./$log_name
 
 channel state state
 channel ais_obj ais_obj
@@ -69,10 +80,6 @@ filter aws1_ui aws1_ui -i -o
 fset aws1_ui ch_state state
 fset aws1_ui ch_ais_obj ais_obj
 fset aws1_ui ch_wp wp
-fset aws1_ui ch_img img1
-fset aws1_ui flip_img_x yes flip_img_y no
-fset aws1_ui ch_img2 img2
-fset aws1_ui flip_img2_x yes flip_img2_y no
 fset aws1_ui imv img12d
 fset aws1_ui ch_ctrl_stat aws1_ctrl_stat
 #fset aws1_ui ch_ctrl_inst aws1_ctrl_ui
@@ -87,22 +94,64 @@ filter wp_manager wp_manager -i -o
 fset wp_manager ch_state state
 fset wp_manager ch_wp wp
 
+
+CH_IMGL=img1
+CH_IMGR=img2
+FLIP_X=yes
+FLIP_Y=no
+
 #Stereo disparity calculator
 if [ $std = y ]; then
+    channel imgr img1c
+    channel imgr img2c
+    
+    filter lcc lcc1 -i -o
+    fset lcc1 ch_in img1 ch_out img1c
+    fset lcc1 flipx yes flipy yes
+    fset lcc1 update $tlcc
+    fset lcc1 alg $alg
+    fset lcc1 alpha 0.0001 range 3 sigma 3 bias 0.0
+    fset lcc1 qs 0.000001 qb 0.00001 
+    fset lcc1 fmap $path_aws/campar/lcc1.yml
+    fset lcc1 fcp $camparl
+    
+    filter lcc lcc2 -i -o
+    fset lcc2 ch_in img2 ch_out img2c
+    fset lcc2 flipx yes flipy yes
+    fset lcc2 update $tlcc
+    fset lcc2 alg $alg
+    fset lcc2 alpha 0.0001 range 3 sigma 3 bias 0.0
+    fset lcc2 qs 0.000001 qb 0.00001 
+    fset lcc2 fmap $path_aws/campar/lcc2.yml
+    fset lcc2 fcp $camparr
+    
     channel obst obst
     channel imgr disp
+    channel imgr rimg1
+    channel imgr rimg2
     
     filter stereod st -i -o
-    fset st ch_caml img1 ch_camr img2 ch_disp disp ch_obst obst ch_state state
+    fset st ch_caml img1c ch_camr img2c ch_disp disp ch_obst obst ch_state state
+    fset st ch_rcam1 rimg1 ch_rcam2 rimg2
     fset st fcpl $camparl
     fset st fcpr $camparr
     fset st fstp $campars
-    fset st numDisparities 32 speckleRange 1 speckleWindowSize 1600 blockSize 11 
-    fset st flipx yes flipy yes
+    fset st numDisparities 64 blockSize 3 speckleRange 1 speckleWindowSize 800
+    fset st flipx no flipy no
 
     fset aws1_ui ch_obst obst
     fset aws1_ui ch_disp disp
+    CH_IMGL=rimg1
+    CH_IMGR=rimg2
+    FLIP_X=no
+    FLIP_Y=yes
 fi
+
+fset aws1_ui ch_img $CH_IMGL
+fset aws1_ui ch_img2 $CH_IMGR
+fset aws1_ui flip_img_x $FLIP_X flip_img_y $FLIP_Y
+fset aws1_ui flip_img2_x $FLIP_X flip_img2_y $FLIP_Y
+
 
 #Object manager
 filter obj_manager obj_manager -i -o
