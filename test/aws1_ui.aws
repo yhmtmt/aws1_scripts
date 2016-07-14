@@ -4,8 +4,6 @@ prev=null
 
 log=n
 
-storage=f:/aws
-
 ahrsdev=/dev/ttyUL4
 ahrscom=23
 
@@ -30,6 +28,7 @@ aisdev=/dev/ttyUL1
 map=n
 mapath=c:/cygwin/home/yhmtmt/share/aws1_map
 
+dbg=no
 rec=no
 std=n
 tlcc=n
@@ -58,12 +57,13 @@ do
 	    "map") map=y;;
 	    "rec") rec=y;;
 	    "std") std=y;;
+	    "dbg") dbg=y;;
 	esac
     fi
     arg_prev=$arg
 done
 
-source ./path
+source ../common/path
 source ./$log_name
 
 channel state state
@@ -75,25 +75,8 @@ channel aws1_ctrl_inst aws1_ctrl_ap1
 channel imgr img1
 channel imgr img2
 
-# User interface filter
-filter aws1_ui aws1_ui -i -o
-fset aws1_ui ch_state state
-fset aws1_ui ch_ais_obj ais_obj
-fset aws1_ui ch_wp wp
-fset aws1_ui imv img12d
-fset aws1_ui ch_ctrl_stat aws1_ctrl_stat
-#fset aws1_ui ch_ctrl_inst aws1_ctrl_ui
-fset aws1_ui width 1024 height 768
-fset aws1_ui verb no
-fset aws1_ui js 0
-fset aws1_ui mode normal
-fset aws1_ui svw $rec
-fset aws1_ui storage $storage
-
-filter wp_manager wp_manager -i -o
-fset wp_manager ch_state state
-fset wp_manager ch_wp wp
-
+#setting up waypoint manager
+../common/setup_wp_manager.aws
 
 CH_IMGL=img1
 CH_IMGR=img2
@@ -104,61 +87,31 @@ FLIP_Y=no
 if [ $std = y ]; then
     channel imgr img1c
     channel imgr img2c
-    
-    filter lcc lcc1 -i -o
-    fset lcc1 ch_in img1 ch_out img1c
-    fset lcc1 flipx yes flipy yes
-    fset lcc1 update $tlcc
-    fset lcc1 alg $alg
-    fset lcc1 alpha 0.0001 range 3 sigma 3 bias 0.0
-    fset lcc1 qs 0.000001 qb 0.00001 
-    fset lcc1 fmap $path_aws/campar/lcc1.yml
-    fset lcc1 fcp $camparl
-    
-    filter lcc lcc2 -i -o
-    fset lcc2 ch_in img2 ch_out img2c
-    fset lcc2 flipx yes flipy yes
-    fset lcc2 update $tlcc
-    fset lcc2 alg $alg
-    fset lcc2 alpha 0.0001 range 3 sigma 3 bias 0.0
-    fset lcc2 qs 0.000001 qb 0.00001 
-    fset lcc2 fmap $path_aws/campar/lcc2.yml
-    fset lcc2 fcp $camparr
-    
+
     channel obst obst
     channel imgr disp
     channel imgr rimg1
     channel imgr rimg2
     
-    filter stereod st -i -o
-    fset st ch_caml img1c ch_camr img2c ch_disp disp ch_obst obst ch_state state
-    fset st ch_rcam1 rimg1 ch_rcam2 rimg2
-    fset st fcpl $camparl
-    fset st fcpr $camparr
-    fset st fstp $campars
-    fset st numDisparities 64 blockSize 3 speckleRange 1 speckleWindowSize 800
-    fset st flipx no flipy no
+    #setting up lcc
+    ../common/setup_lcc.aws
 
-    fset aws1_ui ch_obst obst
-    fset aws1_ui ch_disp disp
-    CH_IMGL=rimg1
-    CH_IMGR=rimg2
+    #setting up stereod
+    ../common/setup_stereod.aws
+    
+    if [ $dbg = y ]; then
+	CH_IMGL=rimg1
+	CH_IMGR=rimg2
+    else
+	CH_IMGL=img1c
+	CH_IMGR=img2c
+    fi
     FLIP_X=no
     FLIP_Y=yes
 fi
 
-fset aws1_ui ch_img $CH_IMGL
-fset aws1_ui ch_img2 $CH_IMGR
-fset aws1_ui flip_img_x $FLIP_X flip_img_y $FLIP_Y
-fset aws1_ui flip_img2_x $FLIP_X flip_img2_y $FLIP_Y
-
-
 #Object manager
-filter obj_manager obj_manager -i -o
-fset obj_manager ch_state state
-fset obj_manager ch_ais_obj ais_obj
-fset obj_manager range 10000
-fset obj_manager dtold 1800000000
+../common/setup_obj_manager.aws
 
 if [ $map = y ]; then
     channel map map
@@ -168,16 +121,15 @@ if [ $map = y ]; then
     fset map path $mapath
     fset map list list.txt
 
-    fset aws1_ui ch_map map
 fi
+
+../common/setup_aws1_ui.aws
+
 
 if [ $log = n ]; then
 
-#Autopilot filter
-    filter aws1_ap aws1_ap -i -o
-    fset aws1_ap ch_state state
-    fset aws1_ap ch_ctrl_stat aws1_ctrl_stat
-    fset aws1_ap ch_ctrl_inst aws1_ctrl_ap1
+    #Autopilot filter
+    ../common/setup_ap.aws
     
 # test filter
     filter aws1_ui_test aws1_ui_test -i -o

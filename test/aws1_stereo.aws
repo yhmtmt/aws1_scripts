@@ -28,7 +28,7 @@ do
     esac
 done
 
-source ./path
+source ../common/path
 source ./$1
 echo "Replay from $logtime of $path_log"
 
@@ -41,25 +41,8 @@ channel imgr img1c
 channel imgr img2c
 channel state state
 
-filter lcc lcc1 -i -o
-fset lcc1 ch_in img1 ch_out img1c
-fset lcc1 flipx yes flipy yes
-fset lcc1 update $tlcc
-fset lcc1 alg $alg
-fset lcc1 alpha 0.0001 range 3 sigma 3 bias 0.0
-fset lcc1 qs 0.000001 qb 0.00001 
-fset lcc1 fmap $path_aws/campar/lcc1.yml
-fset lcc1 fcp $camparl
+../common/setup_lcc.aws
 
-filter lcc lcc2 -i -o
-fset lcc2 ch_in img2 ch_out img2c
-fset lcc2 flipx yes flipy yes
-fset lcc2 update $tlcc
-fset lcc2 alg $alg
-fset lcc2 alpha 0.0001 range 3 sigma 3 bias 0.0
-fset lcc2 qs 0.000001 qb 0.00001 
-fset lcc2 fmap $path_aws/campar/lcc2.yml
-fset lcc2 fcp $camparr
 
 if [ $lcc = n ]; then
     fset lcc1 pass y

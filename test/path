@@ -1,4 +1,0 @@
-#!/bin/sh
-
-export path_aws=c:/cygwin64/home/yhmtm/aws
-export path_log=d:/aws/log

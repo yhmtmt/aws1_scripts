@@ -1,0 +1,13 @@
+#!/bin/sh
+
+std=y
+
+filter stereod st -i -o
+fset st ch_caml img1c ch_camr img2c ch_disp disp ch_obst obst ch_state state
+fset st ch_rcam1 rimg1 ch_rcam2 rimg2
+fset st fcpl $camparl
+fset st fcpr $camparr
+fset st fstp $campars
+fset st numDisparities 64 blockSize 3 speckleRange 1 speckleWindowSize 800
+fset st flipx no flipy no
+    

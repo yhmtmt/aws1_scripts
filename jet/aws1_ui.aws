@@ -8,94 +8,61 @@ do
     esac
 done
 
+source ../common/path
+
 channel state state
 channel ais_obj ais_obj
+channel ch_disp disp
+channel ch_obst obst
 channel wp wp
 channel aws1_ctrl_stat aws1_ctrl_stat
 channel aws1_ctrl_inst aws1_ctrl_ui
 channel aws1_ctrl_inst aws1_ctrl_ap1
-
 channel imgr img1
 channel imgr img2
+channel imgr img1c
+channel imgr img2c
+channel imgr rimg1
+channel imgr rimg2
+
+camparl=$path_aws/campar/roi240_480/cpl.yml
+camparr=$path_aws/campar/roi240_480/cpr.yml
+campars=$path_aws/campar/roi240_480/stcp.yml
 
 # Stereocamera
 filter avtstereo cam -i -o img1 img2
-
 fset cam host1 172.18.2.10
 fset cam host2 172.18.3.10
 fset cam PixelFormat1 Mono16
 fset cam ExposureMode1 Auto ExposureMode2 Auto
-fset cam GainMode1 Auto GainMode2 Aut
-#fset cam RegionX1 320 RegionX2 320 Height1 320 Height2 320
-fset cam RegionY1 270 RegionY2 270 Height1 540 Height2 540
-#fset cam ReverseX1 yes
+fset cam GainMode1 Auto GainMode2 Auto
+#fset cam RegionY1 270 RegionY2 270 Height1 540 Height2 540
+fset cam RegionY1 240 RegionY2 240 Height1 480 Height2 480
 fset cam PixelFormat2 Mono16
-#fset cam ReverseX2 yes
 fset cam FrameStartTriggerMode Software
 fset cam Ttrig 2000000
 
-channel imgr img1c
-channel imgr img2c
+# local contrast correction
+tlcc=n
+alg=quad
+../common/setup_lcc.aws
 
-filter lcc lcc1 -i -o
-fset lcc1 ch_in img1 ch_out img1c
-fset lcc1 flipx yes flipy yes
-fset lcc1 update no
-fset lcc1 alg quad
-fset lcc1 alpha 0.0001 range 3 sigma 3 bias 1.0
-fset lcc1 qs 0.000001 qb 0.0001 
-fset lcc1 fmap /mnt/ssd1/aws/campar/lcc1.yml
-fset lcc1 fcp /mnt/ssd1/aws/campar/cpl.yml
+# User interface filte
+rec=no
+FLIP_X=no
+FLIP_Y=yes
+CH_IMGL=img1c
+CH_IMGR=img2c
+../common/setup_aws1_ui.aws
 
-filter lcc lcc2 -i -o
-fset lcc2 ch_in img2 ch_out img2c
-fset lcc2 flipx yes flipy yes
-fset lcc2 update no
-fset lcc2 alg quad
-fset lcc2 alpha 0.0001 range 3 sigma 3 bias 1.0
-fset lcc2 qs 0.000001 qb 0.0001 
-fset lcc2 fmap /mnt/ssd1/aws/campar/lcc2.yml
-fset lcc2 fcp /mnt/ssd1/aws/campar/cpr.yml
-
-# User interface filter
-filter aws1_ui aws1_ui -i -o
-fset aws1_ui ch_state state
-fset aws1_ui ch_ais_obj ais_obj
-fset aws1_ui ch_wp wp
-fset aws1_ui ch_img img1c
-fset aws1_ui ch_img2 img2c
-fset aws1_ui flip_img_x no
-fset aws1_ui flip_img_y yes
-fset aws1_ui flip_img2_x no
-fset aws1_ui flip_img2_y yes
-fset aws1_ui ch_ctrl_stat aws1_ctrl_stat
-fset aws1_ui ch_ctrl_inst aws1_ctrl_ui
-fset aws1_ui storage /mnt/ssd1/aws
-fset aws1_ui width 1000 height 750
-fset aws1_ui verb no
-fset aws1_ui js 0
-fset aws1_ui imv img12
 #Autopilot filter
-filter aws1_ap aws1_ap -i -o
-fset aws1_ap ch_state state
-fset aws1_ap ch_wp wp
-fset aws1_ap ch_ctrl_stat aws1_ctrl_stat
-fset aws1_ap ch_ctrl_inst aws1_ctrl_ap1
-fset aws1_ap Interval 30
-fset aws1_ap meng_max 220
-fset aws1_ap pc 1.0 ic 0.01 dc 0.0 ps 0.1 is 0.01 ds 0.0
+../common/setup_ap.aws
 
 #Object manager
-filter obj_manager obj_manager -i -o
-fset obj_manager ch_state state
-fset obj_manager ch_ais_obj ais_obj
-fset obj_manager range 10000
-fset obj_manager dtold 1800000000
+../common/setup_obj_manager.aws
 
 #Waypoint manager
-filter wp_manager wp_manager -i -o
-fset wp_manager ch_state state
-fset wp_manager ch_wp wp
+../common/setup_wp_manager.aws
 
 #Channel sharing
 filter ch_share share -i aws1_ctrl_ui aws1_ctrl_ap1 -o state aws1_ctrl_stat ais_obj
@@ -106,11 +73,5 @@ fset share host_dst 192.168.128.3
 filter tsync tsync -i -o
 fset tsync host_svr 192.168.128.3
 fset tsync port_svr 20200
-
-#logging 
-if [ $log = y ]; then
-    filter write_ch_log log -i img1 img2 state aws1_ctrl_ui aws1_ctrl_ap1 aws1_ctrl_stat ais_obj -o
-    fset log path /mnt/ssd1/aws/log
-fi
 
 go
