@@ -94,10 +94,10 @@ if [ $std = y ]; then
     channel imgr rimg2
     
     #setting up lcc
-    ../common/setup_lcc.aws
+    ../common/setup_lcc.aws $path_aws $camparl $camparr $alg $tlcc
 
     #setting up stereod
-    ../common/setup_stereod.aws
+    ../common/setup_stereod.aws $camparl $camparr $campars
     
     if [ $dbg = y ]; then
 	CH_IMGL=rimg1
@@ -123,7 +123,7 @@ if [ $map = y ]; then
 
 fi
 
-../common/setup_aws1_ui.aws
+../common/setup_aws1_ui.aws $path_data $CH_IMGL $CH_IMGR $FLIP_X $FLIP_Y $map $std $rec
 
 
 if [ $log = n ]; then

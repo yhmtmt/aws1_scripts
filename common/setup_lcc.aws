@@ -1,5 +1,15 @@
 #!/bin/sh
 
+if [ $# -ne 5 ]; then
+   echo "setup_lcc <path aws> <camparl> <camparr> <alg> <tlcc>"
+   exit
+fi
+
+path_aws=$1
+camparl=$2
+camparr=$3
+alg=$4
+tlcc=$5
 
 filter lcc lcc1 -i -o
 fset lcc1 ch_in img1 ch_out img1c

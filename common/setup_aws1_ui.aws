@@ -1,5 +1,19 @@
 #!/bin/sh
 
+if [ $# -ne 8 ]; then
+    echo "setup_aws1_ui.aws <path storage> <imgl> <imgr> <flipx> <flipy> <map> <std> <rec> $#"
+    exit
+fi
+
+path_data=$1
+CH_IMGL=$2
+CH_IMGR=$3
+FLIP_X=$4
+FLIP_Y=$5
+map=$6
+std=$7
+rec=$8
+
 # User interface filter
 filter aws1_ui aws1_ui -i -o
 fset aws1_ui ch_state state
@@ -24,7 +38,7 @@ if [ $map = y ]; then
     fset aws1_ui ch_map map
 fi
 
-if [ $std = y]; then
+if [ $std = y ]; then
     fset aws1_ui ch_obst obst
     fset aws1_ui ch_disp disp    
 fi

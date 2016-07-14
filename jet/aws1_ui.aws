@@ -45,15 +45,20 @@ fset cam Ttrig 2000000
 # local contrast correction
 tlcc=n
 alg=quad
-../common/setup_lcc.aws
+../common/setup_lcc.aws $path_aws $camparl $camparr $alg $tlcc
+
+# stereo obstacle detector
+../common/setup_stereod.aws $camparl $camparr $campars
 
 # User interface filte
 rec=no
+map=no
+std=y
 FLIP_X=no
 FLIP_Y=yes
 CH_IMGL=img1c
 CH_IMGR=img2c
-../common/setup_aws1_ui.aws
+../common/setup_aws1_ui.aws $path_data $CH_IMGL $CH_IMGR $FLIP_X $FLIP_Y $map $std $rec 
 
 #Autopilot filter
 ../common/setup_ap.aws

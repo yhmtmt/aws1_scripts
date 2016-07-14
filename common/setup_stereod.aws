@@ -1,5 +1,14 @@
 #!/bin/sh
 
+if [ $# -ne 3 ]; then
+    echo "setup_stereod.aws <camparl> <camparr> <campars>"
+    exit
+fi
+
+camparl=$1
+camparr=$2
+campars=$3
+
 std=y
 
 filter stereod st -i -o
