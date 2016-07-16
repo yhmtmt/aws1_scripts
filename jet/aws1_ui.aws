@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 log=n;
 for arg in $*
@@ -8,12 +8,13 @@ do
     esac
 done
 
-source ../common/path
+path_script=/home/ubuntu/aws1_scripts
+source $path_script/common/path
 
 channel state state
 channel ais_obj ais_obj
-channel ch_disp disp
-channel ch_obst obst
+channel imgr disp
+channel obst obst
 channel wp wp
 channel aws1_ctrl_stat aws1_ctrl_stat
 channel aws1_ctrl_inst aws1_ctrl_ui
@@ -45,10 +46,10 @@ fset cam Ttrig 2000000
 # local contrast correction
 tlcc=n
 alg=quad
-../common/setup_lcc.aws $path_aws $camparl $camparr $alg $tlcc
+$path_script/common/setup_lcc.aws $path_aws $camparl $camparr $alg $tlcc
 
 # stereo obstacle detector
-../common/setup_stereod.aws $camparl $camparr $campars
+$path_script/common/setup_stereod.aws $camparl $camparr $campars
 
 # User interface filte
 rec=no
@@ -58,16 +59,17 @@ FLIP_X=no
 FLIP_Y=yes
 CH_IMGL=img1c
 CH_IMGR=img2c
-../common/setup_aws1_ui.aws $path_data $CH_IMGL $CH_IMGR $FLIP_X $FLIP_Y $map $std $rec 
+$path_script/common/setup_aws1_ui.aws $path_data $CH_IMGL $CH_IMGR $FLIP_X $FLIP_Y $map $std $rec 
+echo  $path_aws $path_data $CH_IMGL $CH_IMGR $FLIP_X $FLIP_Y $map $std $rec 
 
 #Autopilot filter
-../common/setup_ap.aws
+$path_script/common/setup_ap.aws
 
 #Object manager
-../common/setup_obj_manager.aws
+$path_script/common/setup_obj_manager.aws
 
 #Waypoint manager
-../common/setup_wp_manager.aws
+$path_script/common/setup_wp_manager.aws
 
 #Channel sharing
 filter ch_share share -i aws1_ctrl_ui aws1_ctrl_ap1 -o state aws1_ctrl_stat ais_obj
@@ -78,5 +80,7 @@ fset share host_dst 192.168.128.3
 filter tsync tsync -i -o
 fset tsync host_svr 192.168.128.3
 fset tsync port_svr 20200
-
+if [ $log = y]; then
+    filter write_ch_log log -i img1 img2 state aws1_ctrl_ui aws1_ctrl_ap1 aws1_ctrl_stat ais_obj -o 
+    fset log path $path_log
 go

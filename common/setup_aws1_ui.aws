@@ -21,8 +21,8 @@ fset aws1_ui ch_ais_obj ais_obj
 fset aws1_ui ch_wp wp
 fset aws1_ui imv img12d
 fset aws1_ui ch_ctrl_stat aws1_ctrl_stat
-#fset aws1_ui ch_ctrl_inst aws1_ctrl_ui
-fset aws1_ui width 1024 height 768
+fset aws1_ui ch_ctrl_inst aws1_ctrl_ui
+fset aws1_ui width 1000 height 750
 fset aws1_ui verb no
 fset aws1_ui js 0
 fset aws1_ui mode normal
