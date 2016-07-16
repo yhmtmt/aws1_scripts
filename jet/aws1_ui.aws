@@ -34,6 +34,7 @@ campars=$path_aws/campar/roi240_480/stcp.yml
 filter avtstereo cam -i -o img1 img2
 fset cam host1 172.18.2.10
 fset cam host2 172.18.3.10
+fset cam PacketSize1 8228 PacketSize2 8228
 fset cam PixelFormat1 Mono16
 fset cam ExposureMode1 Auto ExposureMode2 Auto
 fset cam GainMode1 Auto GainMode2 Auto
@@ -60,7 +61,6 @@ FLIP_Y=yes
 CH_IMGL=img1c
 CH_IMGR=img2c
 $path_script/common/setup_aws1_ui.aws $path_data $CH_IMGL $CH_IMGR $FLIP_X $FLIP_Y $map $std $rec 
-echo  $path_aws $path_data $CH_IMGL $CH_IMGR $FLIP_X $FLIP_Y $map $std $rec 
 
 #Autopilot filter
 $path_script/common/setup_ap.aws
@@ -80,7 +80,9 @@ fset share host_dst 192.168.128.3
 filter tsync tsync -i -o
 fset tsync host_svr 192.168.128.3
 fset tsync port_svr 20200
-if [ $log = y]; then
+if [ $log = y ]; then
     filter write_ch_log log -i img1 img2 state aws1_ctrl_ui aws1_ctrl_ap1 aws1_ctrl_stat ais_obj -o 
     fset log path $path_log
+fi
+
 go
