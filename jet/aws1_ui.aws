@@ -81,8 +81,12 @@ filter tsync tsync -i -o
 fset tsync host_svr 192.168.128.3
 fset tsync port_svr 20200
 if [ $log = y ]; then
-    filter write_ch_log log -i img1 img2 state aws1_ctrl_ui aws1_ctrl_ap1 aws1_ctrl_stat ais_obj -o 
+    filter write_ch_log log -i state aws1_ctrl_ui aws1_ctrl_ap1 aws1_ctrl_stat ais_obj -o 
+    filter write_ch_log log_img1 -i img1 -o
+    filter write_ch_log log_img2 -i img2 -o
     fset log path $path_log
+    fset log_img1 path $path_log
+    fset log_img2 path $path_log
 fi
 
 go
