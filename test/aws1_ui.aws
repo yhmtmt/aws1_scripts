@@ -74,6 +74,7 @@ channel aws1_ctrl_inst aws1_ctrl_ui
 channel aws1_ctrl_inst aws1_ctrl_ap1
 channel imgr img1
 channel imgr img2
+channel aws1_ap_inst ap_inst
 
 #setting up waypoint manager
 ../common/setup_wp_manager.aws
