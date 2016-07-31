@@ -33,6 +33,7 @@ fset aws1_ui ch_img $CH_IMGL
 fset aws1_ui ch_img2 $CH_IMGR
 fset aws1_ui flip_img_x $FLIP_X flip_img_y $FLIP_Y
 fset aws1_ui flip_img2_x $FLIP_X flip_img2_y $FLIP_Y
+fset aws1_ui ch_ap_inst ap_inst
 
 if [ $map = y ]; then
     fset aws1_ui ch_map map
