@@ -36,7 +36,7 @@ alg=quad
 
 
 if [ $# -lt 1 ]; then
-    echo "Usage: aws1_ui.aws log<#> [options]"
+    echo "Usage: aws1_ui.aws log log<#> [options]"
     exit
 fi
 
