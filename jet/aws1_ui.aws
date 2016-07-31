@@ -25,6 +25,7 @@ channel imgr img1c
 channel imgr img2c
 channel imgr rimg1
 channel imgr rimg2
+channel aws1_ap_inst ap_inst
 
 camparl=$path_aws/campar/roi240_480/cpl.yml
 camparr=$path_aws/campar/roi240_480/cpr.yml
