@@ -16,12 +16,11 @@ fmt=Bayer8
 ttrig=10000000
 
 if [ $dbg = y ]; then
-    campar=c:/cygwin64/home/yhmtm/aws/campar/tum/params.yml
+    campar=/home/ubuntu/aws/campar/tum/params.yml
 else
-campar=c:/cygwin64/home/yhmtm/aws/campar/mako0/params.yml
+    campar=c:/cygwin64/home/yhmtm/aws/campar/mako0/params.yml
 fi
-voc=c:/cygwin64/home/yhmtm/aws/res/ORBvoc.txt
-
+voc=/mnt/ssd1/slam/ORB_SLAM2/Vocabulary/ORBvoc.txt
 
 #lcc (only for mono16)
 #filter lcc lcc -i -o
@@ -40,8 +39,8 @@ channel orb_slam_frm frm
 channel orb_slam_trj trj
 
 filter orb_slam_tracker tr -i -o
-fset tr ch_sys sys ch_cam imgc ch_kfdb kfdb ch_kf_mapper kf_lm ch_map map ch_trj trj ch_frm frm
-fset tr fcp $campar fvoc $voc
+fset tr ch_sys sys ch_cam imgc ch_kfdb kfdb ch_kf_mapper kf_tr ch_map map ch_trj trj ch_frm frm
+fset tr fcp $campar fvoc $voc undist no rgb yes
 fset tr num_features 1000 scale_factor 1.2 num_levels 8 th_fast_ini 20 th_fast_min 7
 
 filter orb_slam_local_mapper lm -i -o
@@ -55,14 +54,14 @@ fset vw ch_sys sys ch_map map ch_trj trj ch_frm frm
 fset vw sz_kf 0.05 lw_kf 1 lw_g 0.9 sz_pt 2 sz_cam 0.08 lw_cam 3
 fset vw eyex 0 eyey -0.7 eyez -1.8 fovy 120 zmin 0.1 zmax 1000
 fset vw mode f draw_kf yes draw_g yes
-fset vw width 1920 height 1200
+fset vw width 640 height 480
 
 # camera
 if [ $dbg = y ]; then
-    datapath=c:/cygwin64/home/yhmtm/data/rgbd_dataset_freiburg1_xyz/rgb/
+    datapath=/mnt/ssd1/slam/ORB_SLAM2/rgbd_dataset_freiburg1_xyz/rgb
     awscd $datapath
     filter imread cam -i -o imgc
-    fset cam flst ${datapath}awslist.txt
+    fset cam flst ${datapath}/awslist.txt
     fset cam Interval 90
 else
     filter avtmono cam -i -o img
