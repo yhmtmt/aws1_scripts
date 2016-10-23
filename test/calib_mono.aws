@@ -1,26 +1,76 @@
 #!/bin/sh
 
-channel imgr img
-channel imgr imgc
+source ../common/path
 
-addr=172.18.2.8
-fmt=Bayer8
+off=n
+cam=1
+fe=n
+ld=y
+
+for arg in $*
+do
+    case $arg_prev in
+	"cam") cam=$arg;;
+    esac
+    case $arg in
+	"off") off=y;;
+	"fe") fe=y;;
+	"nld") ld=n;;
+    esac
+    arg_prev=$arg
+done
+
+
+case $cam in
+    "1") addr=$ip_cam1
+	 cam_path=$par_cam1
+	 fmt=Bayer8;;
+    "2") addr=$ip_cam2
+	 cam_path=$par_cam2
+	 fmt=Bayer8;;
+    "3") addr=$ip_cam3
+	 cam_path=$par_cam3
+	 fmt=Mono16;;
+    "4") addr=$ip_cam4
+	 cam_path=$par_cam4
+	 fmt=Mono16;;
+esac
+
 ttrig=500000
 #ttrig=10000000
-campar=null
-voc=c:/cygwin64/home/yhmtmt/aws/res/ORBvoc.txt
+if [ $fe = n ]; then
+    campar=$cam_path/par.yml
+else
+    campar=$cam_path/par_fe.yml
+fi
 
-# camera 
-filter avtmono cam -i -o img
-fset cam host $addr
-fset cam PacketSize 8228
-fset cam PixelFormat $fmt
-fset cam GainMode Auto
-fset cam FrameStartTriggerMode Software
-fset cam Ttrig $ttrig
+chsbds=$cam_path/chsbds.yml
+smplimg=$cam_path/smpl.png
+model=$chsbd_mdl/chsbd_12_8_0.062.yml
 
-filter debayer deb -i img -o imgc
-fset deb bayer RG8
+
+echo "Param Path: $campar"
+echo "Chsbds Path: $chsbds"
+echo "Model Path: $model"
+echo "Sample Img: $smplimg"
+echo "FishEye: $fe"
+echo "Load: $ld"
+
+channel imgr img
+channel imgr imgc
+if [ $off = n ]; then
+    # camera 
+    filter avtmono cam -i -o img
+    fset cam host $addr
+    fset cam PacketSize 8228
+    fset cam PixelFormat $fmt
+    fset cam GainMode Auto
+    fset cam FrameStartTriggerMode Software
+    fset cam Ttrig $ttrig
+
+    filter debayer deb -i img -o imgc
+    fset deb bayer RG8  
+fi
 
 #lcc (only for mono16)
 #filter lcc lcc -i -o
@@ -36,8 +86,9 @@ filter gcalib gc -i imgc -o
 fset gc width 1920 height 1200
 fset gc nchsbd 100
 #fset gc fchsbd c:/cygwin64/home/yhmtm/aws/models/chsbd_9_6_0.02605.yml
-fset gc fchsbd c:/cygwin64/home/yhmtm/aws/models/chsbd_12_8_0.062.yml
-fset gc fcampar params.yml
-fset gc fcbdet chsbds.yml
-
+fset gc fsmplimg $smplimg
+fset gc fcampar $campar
+fset gc fchsbd $model
+fset gc fcbdet $chsbds
+fset gc fisheye $fe load $ld
 go

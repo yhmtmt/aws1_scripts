@@ -16,11 +16,11 @@ fmt=Bayer8
 ttrig=10000000
 
 if [ $dbg = y ]; then
-    campar=/home/ubuntu/aws/campar/tum/params.yml
+    campar=c:/cygwin64/home/yhmtm/aws/campar/tum/params.yml
 else
     campar=c:/cygwin64/home/yhmtm/aws/campar/mako0/params.yml
 fi
-voc=/mnt/ssd1/slam/ORB_SLAM2/Vocabulary/ORBvoc.txt
+voc=c:/cygwin64/home/yhmtm/work/ORB_SLAM2-master/Vocabulary/ORBvoc.txt
 
 #lcc (only for mono16)
 #filter lcc lcc -i -o
@@ -58,7 +58,7 @@ fset vw width 640 height 480
 
 # camera
 if [ $dbg = y ]; then
-    datapath=/mnt/ssd1/slam/ORB_SLAM2/rgbd_dataset_freiburg1_xyz/rgb
+    datapath=c:/cygwin64/home/yhmtm/data/rgbd_dataset_freiburg1_xyz/rgb
     awscd $datapath
     filter imread cam -i -o imgc
     fset cam flst ${datapath}/awslist.txt
