@@ -55,6 +55,7 @@ fset vw sz_kf 0.05 lw_kf 1 lw_g 0.9 sz_pt 2 sz_cam 0.08 lw_cam 3
 fset vw eyex 0 eyey -0.7 eyez -1.8 fovy 120 zmin 0.1 zmax 1000
 fset vw mode f draw_kf yes draw_g yes
 fset vw width 640 height 480
+fset vw mode fm
 
 # camera
 if [ $dbg = y ]; then
