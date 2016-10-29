@@ -21,10 +21,15 @@ fi
 
 # Channel sharing
 filter ch_share share -i state aws1_ctrl_stat ais_obj -o aws1_ctrl_ui aws1_ctrl_ap1
-fset share port 20100
+fset share port 20100 #jtk
+fset share verb n
+
+filter ch_share share -i state -o
+fset share port 20101 #jtx
 fset share verb n
 
 # time sync (server)
 filter tsync tsync -i -o
 fset tsync port 20200
+
 go

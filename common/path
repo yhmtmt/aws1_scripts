@@ -1,15 +1,22 @@
 #!/bin/sh
 
 export path_aws=c:/cygwin64/home/yhmtm/aws
+#export path_aws=/mnt/ssd1/aws
 export path_data=d:/aws
+#export path_data=/mnt/ssd1/aws
 export path_log=$path_data/log
+
+export ip_jtk=192.168.128.2
+export ip_zed=192.168.128.3
+export ip_jtx=192.168.128.4
 
 export ip_cam1=172.18.2.8
 export ip_cam2=172.18.2.9
 export ip_cam3=172.18.2.10
 export ip_cam4=172.18.2.11
-export par_cam1=$path_aws/campar/mako1
-export par_cam2=$path_aws/campar/mako2
-export par_cam3=$path_aws/campar/gt1
-export par_cam4=$path_aws/campar/gt2
+export path_cam1=$path_aws/campar/mako1
+export path_cam2=$path_aws/campar/mako2
+export path_cam3=$path_aws/campar/gt1
+export path_cam4=$path_aws/campar/gt2
 export chsbd_mdl=$path_aws/models
+export path_orb_voc=$path_aws/res/ORBvoc.txt

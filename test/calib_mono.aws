@@ -23,16 +23,16 @@ done
 
 case $cam in
     "1") addr=$ip_cam1
-	 cam_path=$par_cam1
+	 cam_path=$path_cam1
 	 fmt=Bayer8;;
     "2") addr=$ip_cam2
-	 cam_path=$par_cam2
+	 cam_path=$path_cam2
 	 fmt=Bayer8;;
     "3") addr=$ip_cam3
-	 cam_path=$par_cam3
+	 cam_path=$path_cam3
 	 fmt=Mono16;;
     "4") addr=$ip_cam4
-	 cam_path=$par_cam4
+	 cam_path=$path_cam4
 	 fmt=Mono16;;
 esac
 

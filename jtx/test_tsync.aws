@@ -1,0 +1,9 @@
+#!/bin/sh
+
+source ../common/path
+
+filter tsync tsync -i -o
+fset tsync host_svr $ip_zed
+fset tsync port_svr 20200
+fset tsync verb y
+

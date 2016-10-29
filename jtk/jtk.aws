@@ -1,0 +1,63 @@
+#!/bin/bash
+
+log=n;
+for arg in $*
+do
+    case $arg in
+	"log") log=y;;
+    esac
+done
+
+path_script=/home/ubuntu/aws1_scripts
+source $path_script/common/path
+
+channel state state
+channel ais_obj ais_obj
+channel imgr disp
+channel obst obst
+channel wp wp
+channel aws1_ctrl_stat aws1_ctrl_stat
+channel aws1_ctrl_inst aws1_ctrl_ui
+channel aws1_ctrl_inst aws1_ctrl_ap1
+channel imgr img1
+channel imgr img2
+channel imgr img1c
+channel imgr img2c
+channel imgr rimg1
+channel imgr rimg2
+channel aws1_ap_inst ap_inst
+
+# User interface filte
+rec=no
+map=no
+std=y
+FLIP_X=no
+FLIP_Y=yes
+CH_IMGL=img1c
+CH_IMGR=img2c
+$path_script/common/setup_aws1_ui.aws $path_data $CH_IMGL $CH_IMGR $FLIP_X $FLIP_Y $map $std $rec 
+
+#Autopilot filter
+$path_script/common/setup_ap.aws
+
+#Object manager
+$path_script/common/setup_obj_manager.aws
+
+#Waypoint manager
+$path_script/common/setup_wp_manager.aws
+
+#Channel sharing
+filter ch_share share -i aws1_ctrl_ui aws1_ctrl_ap1 -o state aws1_ctrl_stat ais_obj
+fset share port_dst 20100
+fset share host_dst $ip_zed
+
+#Time synch (client)
+filter tsync tsync -i -o
+fset tsync host_svr $ip_zed
+fset tsync port_svr 20200
+if [ $log = y ]; then
+    filter write_ch_log log -i state aws1_ctrl_ui aws1_ctrl_ap1 aws1_ctrl_stat ais_obj -o 
+    fset log path $path_log
+fi
+
+go

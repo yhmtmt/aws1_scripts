@@ -1,0 +1,8 @@
+#!/bin/sh
+
+channel state state
+
+filter ch_share share -i -o state
+fset share port_dst 20101
+fset share host_dst $ip_zed
+fset share verb y

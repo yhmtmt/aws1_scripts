@@ -1,12 +1,14 @@
 #!/bin/sh
 
-./source ../common/path
+source ../common/path
 
 dbg=n
+log=n
 for arg in $*
 do
     case $arg in
-	"dbg") dbg=y
+	"dbg") dbg=y;;
+	"log") log=y;;
     esac
 done
 
@@ -14,14 +16,13 @@ channel imgr img
 channel imgr imgc
 
 addr=$ip_cam1
+
 fmt=Bayer8
 ttrig=10000000
 
-if [ $dbg = y ]; then
-    campar=$path_cam1/../tum/params.yml
-else
-    campar=$path_cam1/params.yml
-fi
+campar=$path_cam1/params.yml
+
+channel state state
 
 #lcc (only for mono16)
 #filter lcc lcc -i -o
@@ -78,4 +79,14 @@ else
     fset deb bayer RG8   
 fi
 
+filter ch_share share -i -o state
+fset share port_dst 20101
+fset share host_dst $ip_zed
+
+filter tsync tsync -i -o
+fset tsync host_svr $ip_zed
+fset tsync port_svr 20200
+
+if [ $log = y ]; then
+    filter write_ch_log log_cam1 -i img -o
 go

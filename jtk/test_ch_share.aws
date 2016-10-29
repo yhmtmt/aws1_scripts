@@ -1,0 +1,13 @@
+#!/bin/sh
+
+channel state state
+channel aws1_ctrl_stat aws1_ctrl_stat
+channel ais_obj ais_obj
+
+channel aws1_ctrl_inst aws1_ctrl_ui
+channel aws1_ctrl_inst aws1_ctrl_ap1
+
+filter ch_share share -i aws1_ctrl_ui aws1_ctrl_ap1 -o state aws1_ctrl_stat ais_obj
+fset share port_dst 20100
+fset share host_dst $ip_zed
+fset share verb y
