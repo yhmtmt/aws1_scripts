@@ -6,11 +6,13 @@ off=n
 cam=1
 fe=n
 ld=y
+par="par"
 
 for arg in $*
 do
     case $arg_prev in
 	"cam") cam=$arg;;
+	"par") par=$arg;;
     esac
     case $arg in
 	"off") off=y;;
@@ -39,16 +41,16 @@ esac
 ttrig=500000
 #ttrig=10000000
 if [ $fe = n ]; then
-    campar=$cam_path/par.yml
+    campar=$cam_path/${par}.yml
 else
-    campar=$cam_path/par_fe.yml
+    campar=$cam_path/${par}_fe.yml
 fi
 
-chsbds=$cam_path/chsbds.yml
+chsbds=$cam_path/${par}_chsbds.yml
 smplimg=$cam_path/smpl.png
-model=$chsbd_mdl/chsbd_12_8_0.062.yml
+model=$chsbd_mdl/chsbd_8_12_0.062.yml
 
-
+echo "Camera: $addr $fmt"
 echo "Param Path: $campar"
 echo "Chsbds Path: $chsbds"
 echo "Model Path: $model"
@@ -91,4 +93,7 @@ fset gc fcampar $campar
 fset gc fchsbd $model
 fset gc fcbdet $chsbds
 fset gc fisheye $fe load $ld
+fset gc 3dv no
+fset gc det yes
+
 go

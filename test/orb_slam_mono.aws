@@ -1,6 +1,6 @@
 #!/bin/sh
 
-./source ../common/path
+source ../common/path
 
 dbg=n
 for arg in $*
@@ -15,13 +15,16 @@ channel imgr imgc
 
 addr=$ip_cam1
 fmt=Bayer8
-ttrig=10000000
+ttrig=500000
 
 if [ $dbg = y ]; then
     campar=$path_cam1/../tum/params.yml
 else
-    campar=$path_cam1/params.yml
+    campar=$path_cam1/par.yml
 fi
+
+echo "Camera $ip_cam1 $fmt"
+echo "Camera parameter $campar"
 
 #lcc (only for mono16)
 #filter lcc lcc -i -o
@@ -66,16 +69,19 @@ if [ $dbg = y ]; then
     fset cam flst ${datapath}/awslist.txt
     fset cam Interval 6
 else
+    fset tr  undist yes
+
     filter avtmono cam -i -o img
-    fset cam host $addr
+    fset cam host $ip_cam1
     fset cam PacketSize 8228
     fset cam PixelFormat $fmt
     fset cam ExposureMode Auto
     fset cam FrameStartTriggerMode Software
     fset cam Ttrig $ttrig
+    #fset cam verb yes
     
     filter debayer deb -i img -o imgc
-    fset deb bayer RG8   
+    fset deb bayer RG8
 fi
 
 go
