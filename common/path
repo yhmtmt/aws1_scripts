@@ -1,9 +1,14 @@
 #!/bin/sh
 
-export path_aws=c:/cygwin64/home/yhmtm/aws
-#export path_aws=/mnt/ssd1/aws
-export path_data=d:/aws
-#export path_data=/mnt/ssd1/aws
+env=`uname`
+if [ $env = "Linux" ]; then
+    export path_aws=/mnt/ssd1/aws
+    export path_data=/mnt/ssd1/aws
+else
+    export path_aws=c:/cygwin64/home/yhmtm/aws
+    export path_data=d:/aws
+fi
+
 export path_log=$path_data/log
 
 export ip_jtk=192.168.128.2

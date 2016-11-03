@@ -1,5 +1,7 @@
 #!/bin/sh
 
+. ../common/path
+
 channel state state
 channel aws1_ctrl_stat aws1_ctrl_stat
 channel ais_obj ais_obj

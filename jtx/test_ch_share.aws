@@ -1,5 +1,7 @@
 #!/bin/sh
 
+. ../common/path
+
 channel state state
 
 filter ch_share share -i -o state

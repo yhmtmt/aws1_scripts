@@ -9,7 +9,7 @@ do
 done
 
 path_script=/home/ubuntu/aws1_scripts
-source $path_script/common/path
+. $path_script/common/path
 
 channel state state
 channel ais_obj ais_obj

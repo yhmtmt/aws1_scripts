@@ -1,6 +1,6 @@
 #!/bin/sh
 
-source ../common/path
+. ../common/path
 
 dbg=n
 log=n
@@ -18,7 +18,7 @@ channel imgr imgc
 addr=$ip_cam1
 
 fmt=Bayer8
-ttrig=10000000
+ttrig=500000
 
 campar=$path_cam1/params.yml
 
@@ -89,4 +89,7 @@ fset tsync port_svr 20200
 
 if [ $log = y ]; then
     filter write_ch_log log_cam1 -i img -o
+    fset log_cam1 path $path_log
+fi
+
 go

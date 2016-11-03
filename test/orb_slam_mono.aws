@@ -1,6 +1,6 @@
 #!/bin/sh
 
-source ../common/path
+. ../common/path
 
 dbg=n
 for arg in $*

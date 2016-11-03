@@ -1,0 +1,71 @@
+#!/bin/sh
+
+. ../common/path
+
+cam=1
+rep=n
+log=n
+logtime=0
+fmt=Bayer8
+ttrig=300000
+
+for arg in $*
+do
+	case $prev_arg in
+	     "cam") cam=$arg;;
+	     "rep") rep=$arg
+		    log=n;;
+	     "log") log=$arg
+		    rep=n;;
+	esac
+	prev_arg=$arg
+done
+
+case $cam in
+     "1") fmt=Bayer8
+          addr=$ip_cam1;; 
+     "2") fmt=Bayer8
+          addr=$ip_cam2;;
+     "3") fmt=Mono16
+          addr=$ip_cam3;;
+     "4") fmt=Mono16
+          addr=$ip_cam4;;
+esac
+
+channel imgr img
+channel imgr imgc
+
+if [ $rep = "n" ]; then
+    echo "Camera IP:$addr F:$fmt T:$ttrig"
+    filter avtmono cam -i -o img
+    fset cam host $addr
+    fset cam PacketSize 8228
+    fset cam PixelFormat $fmt
+    fset cam ExposureMode Auto
+    fset cam FrameStartTriggerMode Software
+    fset cam Ttrig $ttrig   
+else
+    echo "Replay cam$cam t=$rep"
+   filter read_ch_log log_cam$cam -i -o img
+   fset log_cam$cam path $path_log
+fi
+
+    
+filter debayer deb -i img -o imgc
+fset deb bayer RG8   
+
+if [ $log != "n" ]; then
+    echo "Logging $log"
+   filter write_ch_log log_cam$cam -i img -o 
+   fset log_cam$cam path $path_log
+fi
+
+filter glimv win -i imgc -o 
+fset win width 640 height 480
+
+if [ $rep != "n" ]; then
+    online no
+    go $rep
+else
+    go
+fi
