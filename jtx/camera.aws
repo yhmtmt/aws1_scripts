@@ -45,12 +45,23 @@ if [ $rep = "n" ]; then
     fset cam FrameStartTriggerMode Software
     fset cam Ttrig $ttrig   
     fset cam ExposureValue 1000
+
+   filter tsync tsync -i -o
+   fset tsync host_svr $ip_zed
+   fset tsync port_svr 20200
+
+   filter ch_share share -i -o state
+   fset share port_dst 20101
+   fset share host_dst $ip_zed   
+    
 else
     echo "Replay cam$cam t=$rep"
    filter read_ch_log log_cam$cam -i -o img
    fset log_cam$cam path $path_log
+   
+   filter read_ch_log log_state -i -o state
+   fset log_state path $path_log
 fi
-
     
 filter debayer deb -i img -o imgc
 fset deb bayer RG8   
@@ -59,6 +70,9 @@ if [ $log != "n" ]; then
     echo "Logging $log"
    filter write_ch_log log_cam$cam -i img -o 
    fset log_cam$cam path $path_log
+   
+   filter write_ch_log log_state -i state -o
+   fset log_state path $path_log   
 fi
 
 filter glimv win -i imgc -o 
