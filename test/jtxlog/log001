@@ -1,0 +1,5 @@
+#!/bin/sh
+
+export log_time=1479875403
+export path_log=$path_data/log/jtxlog/log001
+export campar=$path_data/campar/mako1/par.yml

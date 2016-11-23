@@ -1,0 +1,34 @@
+#!/bin/sh
+
+. ../common/path
+
+lognum=001
+
+for arg in $*
+do
+    if [ $arg_prev = "log" ]; then
+	lognum=$arg
+    fi	
+done
+
+. jtxlog/log001
+
+channel state state
+channel imgr img
+channel imgr imgc
+
+echo "Replay jtxlog $path_log $log_time"
+filter read_ch_log log_cam -i -o img
+fset log_cam path $path_log
+
+filter read_ch_log log_state -i -o state
+fset log_state path $path_log
+
+filter debayer deb -i img -o imgc
+fset deb bayer RG8   
+
+filter glimv win -i imgc -o 
+fset win width 1920 height 1200
+
+online no
+go $log_time
