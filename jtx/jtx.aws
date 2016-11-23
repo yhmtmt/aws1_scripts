@@ -80,7 +80,7 @@ else
 fi
 
 filter ch_share share -i -o state
-fset share port_dst 20101
+fset share port_dst 20150
 fset share host_dst $ip_zed
 
 filter tsync tsync -i -o

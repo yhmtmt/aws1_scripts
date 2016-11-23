@@ -51,7 +51,7 @@ if [ $rep = "n" ]; then
    fset tsync port_svr 20200
 
    filter ch_share share -i -o state
-   fset share port_dst 20101
+   fset share port_dst 20150
    fset share host_dst $ip_zed   
     
 else
@@ -76,7 +76,7 @@ if [ $log != "n" ]; then
 fi
 
 filter glimv win -i imgc -o 
-fset win width 640 height 480
+fset win width 1024 height 768
 
 if [ $rep != "n" ]; then
     online no
