@@ -32,10 +32,19 @@ case $cam in
           addr=$ip_cam4;;
 esac
 
+channel state state
 channel imgr img
 channel imgr imgc
 
 if [ $rep = "n" ]; then
+   filter tsync tsync -i -o
+   fset tsync host_svr $ip_zed
+   fset tsync port_svr 20200
+
+   filter ch_share share -i -o state
+   fset share port_dst 20150
+   fset share host_dst $ip_zed   
+
     echo "Camera IP:$addr F:$fmt T:$ttrig"
     filter avtmono cam -i -o img
     fset cam host $addr
@@ -44,16 +53,7 @@ if [ $rep = "n" ]; then
     fset cam ExposureMode Auto
     fset cam FrameStartTriggerMode Software
     fset cam Ttrig $ttrig   
-    fset cam ExposureValue 1000
-
-   filter tsync tsync -i -o
-   fset tsync host_svr $ip_zed
-   fset tsync port_svr 20200
-
-   filter ch_share share -i -o state
-   fset share port_dst 20150
-   fset share host_dst $ip_zed   
-    
+    fset cam ExposureValue 1000    
 else
     echo "Replay cam$cam t=$rep"
    filter read_ch_log log_cam$cam -i -o img
