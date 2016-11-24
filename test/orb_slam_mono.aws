@@ -22,6 +22,9 @@ do
     prev_arg=$arg
 done
 
+echo "Starting ORB SLAM on aws"
+echo "Video Source: $src $src_id"
+
 channel imgr img
 channel imgr imgc
 
@@ -46,9 +49,8 @@ channel orb_slam_trj trj
 
 filter orb_slam_tracker tr -i -o
 fset tr ch_sys sys ch_cam imgc ch_kfdb kfdb ch_kf_mapper kf_tr ch_map map ch_trj trj ch_frm frm
-fset tr fcp $campar fvoc $path_orb_voc undist no rgb yes
 fset tr num_features 1000 scale_factor 1.2 num_levels 8 th_fast_ini 20 th_fast_min 7
-
+fset tr fvoc $path_orb_voc
 filter orb_slam_local_mapper lm -i -o
 fset lm ch_sys sys ch_kf_tracker kf_tr ch_kf_loop_closer kf_lm ch_map map
 
@@ -70,16 +72,18 @@ case $src in
 	case $src_id in
 	    "cam1")
 		addr=$ip_cam1
-		ampar=$path_cam1/par.yml;;
+		campar=$path_cam1/par.yml;;
 	    "cam2")
 		addr=$ip_cam2
-		ampar=$path_cam2/par.yml;;
+		campar=$path_cam2/par.yml;;
 	esac
 		
 	fmt=Bayer8
 	ttrig=500000
+	echo "Camera: $addr $campar $fmt $ttrig"
+	fset tr fcp $campar rgb yes
+        fset tr undist yes
 	
-        fset tr  undist yes
 	filter avtmono cam -i -o img
 	fset cam host $ip_cam1
 	fset cam PacketSize 8228
@@ -96,13 +100,26 @@ case $src in
     "tum")
 	datapath=c:/cygwin64/home/yhmtm/data/rgbd_dataset_freiburg1_xyz/rgb
 	campar=$path_cam1/../tum/params.yml
+	echo "Campar $campar"
+	echo "Change directory to $datapath"
 	awscd $datapath
+	
+	fset tr fcp $campar rgb yes
+        fset tr  undist yes
+	
 	filter imread cam -i -o imgc
 	fset cam flst ${datapath}/awslist.txt
 	fset cam Interval 6
 	go;;
+    
     "jtxlog")
 	. jtxlog/$src_id
+	echo "Campar $campar"
+	echo "$Path: path_log Time: $log_time"
+	
+	fset tr fcp $campar rgb yes
+        fset tr  undist yes
+	
 	channel state state
 	filter read_ch_log log_cam -i -o img
 	fset log_cam path $path_log
