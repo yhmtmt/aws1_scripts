@@ -3,25 +3,27 @@
 . ../common/path
 
 dbg=n
+src=cam1
+src_id=1
+
 for arg in $*
 do
-    case $arg in
-	"dbg") dbg=y
+    case $prev_arg in
+	"cam")
+	    src=cam
+	    src_id=cam$arg;;
+	"tum")
+	    src=tum
+	    src_id=tum$arg;;
+	"jtxlog")
+	    src=jtxlog
+	    src_id=log$arg;;
     esac
+    prev_arg=$arg
 done
 
 channel imgr img
 channel imgr imgc
-
-addr=$ip_cam1
-fmt=Bayer8
-ttrig=500000
-
-if [ $dbg = y ]; then
-    campar=$path_cam1/../tum/params.yml
-else
-    campar=$path_cam1/par.yml
-fi
 
 echo "Camera $ip_cam1 $fmt"
 echo "Camera parameter $campar"
@@ -62,26 +64,54 @@ fset vw width 1920 height 1200
 fset vw mode fm
 
 # camera
-if [ $dbg = y ]; then
-    datapath=c:/cygwin64/home/yhmtm/data/rgbd_dataset_freiburg1_xyz/rgb
-    awscd $datapath
-    filter imread cam -i -o imgc
-    fset cam flst ${datapath}/awslist.txt
-    fset cam Interval 6
-else
-    fset tr  undist yes
 
-    filter avtmono cam -i -o img
-    fset cam host $ip_cam1
-    fset cam PacketSize 8228
-    fset cam PixelFormat $fmt
-    fset cam ExposureMode Auto
-    fset cam FrameStartTriggerMode Software
-    fset cam Ttrig $ttrig
-    #fset cam verb yes
+case $src in
+    "cam")
+	case $src_id in
+	    "cam1")
+		addr=$ip_cam1
+		ampar=$path_cam1/par.yml;;
+	    "cam2")
+		addr=$ip_cam2
+		ampar=$path_cam2/par.yml;;
+	esac
+		
+	fmt=Bayer8
+	ttrig=500000
+	
+        fset tr  undist yes
+	filter avtmono cam -i -o img
+	fset cam host $ip_cam1
+	fset cam PacketSize 8228
+	fset cam PixelFormat $fmt
+	fset cam ExposureMode Auto
+	fset cam FrameStartTriggerMode Software
+	fset cam Ttrig $ttrig
+	#fset cam verb yes
     
-    filter debayer deb -i img -o imgc
-    fset deb bayer RG8
-fi
-
-go
+	filter debayer deb -i img -o imgc
+	fset deb bayer RG8
+	go;;
+    
+    "tum")
+	datapath=c:/cygwin64/home/yhmtm/data/rgbd_dataset_freiburg1_xyz/rgb
+	campar=$path_cam1/../tum/params.yml
+	awscd $datapath
+	filter imread cam -i -o imgc
+	fset cam flst ${datapath}/awslist.txt
+	fset cam Interval 6
+	go;;
+    "jtxlog")
+	. jtxlog/$src_id
+	channel state state
+	filter read_ch_log log_cam -i -o img
+	fset log_cam path $path_log
+	
+	filter read_ch_log log_state -i -o state
+	fset log_state path $path_log
+	
+	filter debayer deb -i img -o imgc
+	fset deb bayer RG8   
+	online no
+	go $log_time;;
+esac
