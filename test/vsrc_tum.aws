@@ -1,0 +1,14 @@
+#!/bin/sh
+
+datapath=c:/cygwin64/home/yhmtm/data/rgbd_dataset_freiburg1_xyz/rgb
+campar=$path_cam1/../tum/params.yml
+echo "Campar $campar"
+echo "Change directory to $datapath"
+awscd $datapath	
+fset tr fcp $campar rgb yes
+fset tr  undist yes	
+filter imread cam -i -o imgc
+fset cam flst ${datapath}/awslist.txt
+fset cam Interval 6
+
+go

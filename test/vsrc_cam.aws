@@ -1,0 +1,29 @@
+#!/bin/sh
+
+src_id=$src_id
+
+case $src_id in
+    "cam1")
+	addr=$ip_cam1
+	campar=$path_cam1/par.yml;;
+    "cam2")
+	addr=$ip_cam2
+	campar=$path_cam2/par.yml;;
+esac		
+fmt=Bayer8
+ttrig=500000
+echo "Camera: $addr $campar $fmt $ttrig"
+fset tr fcp $campar rgb yes
+fset tr undist yes	
+filter avtmono cam -i -o img
+fset cam host $ip_cam1
+fset cam PacketSize 8228
+fset cam PixelFormat $fmt
+fset cam ExposureMode Auto
+fset cam FrameStartTriggerMode Software
+fset cam Ttrig $ttrig
+#fset cam verb yes    
+filter debayer deb -i img -o imgc
+fset deb bayer RG8
+
+go

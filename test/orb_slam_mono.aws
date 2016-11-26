@@ -28,9 +28,6 @@ echo "Video Source: $src $src_id"
 channel imgr img
 channel imgr imgc
 
-echo "Camera $ip_cam1 $fmt"
-echo "Camera parameter $campar"
-
 #lcc (only for mono16)
 #filter lcc lcc -i -o
 #fset lcc ch_in img ch_out imgc
@@ -66,69 +63,12 @@ fset vw width 1920 height 1200
 fset vw mode fm
 
 # camera
-
+echo "Opening $src with $src_id"
 case $src in
     "cam")
-	case $src_id in
-	    "cam1")
-		addr=$ip_cam1
-		campar=$path_cam1/par.yml;;
-	    "cam2")
-		addr=$ip_cam2
-		campar=$path_cam2/par.yml;;
-	esac
-		
-	fmt=Bayer8
-	ttrig=500000
-	echo "Camera: $addr $campar $fmt $ttrig"
-	fset tr fcp $campar rgb yes
-        fset tr undist yes
-	
-	filter avtmono cam -i -o img
-	fset cam host $ip_cam1
-	fset cam PacketSize 8228
-	fset cam PixelFormat $fmt
-	fset cam ExposureMode Auto
-	fset cam FrameStartTriggerMode Software
-	fset cam Ttrig $ttrig
-	#fset cam verb yes
-    
-	filter debayer deb -i img -o imgc
-	fset deb bayer RG8
-	go;;
-    
+	./vsrc_cam.aws $src_id;;
     "tum")
-	datapath=c:/cygwin64/home/yhmtm/data/rgbd_dataset_freiburg1_xyz/rgb
-	campar=$path_cam1/../tum/params.yml
-	echo "Campar $campar"
-	echo "Change directory to $datapath"
-	awscd $datapath
-	
-	fset tr fcp $campar rgb yes
-        fset tr  undist yes
-	
-	filter imread cam -i -o imgc
-	fset cam flst ${datapath}/awslist.txt
-	fset cam Interval 6
-	go;;
-    
+	./vsrc_tum.aws;;
     "jtxlog")
-	. jtxlog/$src_id
-	echo "Campar $campar"
-	echo "$Path: path_log Time: $log_time"
-	
-	fset tr fcp $campar rgb yes
-        fset tr  undist yes
-	
-	channel state state
-	filter read_ch_log log_cam -i -o img
-	fset log_cam path $path_log
-	
-	filter read_ch_log log_state -i -o state
-	fset log_state path $path_log
-	
-	filter debayer deb -i img -o imgc
-	fset deb bayer RG8   
-	online no
-	go $log_time;;
+	./vsrc_jtxlog.aws $src_id;;
 esac

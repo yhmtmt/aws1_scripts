@@ -1,0 +1,19 @@
+#!/bin/sh
+src_id=$1
+
+. jtxlog/$src_id
+
+echo "Campar $campar"
+echo "Path: $path_log Time: $log_time"	
+fset tr fcp $campar rgb yes
+fset tr  undist yes	
+channel state state
+filter read_ch_log log_cam -i -o img
+fset log_cam path $path_log	
+filter read_ch_log log_state -i -o state
+fset log_state path $path_log	
+filter debayer deb -i img -o imgc
+fset deb bayer RG8   
+online no
+	
+go $log_time
