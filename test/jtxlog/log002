@@ -1,7 +1,7 @@
 #!/bin/sh
 
-export log_time=1479875403
-export path_log=$path_data/log/jtxlog/log001
+export log_time=1479878688
+export path_log=$path_data/log/jtxlog/log002
 export campar=$path_data/campar/mako1/par.yml
 export roi_x=0
 #export roi_y=0
@@ -11,4 +11,3 @@ export roi_w=1934
 export roi_h=640
 export vw_w=1920
 export vw_h=640
-

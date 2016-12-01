@@ -6,7 +6,11 @@ src_id=$1
 echo "Campar $campar"
 echo "Path: $path_log Time: $log_time"	
 fset tr fcp $campar rgb yes
-fset tr  undist yes	
+fset tr  undist yes
+fset tr roi_x $roi_x roi_y $roi_y roi_w $roi_w roi_h $roi_h
+
+fset vw width $vw_w height $vw_h
+
 channel state state
 filter read_ch_log log_cam -i -o img
 fset log_cam path $path_log	
