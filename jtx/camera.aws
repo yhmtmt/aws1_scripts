@@ -50,10 +50,13 @@ if [ $rep = "n" ]; then
     fset cam host $addr
     fset cam PacketSize 8228
     fset cam PixelFormat $fmt
-    fset cam ExposureMode Auto
     fset cam FrameStartTriggerMode Software
     fset cam Ttrig $ttrig   
-    fset cam ExposureValue 1000    
+#    fset cam ExposureMode Manual
+#    fset cam ExposureValue 1000    
+    fset cam ExposureMode Auto
+    fset cam ExposureAutoMax 5000
+    fset cam ExposureAutoMin 100
 else
     echo "Replay cam$cam t=$rep"
    filter read_ch_log log_cam$cam -i -o img
@@ -76,7 +79,7 @@ if [ $log != "n" ]; then
 fi
 
 filter glimv win -i imgc -o 
-fset win width 1024 height 768
+fset win width 1600 height 900
 
 if [ $rep != "n" ]; then
     online no
