@@ -3,15 +3,17 @@
 . ../common/path
 
 lognum=001
+arg_prev=null
 
 for arg in $*
 do
     if [ $arg_prev = "log" ]; then
 	lognum=$arg
-    fi	
+    fi
+    arg_prev=$arg
 done
 
-. jtxlog/log001
+. jtxlog/log$lognum
 
 channel state state
 channel imgr img

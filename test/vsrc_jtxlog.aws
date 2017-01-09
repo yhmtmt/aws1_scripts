@@ -17,7 +17,10 @@ fset log_cam path $path_log
 filter read_ch_log log_state -i -o state
 fset log_state path $path_log	
 filter debayer deb -i img -o imgc
-fset deb bayer RG8   
+fset deb bayer RG8
+
+fset tr ch_state state
+fset vw ch_state state
 online no
-	
+
 go $log_time
