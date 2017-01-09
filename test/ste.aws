@@ -3,7 +3,7 @@
 . ../common/path
 
 src=jtxlog
-src_id=005
+src_id=log005
 
 for arg in $*
 do
