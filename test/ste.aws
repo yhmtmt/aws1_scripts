@@ -1,0 +1,52 @@
+#!/bin/sh
+
+. ../common/path
+
+src=jtxlog
+src_id=005
+
+for arg in $*
+do
+    case $prev_arg in
+	"jtxlog")
+	    src=jtxlog
+	    src_id=log$arg;;
+    esac
+    prev_arg=$arg
+done
+
+
+# camera
+echo "Opening $src with $src_id"
+case $src in
+    "jtxlog")
+	. jtxlog/$src_id
+esac
+
+
+channel state state
+channel estate estate
+filter stest stest -i -o
+fset stest ch_state state
+fset stest ch_estate estate
+
+fset stest qxx 1.0 qxy 0.0
+fset stest qyx 0.0 qyy 1.0
+
+fset stest quu 1.0 quv 0.0
+fset stest qvu 0.0 qvv 1.0
+
+fset stest rxx 1.0 rxy 0.0
+fset stest ryx 0.0 ryy 1.0
+
+fset stest ruu 1.0 ruv 0.0
+fset stest rvu 0.0 rvv 1.0
+
+fset stest acv yes
+fset stest log yes
+
+filter read_ch_log log_state -i -o state
+fset log_state path $path_log
+
+online no
+go $log_time
