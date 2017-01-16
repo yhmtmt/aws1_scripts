@@ -44,9 +44,16 @@ fset stest rvu 0.0 rvv 1.0
 
 fset stest acv yes
 fset stest log yes
+fset stest verb yes
+
+filter estv -i -o
+fset estv ch_state state
+fset estv ch_estate estate
+fset estv range 3000
 
 filter read_ch_log log_state -i -o state
 fset log_state path $path_log
 
 online no
+cyc 0.5
 go $log_time
