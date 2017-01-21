@@ -7,8 +7,9 @@ fi
 
 filter ahrs ahrs -i -o
 fset ahrs dev $1
+fset ahrs port $1
 fset ahrs br $2
-fset ahrs cmd ob
+fset ahrs cmd osbb
 fset ahrs verb y
 cyc 0.0344827
 go

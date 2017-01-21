@@ -46,7 +46,7 @@ fset stest acv yes
 fset stest log yes
 fset stest verb yes
 
-filter estv -i -o
+filter estv estv -i -o
 fset estv ch_state state
 fset estv ch_estate estate
 fset estv range 3000
