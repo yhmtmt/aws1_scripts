@@ -11,6 +11,9 @@ do
 	"jtxlog")
 	    src=jtxlog
 	    src_id=log$arg;;
+	"jtklog")
+	    src=jtklog
+	    src_id=log$arg;;
     esac
     prev_arg=$arg
 done
@@ -20,7 +23,9 @@ done
 echo "Opening $src with $src_id"
 case $src in
     "jtxlog")
-	. jtxlog/$src_id
+	. jtxlog/$src_id;;
+    "jtklog")
+	. jtklog/$src_id;;
 esac
 
 
@@ -49,11 +54,11 @@ fset stest verb yes
 filter estv estv -i -o
 fset estv ch_state state
 fset estv ch_estate estate
-fset estv range 3000
+fset estv range 100
 
 filter read_ch_log log_state -i -o state
 fset log_state path $path_log
 
 online no
-cyc 0.5
+cyc 0.05
 go $log_time
