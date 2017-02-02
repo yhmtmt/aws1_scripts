@@ -7,7 +7,7 @@ rep=n
 log=n
 logtime=0
 fmt=Bayer8
-ttrig=300000
+ttrig=100000
 
 for arg in $*
 do
@@ -80,7 +80,7 @@ fi
 
 filter glimv win -i imgc -o 
 fset win width 1600 height 900
-
+cyc 0.01
 if [ $rep != "n" ]; then
     online no
     go $rep
