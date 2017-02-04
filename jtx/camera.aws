@@ -7,7 +7,8 @@ rep=n
 log=n
 logtime=0
 fmt=Bayer8
-ttrig=100000
+#ttrig=100000
+ttrig=500000
 
 for arg in $*
 do
@@ -50,12 +51,13 @@ if [ $rep = "n" ]; then
     fset cam host $addr
     fset cam PacketSize 8228
     fset cam PixelFormat $fmt
-    fset cam FrameStartTriggerMode Software
+    fset cam FrameStartTriggerMode Freerun
+    fset cam BandwidthCtrlMode StreamBytesPerSecond
     fset cam Ttrig $ttrig   
 #    fset cam ExposureMode Manual
 #    fset cam ExposureValue 1000    
     fset cam ExposureMode Auto
-    fset cam ExposureAutoMax 5000
+    fset cam ExposureAutoMax 1000
     fset cam ExposureAutoMin 100
 else
     echo "Replay cam$cam t=$rep"
