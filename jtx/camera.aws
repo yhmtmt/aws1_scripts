@@ -44,15 +44,16 @@ if [ $rep = "n" ]; then
 
    filter ch_share share -i -o state
    fset share port_dst 20150
-   fset share host_dst $ip_zed   
-
+   fset share host_dst $ip_zed
+   
     echo "Camera IP:$addr F:$fmt T:$ttrig"
     filter avtmono cam -i -o img
     fset cam host $addr
     fset cam PacketSize 8228
     fset cam PixelFormat $fmt
-    fset cam FrameStartTriggerMode Freerun
-    fset cam BandwidthCtrlMode StreamBytesPerSecond
+    fset cam FrameStartTriggerMode Software
+#    fset cam FrameStartTriggerMode Freerun
+#    fset cam BandwidthCtrlMode StreamBytesPerSecond
     fset cam Ttrig $ttrig   
 #    fset cam ExposureMode Manual
 #    fset cam ExposureValue 1000    
