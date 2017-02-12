@@ -7,8 +7,9 @@ rep=n
 log=n
 logtime=0
 fmt=Bayer8
-#ttrig=100000
-ttrig=500000
+ttrig=100000
+#ttrig=500000
+free=n
 
 for arg in $*
 do
@@ -18,6 +19,9 @@ do
 		    log=n;;
 	     "log") log=$arg
 		    rep=n;;
+	esac
+	case $arg in
+	    "free") free=y;;
 	esac
 	prev_arg=$arg
 done
@@ -51,10 +55,14 @@ if [ $rep = "n" ]; then
     fset cam host $addr
     fset cam PacketSize 8228
     fset cam PixelFormat $fmt
-    fset cam FrameStartTriggerMode Software
-#    fset cam FrameStartTriggerMode Freerun
-#    fset cam BandwidthCtrlMode StreamBytesPerSecond
+    if [ $free = "n" ]; then
+	fset cam FrameStartTriggerMode Software
+    else
+	fset cam FrameStartTriggerMode Freerun
+	fset cam BandwidthCtrlMode StreamBytesPerSecond
+    fi
     fset cam Ttrig $ttrig   
+    fset cam GvspTimeout 150
 #    fset cam ExposureMode Manual
 #    fset cam ExposureValue 1000    
     fset cam ExposureMode Auto
