@@ -1,14 +1,25 @@
 #!/bin/bash
 
 log=n;
+rep=n;
+arg_prev=n
+lognum=001
+
 for arg in $*
 do
     case $arg in
 	"log") log=y;;
+	"rep") rep=y
+	       log=n;;
     esac
+    case $arg_prev in
+	"rep")
+	    lognum=$arg;;
+    esac
+    arg_prev=$arg    
 done
 
-path_script=/home/ubuntu/aws1_scripts
+path_script=../
 . $path_script/common/path
 
 channel state state
@@ -46,18 +57,29 @@ $path_script/common/setup_obj_manager.aws
 #Waypoint manager
 $path_script/common/setup_wp_manager.aws
 
-#Channel sharing
-filter ch_share share -i aws1_ctrl_ui aws1_ctrl_ap1 -o state aws1_ctrl_stat ais_obj
-fset share port_dst 20100
-fset share host_dst $ip_zed
-
-#Time synch (client)
-filter tsync tsync -i -o
-fset tsync host_svr $ip_zed
-fset tsync port_svr 20200
-if [ $log = y ]; then
-    filter write_ch_log log -i state aws1_ctrl_ui aws1_ctrl_ap1 aws1_ctrl_stat ais_obj -o 
+if [ $rep = y ]; then
+    . jtklog/log$lognum
+    filter read_ch_log log -i -o state aws1_ctrl_ui aws1_ctrl_ap1 aws1_ctrl_stat ais_obj
     fset log path $path_log
+    online no
+    echo replaying $path_log from t=$log_time
+    go $log_time
+else
+    #Channel sharing
+    filter ch_share share -i aws1_ctrl_ui aws1_ctrl_ap1 -o state aws1_ctrl_stat ais_obj
+    fset share port_dst 20100
+    fset share host_dst $ip_zed
+    
+    #Time synch (client)
+    filter tsync tsync -i -o
+    fset tsync host_svr $ip_zed
+    fset tsync port_svr 20200
+    
+    if [ $log = y ]; then
+	filter write_ch_log log -i state aws1_ctrl_ui aws1_ctrl_ap1 aws1_ctrl_stat ais_obj -o 
+	fset log path $path_log
+    fi
+    go
 fi
 
-go
+
