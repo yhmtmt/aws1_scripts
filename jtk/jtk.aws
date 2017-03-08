@@ -23,6 +23,7 @@ path_script=../
 . $path_script/common/path
 
 channel state state
+channel estate estate
 channel ais_obj ais_obj
 channel imgr disp
 channel obst obst
@@ -37,6 +38,25 @@ channel imgr img2c
 channel imgr rimg1
 channel imgr rimg2
 channel aws1_ap_inst ap_inst
+
+filter stest stest -i -o
+fset stest ch_state state
+fset stest ch_estate estate
+fset stest qxx 1.0 qxy 0.0
+fset stest qyx 0.0 qyy 1.0
+
+fset stest quu 1.0 quv 0.0
+fset stest qvu 0.0 qvv 1.0
+
+fset stest rxx 1.0 rxy 0.0
+fset stest ryx 0.0 ryy 1.0
+
+fset stest ruu 1.0 ruv 0.0
+fset stest rvu 0.0 rvv 1.0
+
+fset stest acv no
+fset stest log no
+fset stest verb no
 
 # User interface filte
 rec=no

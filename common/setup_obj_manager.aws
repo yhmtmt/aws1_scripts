@@ -4,4 +4,5 @@ filter obj_manager obj_manager -i -o
 fset obj_manager ch_state state
 fset obj_manager ch_ais_obj ais_obj
 fset obj_manager range 10000
-fset obj_manager dtold 1800000000
+#fset obj_manager dtold 1800000000
+fset obj_manager dtold 6000000000
