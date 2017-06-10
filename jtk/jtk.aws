@@ -2,14 +2,21 @@
 
 log=n;
 rep=n;
+sim=n
 arg_prev=n
 lognum=001
 
 for arg in $*
 do
     case $arg in
-	"log") log=y;;
-	"rep") rep=y
+	"log") sim=n
+	       rep=n
+	       log=y;;
+	"rep") sim=n
+	       rep=y
+	       log=n;;
+	"sim") sim=y
+	       rep=n
 	       log=n;;
     esac
     case $arg_prev in
@@ -24,6 +31,7 @@ path_script=../
 
 channel state state
 channel estate estate
+channel map map
 channel ais_obj ais_obj
 channel imgr disp
 channel obst obst
@@ -60,8 +68,8 @@ fset stest verb no
 
 # User interface filte
 rec=no
-map=no
-std=y
+map=y
+std=n
 FLIP_X=no
 FLIP_Y=yes
 CH_IMGL=img1c
@@ -77,6 +85,11 @@ $path_script/common/setup_obj_manager.aws
 #Waypoint manager
 $path_script/common/setup_wp_manager.aws
 
+filter map map -i -o
+fset map ch_map map
+fset map path $path_map
+fset map minStep 1852
+
 if [ $rep = y ]; then
     . jtklog/log$lognum
     filter read_ch_log log -i -o state aws1_ctrl_ui aws1_ctrl_ap1 aws1_ctrl_stat ais_obj
@@ -85,15 +98,39 @@ if [ $rep = y ]; then
     echo replaying $path_log from t=$log_time
     go $log_time
 else
-    #Channel sharing
-    filter ch_share share -i aws1_ctrl_ui aws1_ctrl_ap1 -o state aws1_ctrl_stat ais_obj
-    fset share port_dst 20100
-    fset share host_dst $ip_zed
-    
-    #Time synch (client)
-    filter tsync tsync -i -o
-    fset tsync host_svr $ip_zed
-    fset tsync port_svr 20200
+    if [ $sim = y ]; then
+	# test filter
+	filter aws1_ui_test aws1_ui_test -i -o
+	fset aws1_ui_test ch_state state
+	fset aws1_ui_test ch_ais_obj ais_obj
+	fset aws1_ui_test ch_ctrl_ui aws1_ctrl_ui
+	fset aws1_ui_test ch_ctrl_ap1 aws1_ctrl_ap1
+	#fset aws1_ui_test ch_ctrl_ap2
+	fset aws1_ui_test ch_ctrl_stat aws1_ctrl_stat
+	
+	fset aws1_ui_test meng_max_rmc 21 meng_nuf_rmc 91 meng_nut_rmc 107 meng_nub_rmc 124 meng_min_rmc 151
+	fset aws1_ui_test seng_max_rmc 24 seng_nuf_rmc 91 seng_nut_rmc 107 seng_nub_rmc 124 seng_min_rmc 151
+	fset aws1_ui_test rud_max_rmc 220 rud_nut_rmc 111 rud_min_rmc 0
+	fset aws1_ui_test rud_sta_max 15 rud_sta_nut 90 rud_sta_min 172
+	fset aws1_ui_test meng_max 228 meng_nuf 151 meng_nut 129 meng_nub 104 meng_min 78
+	fset aws1_ui_test seng_max 226 seng_nuf 153 seng_nut 130 seng_nub 103 seng_min 78
+	fset aws1_ui_test rud_max 5 rud_nut 127 rud_min 250
+	fset aws1_ui_test rud_sta_out_max 243 rud_sta_out_nut 143 rud_sta_out_min 39
+	fset aws1_ui_test awsrud 127 awsmeng 127 awsseng 127
+	
+	#state setting
+	fset aws1_ui_test lat 35.55061306 lon 140.11532166 alt 0 cog 180 sog 5 yaw 135 depth 8 	
+    else	
+	#Channel sharing
+	filter ch_share share -i aws1_ctrl_ui aws1_ctrl_ap1 -o state aws1_ctrl_stat ais_obj
+	fset share port_dst 20100
+	fset share host_dst $ip_zed
+	
+	#Time synch (client)
+	filter tsync tsync -i -o
+	fset tsync host_svr $ip_zed
+	fset tsync port_svr 20200
+    fi
     
     if [ $log = y ]; then
 	filter write_ch_log log -i state aws1_ctrl_ui aws1_ctrl_ap1 aws1_ctrl_stat ais_obj -o 

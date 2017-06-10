@@ -25,3 +25,9 @@ export path_cam3=$path_aws/campar/gt1
 export path_cam4=$path_aws/campar/gt2
 export chsbd_mdl=$path_aws/models
 export path_orb_voc=$path_aws/res/ORBvoc.txt
+export path_map=$path_data/aws1_map
+
+export path_fshader=$path_aws/GLSL/sample.fs
+export path_vshader=$path_aws/GLSL/sample.vs
+export path_fnttex=$path_aws/res/gothic40.png
+export path_fnttexinf=$path_aws/res/gothic40.fontsettings
