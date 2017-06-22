@@ -83,7 +83,7 @@ $path_script/common/setup_ap.aws
 $path_script/common/setup_obj_manager.aws
 
 #Waypoint manager
-$path_script/common/setup_wp_manager.aws
+$path_script/common/setup_wp_manager.aws $path_data
 
 filter map map -i -o
 fset map ch_map map

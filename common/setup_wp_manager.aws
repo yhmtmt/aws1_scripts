@@ -1,5 +1,8 @@
 #!/bin/sh
 
+path_data=$1
+
 filter wp_manager wp_manager -i -o
 fset wp_manager ch_state state
 fset wp_manager ch_wp wp
+fset wp_manager path $path_data
