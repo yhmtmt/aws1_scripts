@@ -19,7 +19,6 @@ filter aws1_ui aws1_ui -i -o
 fset aws1_ui ch_state state
 fset aws1_ui ch_ais_obj ais_obj
 fset aws1_ui ch_wp wp
-fset aws1_ui imv img12d
 fset aws1_ui ch_ctrl_stat aws1_ctrl_stat
 fset aws1_ui ch_ctrl_inst aws1_ctrl_ui
 fset aws1_ui width 1000 height 750
@@ -29,14 +28,9 @@ fset aws1_ui ffnttex $path_fnttex
 fset aws1_ui ffnttexinf $path_fnttexinf
 fset aws1_ui verb no
 fset aws1_ui js 0
-fset aws1_ui mode normal
 fset aws1_ui svw $rec
 fset aws1_ui storage $path_data
 
-fset aws1_ui ch_img $CH_IMGL
-fset aws1_ui ch_img2 $CH_IMGR
-fset aws1_ui flip_img_x $FLIP_X flip_img_y $FLIP_Y
-fset aws1_ui flip_img2_x $FLIP_X flip_img2_y $FLIP_Y
 fset aws1_ui ch_ap_inst ap_inst
 
 if [ $map = y ]; then
