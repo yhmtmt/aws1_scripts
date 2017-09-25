@@ -7,4 +7,5 @@ if [ $# -ne 1 ]; then
 fi
 
 fset map fdata $1
+fset map dtype jpjis
 fset map cmd add_data

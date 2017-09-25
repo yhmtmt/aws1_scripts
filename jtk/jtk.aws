@@ -66,7 +66,7 @@ fset stest acv no
 fset stest log no
 fset stest verb no
 
-# User interface filte
+# User interface filter
 rec=no
 map=y
 std=n
