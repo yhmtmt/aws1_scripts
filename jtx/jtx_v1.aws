@@ -47,6 +47,7 @@ channel imgr img2c
 channel imgr rimg1
 channel imgr rimg2
 channel aws1_ap_inst ap_inst
+channel env env
 
 filter stest stest -i -o
 fset stest ch_state state
@@ -75,6 +76,9 @@ FLIP_X=no
 FLIP_Y=yes
 CH_IMGL=img1c
 CH_IMGR=img2c
+
+LOG="state env aws1_ctrl_ui aws1_ctrl_ap1 aws1_ctrl_stat ais_obj"
+
 $path_script/common/setup_aws1_ui.aws $path_data $CH_IMGL $CH_IMGR $FLIP_X $FLIP_Y $map $std $rec 
 
 #Autopilot filter
@@ -95,7 +99,7 @@ fset map max_size_coast_line 1000000
 
 if [ $rep = y ]; then
     . jtklog/log$lognum
-    filter read_ch_log log -i -o state aws1_ctrl_ui aws1_ctrl_ap1 aws1_ctrl_stat ais_obj
+    filter read_ch_log log -i -o $LOG
     fset log path $path_log
     online no
     echo replaying $path_log from t=$log_time
@@ -125,7 +129,7 @@ else
 	fset aws1_ui_test lat 35.55061306 lon 140.11532166 alt 0 cog 180 sog 5 yaw 135 depth 8 	
     else	
 	#Channel sharing
-	filter ch_share share -i aws1_ctrl_ui aws1_ctrl_ap1 -o state aws1_ctrl_stat ais_obj
+	filter ch_share share -i aws1_ctrl_ui aws1_ctrl_ap1 -o state env aws1_ctrl_stat ais_obj
 	fset share port_dst 20100
 	fset share host_dst $ip_zed
 	
@@ -136,10 +140,8 @@ else
     fi
     
     if [ $log = y ]; then
-	filter write_ch_log log -i state aws1_ctrl_ui aws1_ctrl_ap1 aws1_ctrl_stat ais_obj -o 
+	filter write_ch_log log -i $LOG -o 
 	fset log path $path_log
     fi
     go
 fi
-
-

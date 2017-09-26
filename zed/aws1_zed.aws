@@ -6,6 +6,7 @@ ahrs=n
 env=n
 verb=n
 channel state state
+channel env env
 channel aws1_ctrl_inst aws1_ctrl_ui
 channel aws1_ctrl_inst aws1_ctrl_ap1
 channel aws1_ctrl_inst aws1_ctrl_ap2
@@ -43,27 +44,22 @@ if [ $ahrs = y ]; then
     fset ahrs ch_state state
     fset ahrs br 57600
     fset ahrs cmd osbb
-    fset ahrs dev /dev/ttyUL4
+    fset ahrs dev /dev/ttyUL1
     fset ahrs verb $verb
 fi
 
 if [ $env = y ]; then
-    channel env env
-    filter env env -i -o
-    fset env ch env
-    fset env dev /dev/ttyUL6
-    fset env br 9600
-    fset env verb $verb
+    ./mlb.aws 
 fi
 
 # Channel sharing
-filter ch_share sharetk -i state aws1_ctrl_stat ais_obj -o aws1_ctrl_ui aws1_ctrl_ap1
+filter ch_share sharetk -i state env aws1_ctrl_stat ais_obj -o aws1_ctrl_ui aws1_ctrl_ap1
 fset sharetk port 20100 #jtk
 fset sharetk verb $verb
 
-filter ch_share sharetx -i state -o
-fset sharetx port 20150 #jtx
-fset sharetx verb $verb
+#filter ch_share sharetx -i state -o
+#fset sharetx port 20150 #jtx
+#fset sharetx verb $verb
 
 # time sync (server)
 filter tsync tsync -i -o

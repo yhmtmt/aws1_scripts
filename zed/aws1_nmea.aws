@@ -44,7 +44,7 @@ if [ $ap = y ]; then
     fset aws1_nmea_sw apint 1
     filter nmea ap -i ap_nmea_out -o ap_nmea_in
     fset ap src COM
-    fset ap fnmea /dev/ttyUL2
+    fset ap fnmea /dev/ttyUL3
     fset ap bps 4800
     fset ap verb $verb
 fi
@@ -59,7 +59,7 @@ if [ $gff = y ]; then
 
     filter nmea gff -i gff_nmea_out -o gff_nmea_in
     fset gff src COM
-    fset gff fnmea /dev/ttyUL3
+    fset gff fnmea /dev/ttyUL4
     fset gff bps 38400
     fset gff verb $verb
 fi
@@ -77,7 +77,7 @@ if [ $ais = y ]; then
 
     filter nmea ais -i ais_nmea_out -o ais_nmea_in
     fset ais src COM
-    fset ais fnmea /dev/ttyUL1
+    fset ais fnmea /dev/ttyUL2
     fset ais bps 38400
     fset ais verb $verb
 fi
