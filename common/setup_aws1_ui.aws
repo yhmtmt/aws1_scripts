@@ -21,7 +21,7 @@ fset aws1_ui ch_ais_obj ais_obj
 fset aws1_ui ch_wp wp
 fset aws1_ui ch_ctrl_stat aws1_ctrl_stat
 fset aws1_ui ch_ctrl_inst aws1_ctrl_ui
-fset aws1_ui width 1000 height 750
+fset aws1_ui width 1000 height 600
 fset aws1_ui fvs $path_vshader
 fset aws1_ui ffs $path_fshader
 fset aws1_ui ffnttex $path_fnttex

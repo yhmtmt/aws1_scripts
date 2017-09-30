@@ -13,7 +13,7 @@ fset aws1_ctrl ch_ctrl_ui aws1_ctrl_ui
 fset aws1_ctrl ch_ctrl_ap1 aws1_ctrl_ap1
 fset aws1_ctrl ch_ctrl_ap2 aws1_ctrl_ap2
 fset aws1_ctrl ch_ctrl_stat aws1_ctrl_stat
-fset aws1_ctrl device /dev/zgpio2
+fset aws1_ctrl device /dev/zgpio1
 fset aws1_ctrl verb $verb
 fset aws1_ctrl sim no
 

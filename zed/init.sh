@@ -11,9 +11,9 @@ cd /mnt/module
 szgpio.sh
 
 # Wakening Jetson TK1 
-zgpio /dev/zgpio1 set2 40000000
+zgpio /dev/zgpio0 set2 40000000
 sleep 2
-zgpio /dev/zgpio1 set2 00000000
+zgpio /dev/zgpio0 set2 00000000
 
 # Wakening Jetson TX1
 /mnt/jtxon.sh 100
