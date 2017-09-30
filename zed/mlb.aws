@@ -1,0 +1,19 @@
+#!/bin/sh
+
+
+verb=n
+
+for arg in $*
+do
+    case $arg in
+	"verb") verb=y;;
+    esac
+done
+
+
+filter env env -i -o
+fset env ch env
+fset env dev /dev/ttyUL6
+fset env br 9600
+fset env verb $verb
+
