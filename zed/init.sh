@@ -23,6 +23,6 @@ cd /mnt
 nohup aws > /dev/null &
 sleep 3
 cd /mnt/aws1_scripts
-./aws1_zed.aws ctrl nmea
+./aws1_zed.aws ctrl nmea ahrs env
 
 
