@@ -40,12 +40,7 @@ if [ $nmea = y ]; then
 fi
 
 if [ $ahrs = y ]; then
-    filter ahrs ahrs -i -o
-    fset ahrs ch_state state
-    fset ahrs br 57600
-    fset ahrs cmd osbb
-    fset ahrs dev /dev/ttyUL1
-    fset ahrs verb $verb
+    ./ahrs.aws 
 fi
 
 if [ $env = y ]; then

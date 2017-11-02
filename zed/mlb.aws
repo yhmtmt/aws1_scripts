@@ -1,5 +1,6 @@
 #!/bin/sh
 
+. config.aws
 
 verb=n
 
@@ -13,7 +14,7 @@ done
 
 filter env env -i -o
 fset env ch env
-fset env dev /dev/ttyUL6
-fset env br 9600
+fset env dev $dev_mlb
+fset env br $br_mlb
 fset env verb $verb
 

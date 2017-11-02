@@ -1,12 +1,19 @@
 #!/bin/sh
 
 export dev_ais=/dev/ttyUL2
+export br_ais=38400
 export dev_gps=/dev/ttyUL5
+export br_gps=9600
 export dev_gff=/dev/ttyUL4
+export br_gff=38400
 export dev_ahrs=/dev/ttyUL1
+export br_ahrs=57600
 export dev_ap=/dev/ttyUL3
+export br_ap=4800
 export dev_mlb=/dev/ttyUL6
+export br_mlb=115200
 export dev_vsen=/dev/ttyUL7
+export br_vsen=115200
 
 export dev_ctrl=/dev/zgpio1
 export dev_sys=/dev/zgpio0

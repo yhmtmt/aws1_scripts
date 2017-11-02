@@ -1,18 +1,21 @@
 #!/bin/sh
 
-if [ $# -ne 2 ]; then
-    echo "Usage: ahrs <dev> <baud rate>"
-    exit 1
-fi
+. config.aws
+
+verb=n
+for arg in $*
+do
+    case $arg in
+	"verb") verb=y;;
+    esac
+done
 
 filter ahrs ahrs -i -o
-fset ahrs dev $1
-fset ahrs port $1
-fset ahrs br $2
+fset ahrs dev $dev_ahrs
+fset ahrs port $dev_ahrs
+fset ahrs br $br_ahrs
 fset ahrs cmd oft
-fset ahrs verb y
-cyc 0.0344827
-go
+fset ahrs verb $verb
 
 
 
