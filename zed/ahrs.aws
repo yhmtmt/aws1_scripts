@@ -1,6 +1,6 @@
 #!/bin/sh
 
-. config.aws
+. ./config.aws
 
 verb=n
 for arg in $*
@@ -11,6 +11,7 @@ do
 done
 
 filter ahrs ahrs -i -o
+fset ahrs ch_state state
 fset ahrs dev $dev_ahrs
 fset ahrs port $dev_ahrs
 fset ahrs br $br_ahrs

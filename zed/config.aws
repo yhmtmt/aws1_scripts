@@ -15,5 +15,5 @@ export br_mlb=115200
 export dev_vsen=/dev/ttyUL7
 export br_vsen=115200
 
-export dev_ctrl=/dev/zgpio1
-export dev_sys=/dev/zgpio0
+export dev_ctrl=/dev/zgpio0
+export dev_sys=/dev/zgpio1

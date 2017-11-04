@@ -1,6 +1,6 @@
 #!/bin/sh
 
-. config.aws
+. ./config.aws
 
 verb=n
 for arg in $*
