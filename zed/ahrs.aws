@@ -15,7 +15,7 @@ fset ahrs ch_state state
 fset ahrs dev $dev_ahrs
 fset ahrs port $dev_ahrs
 fset ahrs br $br_ahrs
-fset ahrs cmd oft
+fset ahrs cmd ofb
 fset ahrs verb $verb
 
 
