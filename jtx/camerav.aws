@@ -1,0 +1,112 @@
+#!/bin/sh
+
+. ../common/path
+
+cam=1
+rep=n
+log=n
+logtime=0
+fmt=Bayer8
+
+ttrig=300000 #[100ns]
+#ttrig=500000
+free=n
+nodisp=n
+verb=n
+
+for arg in $*
+do
+	case $prev_arg in
+	     "cam") cam=$arg;;
+	     "rep") rep=$arg
+		    log=n;;
+	     "log") log=$arg
+		    rep=n;;
+	esac
+	case $arg in
+	    "free") free=y;;
+	    "nodisp") nodisp=y;;
+	    "verb") verb=y;;
+	esac
+	prev_arg=$arg
+done
+
+case $cam in
+     "1") fmt=Bayer8
+          addr=$ip_cam1;; 
+     "2") fmt=Bayer8
+          addr=$ip_cam2;;
+     "3") fmt=Mono16
+          addr=$ip_cam3;;
+     "4") fmt=Mono16
+          addr=$ip_cam4;;
+esac
+
+channel state state
+channel imgr img
+channel imgr imgc
+
+if [ $rep = "n" ]; then
+   filter tsync tsync -i -o
+   fset tsync host_svr $ip_zed
+   fset tsync port_svr 20200
+
+   filter ch_share share -i -o state
+   fset share port_dst 20150
+   fset share host_dst $ip_zed
+   
+    echo "Camera IP:$addr F:$fmt T:$ttrig"
+    filter vmbmono cam -i -o img
+    fset cam channel img
+    fset cam addr $addr
+    fset cam GevSCPSPacketSize 8228
+    fset cam PixelFormat $fmt
+    if [ $free = "n" ]; then
+	fset cam TriggerSource Software
+    else
+	fset cam TriggerSource Freerun
+	fset cam BandwidthControlMode StreamBytesPerSecond
+	fset cam StreamBytesPerSecond 100000000
+    fi
+    fset cam Ttrig $ttrig
+    fset cam nfrmbuf 5
+    fset cam ExposureAuto Continuous
+    fset cam ExposureAutoMax 10000
+    fset cam ExposureAutoMin 100
+else
+    echo "Replay cam$cam t=$rep"
+   filter read_ch_log log_cam$cam -i -o img
+   fset log_cam$cam path $path_log
+   
+   filter read_ch_log log_state -i -o state
+   fset log_state path $path_log
+fi
+
+if [ $verb = "y" ]; then
+    fset cam verb y
+fi  
+
+if [ $nodisp != "y" ]; then
+    filter debayer deb -i img -o imgc
+    fset deb bayer RG8   
+
+    if [ $log != "n" ]; then
+	echo "Logging $log"
+	filter write_ch_log log_cam$cam -i img -o 
+	fset log_cam$cam path $path_log
+	
+	filter write_ch_log log_state -i state -o
+	fset log_state path $path_log   
+    fi
+    
+    filter glimv win -i imgc -o 
+    fset win width 1600 height 900
+fi
+
+cyc 0.01
+if [ $rep != "n" ]; then
+    online no
+    go $rep
+else
+    go
+fi
