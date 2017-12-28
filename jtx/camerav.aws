@@ -8,8 +8,7 @@ log=n
 logtime=0
 fmt=Bayer8
 
-ttrig=300000 #[100ns]
-#ttrig=500000
+tcyc=0.03
 free=n
 nodisp=n
 verb=n
@@ -22,6 +21,7 @@ do
 		    log=n;;
 	     "log") log=$arg
 		    rep=n;;
+	     "cyc") tcyc=$arg;;
 	esac
 	case $arg in
 	    "free") free=y;;
@@ -30,6 +30,7 @@ do
 	esac
 	prev_arg=$arg
 done
+ttrig=`python -c "print ${tcyc} * 10000000"`
 
 case $cam in
      "1") fmt=Bayer8
@@ -68,6 +69,9 @@ if [ $rep = "n" ]; then
 	fset cam BandwidthControlMode StreamBytesPerSecond
 	fset cam StreamBytesPerSecond 100000000
     fi
+    #    fset cam Width 1920 Height 1080 OffsetX 8 OffsetY 68
+    fset cam Width 1920 Height 540 OffsetX 8 OffsetY 338
+    fset cam GVCPCmdTimeout 1000
     fset cam Ttrig $ttrig
     fset cam nfrmbuf 5
     fset cam ExposureAuto Continuous
@@ -100,10 +104,11 @@ if [ $nodisp != "y" ]; then
     fi
     
     filter glimv win -i imgc -o 
-    fset win width 1600 height 900
+    fset win width 640 height 480
 fi
 
-cyc 0.01
+echo cyc $tcyc
+cyc $tcyc
 if [ $rep != "n" ]; then
     online no
     go $rep
