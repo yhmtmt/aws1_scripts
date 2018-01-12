@@ -8,10 +8,13 @@ log=n
 logtime=0
 fmt=Bayer8
 
-tcyc=0.03
+tcyc=0.033
 free=n
 nodisp=n
 verb=n
+
+vfname=test.avi
+enc=n
 
 for arg in $*
 do
@@ -27,6 +30,7 @@ do
 	    "free") free=y;;
 	    "nodisp") nodisp=y;;
 	    "verb") verb=y;;
+	    "enc") enc=y;;
 	esac
 	prev_arg=$arg
 done
@@ -46,6 +50,12 @@ esac
 channel state state
 channel imgr img
 channel imgr imgc
+
+# mako: 1936x1216
+Width=640
+Height=480
+OffsetX=648
+OffsetY=368
 
 if [ $rep = "n" ]; then
    filter tsync tsync -i -o
@@ -70,7 +80,7 @@ if [ $rep = "n" ]; then
 	fset cam StreamBytesPerSecond 100000000
     fi
     #    fset cam Width 1920 Height 1080 OffsetX 8 OffsetY 68
-    fset cam Width 1920 Height 540 OffsetX 8 OffsetY 338
+    fset cam Width 642 Height 482 OffsetX $OffsetX OffsetY $OffsetY
     fset cam GVCPCmdTimeout 1000
     fset cam Ttrig $ttrig
     fset cam nfrmbuf 5
@@ -90,9 +100,10 @@ if [ $verb = "y" ]; then
     fset cam verb y
 fi  
 
+filter debayer deb -i img -o imgc
+fset deb bayer RG8   
+
 if [ $nodisp != "y" ]; then
-    filter debayer deb -i img -o imgc
-    fset deb bayer RG8   
 
     if [ $log != "n" ]; then
 	echo "Logging $log"
@@ -105,6 +116,15 @@ if [ $nodisp != "y" ]; then
     
     filter glimv win -i imgc -o 
     fset win width 640 height 480
+fi
+
+if [ $enc != "n" ]; then
+    filter gstenc enc -i -o
+    fset enc ch_in imgc
+    fset enc width $Width height $Height
+    fset enc fmt_in BGR8 fmt_out I420
+    fset enc fps 30
+    fset enc fppl /mnt/ssd1/aws1_scripts/jtx/gstenc.gst
 fi
 
 echo cyc $tcyc
