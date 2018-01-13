@@ -1,0 +1,21 @@
+#!/bin/sh
+
+
+width=640
+height=480
+bitrate=1000000
+file=test.avi
+
+
+for arg in $*
+do
+	case $prev_arg in
+	     "width") width=$arg;;
+	     "height") height=$arg;;
+	     "bitrate") bitrate=$arg;;
+	     "file") file=$arg;;	     
+	esac
+	prev_arg=$arg
+done
+
+echo "video/x-raw,format=I420,width=$width,height=$height,framerate=30/1 ! omxh264enc bitrate=$bitrate ! video/x-h264,streamformat=byte-stream ! h264parse ! avimux ! filesink location=$file"

@@ -15,6 +15,7 @@ verb=n
 
 vfname=test.avi
 enc=n
+curdir=`pwd`
 
 for arg in $*
 do
@@ -56,6 +57,9 @@ Width=640
 Height=480
 OffsetX=648
 OffsetY=368
+Bitrate=1000000
+
+./h264pip width $Width height $Height bitrate $Bitrate > $curdir/h264.gst
 
 if [ $rep = "n" ]; then
    filter tsync tsync -i -o
@@ -80,7 +84,7 @@ if [ $rep = "n" ]; then
 	fset cam StreamBytesPerSecond 100000000
     fi
     #    fset cam Width 1920 Height 1080 OffsetX 8 OffsetY 68
-    fset cam Width 642 Height 482 OffsetX $OffsetX OffsetY $OffsetY
+    fset cam Width $Width Height $Height OffsetX $OffsetX OffsetY $OffsetY
     fset cam GVCPCmdTimeout 1000
     fset cam Ttrig $ttrig
     fset cam nfrmbuf 5
@@ -124,7 +128,7 @@ if [ $enc != "n" ]; then
     fset enc width $Width height $Height
     fset enc fmt_in BGR8 fmt_out I420
     fset enc fps 30
-    fset enc fppl /mnt/ssd1/aws1_scripts/jtx/gstenc.gst
+    fset enc fppl $curdir/h264.gst
 fi
 
 echo cyc $tcyc
