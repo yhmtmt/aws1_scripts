@@ -59,7 +59,7 @@ OffsetX=648
 OffsetY=368
 Bitrate=1000000
 
-./h264pip width $Width height $Height bitrate $Bitrate > $curdir/h264.gst
+./h264encpip width $Width height $Height bitrate $Bitrate > $curdir/h264.gst
 
 if [ $rep = "n" ]; then
    filter tsync tsync -i -o
@@ -91,6 +91,7 @@ if [ $rep = "n" ]; then
     fset cam ExposureAuto Continuous
     fset cam ExposureAutoMax 10000
     fset cam ExposureAutoMin 100
+    fset cam fmt_out BGR8
 else
     echo "Replay cam$cam t=$rep"
    filter read_ch_log log_cam$cam -i -o img
@@ -104,9 +105,6 @@ if [ $verb = "y" ]; then
     fset cam verb y
 fi  
 
-filter debayer deb -i img -o imgc
-fset deb bayer RG8   
-
 if [ $nodisp != "y" ]; then
 
     if [ $log != "n" ]; then
@@ -118,13 +116,13 @@ if [ $nodisp != "y" ]; then
 	fset log_state path $path_log   
     fi
     
-    filter glimv win -i imgc -o 
+    filter glimv win -i img -o 
     fset win width 640 height 480
 fi
 
 if [ $enc != "n" ]; then
     filter gstenc enc -i -o
-    fset enc ch_in imgc
+    fset enc ch_in img
     fset enc width $Width height $Height
     fset enc fmt_in BGR8 fmt_out I420
     fset enc fps 30
