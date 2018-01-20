@@ -30,8 +30,11 @@ done
 path_script=../
 . $path_script/common/path
 
+engstate=$engstate
 channel state state
 channel estate estate
+channel engstate $engstate
+
 channel map map
 channel ais_obj ais_obj
 channel imgr disp
@@ -49,6 +52,10 @@ channel imgr rimg2
 channel aws1_ap_inst ap_inst
 channel env env
 
+#n2k 
+$path_script/common/n2k.aws engstate=$engstate
+
+#state estimator
 filter stest stest -i -o
 fset stest ch_state state
 fset stest ch_estate estate
@@ -68,7 +75,7 @@ fset stest acv no
 fset stest log no
 fset stest verb no
 
-# User interface filte
+# User interface filter
 rec=no
 map=y
 std=n
@@ -101,7 +108,6 @@ if [ $rep = y ]; then
     . jtklog/log$lognum
     filter read_ch_log log -i -o $LOG
     fset log path $path_log
-    online no
     echo replaying $path_log from t=$log_time
     go $log_time
 else

@@ -31,3 +31,5 @@ export path_fshader=$path_aws/GLSL/sample.fs
 export path_vshader=$path_aws/GLSL/sample.vs
 export path_fnttex=$path_aws/res/gothic40.png
 export path_fnttexinf=$path_aws/res/gothic40.fontsettings
+export path_ngt1=/dev/ttyUSB0
+
