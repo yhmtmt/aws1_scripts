@@ -37,10 +37,11 @@ else
 fi
 
 . ./path
+. ./config_n2k
 
 filter ngt1 $ngt1
 fset ngt1 ch_eng_state $engstate
-fset ngt1 dev $path_ngt1 br 115200
+fset ngt1 dev $path_ngt1 br $ngt1_br
 fset ngt1 verb $verb
 fset ngt1 ShowTxt $ShowTxt ShowJson $ShowJson
 

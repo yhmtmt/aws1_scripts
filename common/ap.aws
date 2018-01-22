@@ -1,0 +1,51 @@
+#!/bin/bash
+
+ch_state=state
+ch_wp=wp
+ch_ctrl_stat=aws1_ctrl_stat
+ch_ctrl_inst=aws1_ctrl_ap1
+ch_ap_inst=ap_inst
+aws1_ap=aws1_ap
+
+verb=n
+go=n
+
+for arg in $*
+do
+    if [[ $arg =~ ^[A-Za-z0-9]*=[A-Za-z0-9]*$ ]]; then
+	param=(${arg//=/ })
+	case ${param[0]} in
+	    "aws1_ap") aws1_ap=${param[1]};;
+	    "ch_state") ch_state=${param[1]};;
+	    "ch_wp") ch_wp=${param[1]};;
+	    "ch_ctrl_stat") ch_ctrl_stat=${param[1]};;
+	    "ch_ctrl_inst") ch_ctrl_inst=${param[1]};;
+	    "ch_ap_inst") ch_ap_inst=${param[1]};;
+	esac
+    fi
+    
+    case $arg in
+	"verb") verb=y;;
+	"go") go=y;;
+    esac
+done
+
+. ./path
+. ./config_ap
+
+filter aws1_ap $aws1_ap -i -o
+fset aws1_ap ch_state $ch_state
+fset aws1_ap ch_wp $ch_wp
+fset aws1_ap ch_ctrl_stat $aws1_ctrl_stat
+fset aws1_ap ch_ctrl_inst $aws1_ctrl_ap1
+fset aws1_ap ch_ap_inst $aws1_ap
+fset aws1_ap Interval 30
+fset aws1_ap smax 15 smin 3
+fset aws1_ap meng_max $meng_max meng_min $meng_min
+fset aws1_ap pc $pc ic $ic dc $dc ps $ps is $is ds $ds
+fset aws1_ap pc_s $pc_s ic_s $ic_s dc_s $dc_s ps_s $ps_s is_s $is_s ds_s $ds_s
+fset aws1_ap meng_max_stay $meng_max_stay meng_min_stay $meng_min_stay
+fset aws1_ap rud_max_stay $rud_max_stay rud_min_stay $rud_min_stay
+fset aws1_ap ssmax $ssmax dssmax $dsmax
+
+

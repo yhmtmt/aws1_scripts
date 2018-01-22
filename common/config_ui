@@ -1,0 +1,5 @@
+#!/bin/sh
+
+width=1000
+height=600
+joystick=0

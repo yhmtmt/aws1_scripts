@@ -1,0 +1,80 @@
+#!/bin/bash
+
+verb=n
+go=n
+
+aws1_ui=aws1_ui
+
+for arg in $*
+do
+    if [[ $arg =~ ^[A-Za-z0-9]*=[A-Za-z0-9]*$ ]]; then
+	param=(${arg//=/ })
+	case ${param[0]} in
+	    "aws1_ui") aws1_ui=${param[1]};;      # name of ui filter
+	    "ch_state") ch_state=${param[1]};;    # state of my own ship
+	    "ch_ctrl_stat") ch_ctrl_stat=${param[1]};; # state of controler
+	    "ch_ctrl_inst") ch_ctrl_inst=${param[1]};; # instruction to controler
+	    "ch_ap_inst") ch_ap_inst=${param[1]};;# instruction to autopilot
+	    "ch_wp") ch_wp=${param[1]};;          # way point
+	    "ch_ais_obj") ch_ais_obj=${param[1]};;# ais object	    
+	    "ch_map") ch_map=${param[1]};;        # map
+	    "ch_obst") ch_obst=${param[1]};;      # obstacle 
+	    "ch_disp") ch_disp=${param[1]};;	  # disparity image 
+	esac
+    fi
+    
+    case $arg in
+	"verb") verb=y;;
+	"go") go=y;;
+    esac
+done
+
+
+. ./path
+. ./config_ui
+
+filter aws1_ui $aws1_ui -i -o
+fset $aws1_ui width $width height $height
+fset $aws1_ui fvs $path_vshader
+fset $aws1_ui ffs $path_fshader
+fset $aws1_ui ffnttex $path_fnttex
+fset $aws1_ui ffnttexinf $path_fnttexinf
+fset $aws1_ui verb $verb
+fset $aws1_ui js $joystick
+fset $aws1_ui storage $path_data
+
+if [ -n "$ch_state" ]; then
+    fset $aws1_ui ch_state $ch_state
+fi
+
+if [ -n "$ch_wp" ]; then
+    fset $aws1_ui ch_wp $ch_wp
+fi
+
+if [ -n "$ch_ctrl_stat" ]; then
+    fset $aws1_ui ch_ctrl_stat $ch_ctrl_stat
+fi
+
+if [ -n "$ch_ctrl_inst" ]; then
+    fset $aws1_ui ch_ctrl_inst $ch_ctrl_inst
+fi
+
+if [ -n "$ch_ap_inst" ]; then    
+    fset $aws1_ui ch_ap_inst $ch_ap_inst
+fi
+
+if [ -n "$ch_map" ]; then
+    fset $aws1_ui ch_map $ch_map
+fi
+
+if [ -n "$ch_ais_obj" ]; then
+    fset $aws1_ui ch_ais_obj $ch_ais_obj
+fi
+
+if [ -n "$ch_obst" ]; then
+    fset $aws1_ui ch_obst $ch_obst
+fi
+
+if [ -n "$ch_disp" ]; then
+    fset $aws1_ui ch_disp $ch_disp
+fi
