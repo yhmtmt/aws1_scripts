@@ -59,7 +59,7 @@ fi
 ../common/cam.aws vmbcam=mako0 ch_img=$ch_img stime=$systime rec=$rec rep=$rep verb=$dbg_cam
 
 # channel sharing
-../common/share.aws share=share -i $schin -o $schout
+../common/share.aws share=share -i $schin -o $schout verb=$dbg_share svr=n
 
 # time synchronizer
 ../common/sync.aws tsync=tsync svr=n verb=$dbg_sync
