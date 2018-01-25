@@ -1,36 +1,81 @@
 #!/bin/bash
 
-
 dbg_ui=n
 dbg_ap=n
 dbg_obj=n
+dbg_cam=n
+dbg_sync=n
+dbg_wp=n
+
+rec=n
+rep=n
+tcyc=0.033
 
 ch_state=state
+ch_env=env
 ch_wp=wp
 ch_ctrl_stat=aws1_ctrl_stat
 ch_ctrl_ui=aws1_ctrl_ui
 ch_ctrl_ap1=aws1_ctrl_ap1
 ch_ap_inst=ap_inst
 ch_ais_obj=ais_obj
+ch_img=img
+
+
+logchan="state aws1_ctrl_ui aws1_ctrl_ap1 aws1_ctrl_stat ais_obj"
+schin="$ch_ctrl_ui $ch_ctrl_ap1"
+schout="$ch_state $ch_env $ch_ctrl_stat $ch_ais_obj"
 
 channel state $ch_state
+channel env $ch_env
 channel wp $ch_wp
 channel ais_obj $ch_ais_obj
 channel aws1_ctrl_stat $ch_ctrl_stat
 channel aws1_ctrl_inst $ch_ctrl_ui
 channel aws1_ctrl_inst $ch_ctrl_ap1
 channel aws1_ap_inst $ch_ap_inst
+channel imgr $ch_img
 
-#user interface
+systime=`awstime n`
+
+logpath=$path_data/log/$stime
+if [ ! -d "$logpath" ]; then
+    mkdir $logpath
+fi
+
+# user interface
 ../common/ui.aws ch_state=$ch_state ch_wp=$ch_wp ch_ctrl_stat=$ch_ctrl_stat ch_ctrl_inst=$ch_ctrl_ui ch_ap_inst=$ch_ap_inst ch_ais_obj=$ch_ais_obj verb=$dbg_ui
 
-#autopilot
+# autopilot
 ../common/ap.aws ch_state=$ch_state ch_wp=$ch_wp ch_ctrl_stat=$ctrl_stat ch_ctrl_inst=$ctrl_ap1 ch_ap_inst=$ap_inst verb=$dbg_ap
 
-#object manager
+# object manager
 ../common/obj.aws ch_state=$ch_state ch_ais_obj=$ch_ais_obj verb=$dbg_obj
 
-#waypoint manager
-../common/wp.aws ch_state=$ch_state ch_wp=$ch_wp
+# waypoint manager
+../common/wp.aws ch_state=$ch_state ch_wp=$ch_wp verb=$dbg_wp
 
-go
+# camera1
+../common/cam.aws vmbcam=mako0 ch_img=$ch_img stime=$systime rec=$rec rep=$rep verb=$dbg_cam
+
+# channel sharing
+../common/share.aws share=share -i $schin -o $schout
+
+# time synchronizer
+../common/sync.aws tsync=tsync svr=n verb=$dbg_sync
+
+cyc $tcyc
+
+if [ $rep = "y" ]; then    
+    filter read_ch_log log -i -o $logchan
+    fset log path $logpath
+    
+    go $systime
+else
+    if [ $rec = "y" ]; then
+	filter write_ch_log log -i $logchan -o
+	fset log path $logpath
+    fi
+    go
+fi
+

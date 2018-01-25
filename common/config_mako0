@@ -1,0 +1,26 @@
+#!/bin/sh
+
+. ./path
+
+swidth=1936
+sheight=1216
+Width=1920
+Height=1080
+Ttrig=
+StreamBytesPersecond=100000000
+PacketSize=8228
+nfrmbuf=5
+Gain=0
+GainAuto=Continuous
+GainAutoMax=20
+GainAutoMin=0
+ExposureAuto=Continuous #Off, Once, Continuous
+ExposureAutoMax=10000
+ExposureAutoMin=100
+ExposureTimeAbs=
+fmt_out=BGR8
+fmt=Bayer8
+addr=$ip_cam1;
+
+Bitrate=10000000
+fps=30

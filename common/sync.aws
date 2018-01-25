@@ -1,0 +1,35 @@
+#!/bin/bash
+
+verb=n
+go=n
+svr=n
+tsync=tsync
+
+for arg in $*
+do
+    if [[ $arg =~ ^[A-Za-z0-9]*=[A-Za-z0-9]*$ ]]; then
+	param=(${arg//=/ })
+	case ${param[0]} in
+	    "tsync")tsync=${param[1]};;
+	    "svr")svr=${param[1]};;
+	    "verb") verb=${param[1]};;
+	    "go") go=${param[1]};;
+	esac
+    fi    
+done
+
+. ./config_sync
+
+filter tsync $tsync
+if [ $svr = "y" ]; then
+    fset $tsync port $port_svr
+else
+    fset $tsync host_svr $ip_svr
+    fset $tsync port_svr $port_svr
+fi
+
+fset $tsync verb $verb
+
+if [ $go = "y" ]; then
+    go
+fi

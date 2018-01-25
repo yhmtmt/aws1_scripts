@@ -1,0 +1,58 @@
+#!/bin/bash
+
+verb=n
+go=n
+svr=n
+share=share
+
+mode=normal
+
+for arg in $*
+do
+
+    if [[ $arg =~ ^[A-Za-z0-9]*=[A-Za-z0-9]*$ ]]; then
+	param=(${arg//=/ })
+	case ${param[0]} in
+	    "share")share=${param[1]};;
+	    "svr")svr=${param[1]};;
+	    "in")in=${param[1]};;
+	    "out")out=${param[2]};;
+	    "verb") verb=${param[1]};;
+	    "go") go=${param[1]};;
+	esac
+	mode=normal
+    else
+	case $arg in
+	    "-i")mode=in
+		 continue;;
+	    "-o")mode=out
+		 continue;;
+	esac
+
+	case $mode in
+	    "in") ich+="$arg ";;
+	    "out") och+="$arg ";;
+	esac
+    fi        
+done
+
+echo $ich
+echo $och
+
+. ./config_share
+
+echo "Instantiating filter $share" 
+filter ch_share $share -i -o
+
+if [ $svr = "y" ]; then
+    fset $share port $port_svr
+else
+    fset $share host_dst $ip_svr
+    fset $share port_dst $port_svr
+fi
+
+fset $share verb $verb
+
+if [ $go = "y" ]; then
+    go
+fi
