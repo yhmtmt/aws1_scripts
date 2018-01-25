@@ -12,7 +12,7 @@ go=n
 
 for arg in $*
 do
-    if [[ $arg =~ ^[A-Za-z0-9]*=[A-Za-z0-9]*$ ]]; then
+    if [[ $arg =~ ^[A-Za-z0-9_]*=[A-Za-z0-9_]*$ ]]; then
 	param=(${arg//=/ })
 	case ${param[0]} in
 	    "engstate") engstate=${param[1]}
@@ -41,7 +41,7 @@ fi
 
 filter ngt1 $ngt1
 fset ngt1 ch_eng_state $engstate
-fset ngt1 dev $path_ngt1 br $ngt1_br
+fset ngt1 dev $dev br $br
 fset ngt1 verb $verb
 fset ngt1 ShowTxt $ShowTxt ShowJson $ShowJson
 

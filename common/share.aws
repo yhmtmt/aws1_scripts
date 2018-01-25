@@ -10,7 +10,7 @@ mode=normal
 for arg in $*
 do
 
-    if [[ $arg =~ ^[A-Za-z0-9]*=[A-Za-z0-9]*$ ]]; then
+    if [[ $arg =~ ^[A-Za-z0-9_]*=[A-Za-z0-9_]*$ ]]; then
 	param=(${arg//=/ })
 	case ${param[0]} in
 	    "share")share=${param[1]};;

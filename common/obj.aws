@@ -8,7 +8,7 @@ obj_manager=obj_manager
 
 for arg in $*
 do
-    if [[ $arg =~ ^[A-Za-z0-9]*=[A-Za-z0-9]*$ ]]; then
+    if [[ $arg =~ ^[A-Za-z0-9_]*=[A-Za-z0-9_]*$ ]]; then
 	param=(${arg//=/ })
 	case ${param[0]} in
 	    "obj_manager") obj_manager=${param[1]};;
