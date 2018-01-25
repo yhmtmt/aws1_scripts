@@ -1,4 +1,5 @@
 #!/bin/sh
 
-export dev=/dev/ttyUL1
-export br=57600
+dev=/dev/ttyUL1
+br=57600
+mode=ofb

@@ -1,0 +1,36 @@
+#!/bin/bash
+
+
+verb=n
+go=n
+
+for arg in $*
+do
+    if [[ $arg =~ ^[A-Za-z0-9_]*=[A-Za-z0-9_]*$ ]]; then
+	param=(${arg//=/ })
+	case ${param[0]} in
+	    "ahrs") ahrs=${param[1]};;     
+	    "ch_state") ch_state=${param[1]};;    
+	    "verb") verb=${param[1]};;
+	    "go") go=${param[1]};;
+	esac
+    fi    
+done
+
+. ./config_ahrs
+
+if [ -z "$ahrs" ]; then
+   echo "ahrs.aws ahrs=<name> ch_state=<state chan> verb=<y or n> go=<y or n>"
+fi
+
+filter ahrs $ahrs -i -o
+fset $ahrs ch_state $ch_state
+fset $ahrs dev $dev
+fset $ahrs port $dev
+fset $ahrs br $br
+fset $ahrs cmd $mode
+fset $ahrs verb $verb
+
+if [ $go = "y" ]; then
+   go
+fi
