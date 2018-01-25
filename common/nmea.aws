@@ -1,0 +1,54 @@
+#!/bin/bash
+
+verb=n
+go=n
+nmea=
+
+ch_nmea_in=
+ch_nmea_out=
+
+for arg in $*
+do
+    if [[ $arg =~ ^[A-Za-z0-9_]*=[A-Za-z0-9_]*$ ]]; then
+	param=(${arg//=/ })
+	case ${param[0]} in
+	    "nmea")nmea=${param[1]};;
+	    "ch_nmea_in")ch_nmea_in=${param[1]};;
+	    "ch_nmea_out")ch_nmea_out=${param[1]};;
+	    "verb") verb=${param[1]};;
+	    "go") go=${param[1]};;
+	esac
+    fi        
+done
+
+
+if [ -z "$nmea" ]; then
+    echo "nmea.aws nmea=<device> [ch_nmea_in=<input channel> ch_nmea_out<output channel> verb=<y or n> go=<y or n>]"
+    exit
+fi
+
+echo "Setting up ${nmea}'s nmea filter on $dev $br"
+
+. ./config_$nmea
+
+if [ -z "$ch_nmea_in" ]; then
+    ch_nmea_in=${nmea}_in
+    echo "channel $ch_nmea_in is instantiated."
+    channel nmea $ch_nmea_in
+fi
+
+if [ -z "$ch_nmea_out" ]; then
+    ch_nmae_out=${nmea}_out
+    echo "channel $ch_nmea_out is instantiated."    
+    channel nmea $ch_nmea_out
+fi
+
+filter nmea $gps -i $ch_nmea_in -o $ch_nmea_out
+fset $gps src COM
+fset $gps fnmea $dev
+fset $gps bps $br
+fset $gps verb $verb
+
+if [ $go = "y" ]; then
+    go
+fi
