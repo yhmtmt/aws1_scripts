@@ -14,21 +14,18 @@ do
 	    "obj_manager") obj_manager=${param[1]};;
 	    "ch_state") ch_state=${param[1]};;
 	    "ch_ais_obj") ch_ais_obj=${param[1]};;
+	    "verb") verb=${param[1]};;
+	    "go") go=${param[1]};;
 	esac
-    fi
-    
-    case $arg in
-	"verb") verb=y;;
-	"go") go=y;;
-    esac
+    fi    
 done
 
 
-filter obj_manager $obj_manager -i -o
+filter obj_manager $obj_manager
 fset $obj_manager range $range
 fset $obj_manager dtold $dtold
 fset $obj_manager ch_state $ch_state
-fset $obj_manager verb y
+fset $obj_manager verb $verb
 
 if [ -n "$ch_ais_obj" ]; then
    fset $obj_manager ch_ais_obj $ch_ais_obj

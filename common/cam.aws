@@ -1,58 +1,49 @@
 #!/bin/bash
-cam=1
+vmbcam=mako0
 free=n
-
 rec=n
 rep=n
-Bitrate=10000000
-
 verb=no
 go=no
-
 curdir=`pwd`
+
 
 for arg in $*
 do
     if [[ $arg =~ ^[A-Za-z0-9]*=[A-Za-z0-9]*$ ]]; then
 	param=(${arg//=/ })
 	case ${param[0]} in
-	    "cam") cam=${param[1]};;
+	    "vmbcam") vmbcam=${param[1]};;
 	    "ch_img") ch_img=${param[1]};;    # image channel
 	    "stime") stime=${param[1]};;
+	    "verb") verb=${param[1]};;
+	    "rec") rec=${param[1]};;
+	    "rep") rep=${param[1]};;
 	esac
-    fi
-    
-    case $arg in
-	"verb") verb=y;;
-	"go") go=y;;
-	"rec") rec=y;;
-	"rep") rep=y;;
-    esac
+    fi    
 done
 
-. ./config_cam$cam
+. ./config_$vmbcam
 
 offsetx=$(($swidth-$width)/2)
 offsety=$(($sheight-$height)/2)
 
-
-recpath=$path_data/log/$stime/cam${cam}.avi
-tspath=$path_data/log/$stime/cam${cam}.ts
-
-    
+recpath=$path_data/log/$stime/${vmbcam}.avi
+tspath=$path_data/log/$stime/${vmbcam}.ts
+  
 if [ $rep = "y" ]; then
     if [ ! -d  "$path_data/log/$stime" ]; then
 	echo Log at $stime was not found.
 	exit
     fi
     ./h264decpip file $recpath > $curdir/h264dec.gst
-    filter gstcam gstcam -i -o
-    fset gstcam ch_out $ch_img
-    fset gstcam width $width height $height
-    fset gstcam fmt_in NV12 fmt_out $fmt_out
-    fset gstcam fppl $curdir/h264dec.gst
-    fset gstcam fts $curdir/log/logger.ts
-    fset gstcam verb $verb
+    filter gstcam log$vmbcam -i -o
+    fset log$vmbcam ch_out $ch_img
+    fset log$vmbcam width $width height $height
+    fset log$vmbcam fmt_in NV12 fmt_out $fmt_out
+    fset log$vmbcam fppl $curdir/h264dec.gst
+    fset log$vmbcam fts $tspath
+    fset log$vmbcam verb $verb
 
     if [ $go = "y" ]; then
 	go $stime
@@ -60,38 +51,38 @@ if [ $rep = "y" ]; then
 else
 
     filter vmbmono $vmbcam -i -o $ch_img
-    fset cam channel $ch_img
-    fset cam addr $addr
-    fset cam GevSCPSPacketSize $PacketSize
-    fset cam PixelFormat $fmt
+    fset $vmbcam channel $ch_img
+    fset $vmbcam addr $addr
+    fset $vmbcam GevSCPSPacketSize $PacketSize
+    fset $vmbcam PixelFormat $fmt
     if [ $free = "n" ]; then
-	fset cam TriggerSource Software
+	fset $vmbcam TriggerSource Software
     else
-	fset cam TriggerSource Freerun
-	fset cam BandwidthControlMode StreamBytesPerSecond
-	fset cam StreamBytesPerSecond $StreamBytesPersecond
+	fset $vmbcam TriggerSource Freerun
+	fset $vmbcam BandwidthControlMode StreamBytesPerSecond
+	fset $vmbcam StreamBytesPerSecond $StreamBytesPersecond
     fi
     
-    fset cam Width $Width Height $Height OffsetX $offsetX OffsetY $offsetY
-    fset cam GVCPCmdTimeout 1000
-    fset cam Ttrig $Ttrig
-    fset cam nfrmbuf $nfrmbuf
-    fset cam ExposureAuto $ExposureAuto
-    fset cam ExposureAutoMax $ExposureAutoMax
-    fset cam ExposureAutoMin $ExposureAutoMin
-    fset cam fmt_out $fmt_out
-    fset cam verb $verb
+    fset $vmbcam Width $Width Height $Height OffsetX $offsetX OffsetY $offsetY
+    fset $vmbcam GVCPCmdTimeout 1000
+    fset $vmbcam Ttrig $Ttrig
+    fset $vmbcam nfrmbuf $nfrmbuf
+    fset $vmbcam ExposureAuto $ExposureAuto
+    fset $vmbcam ExposureAutoMax $ExposureAutoMax
+    fset $vmbcam ExposureAutoMin $ExposureAutoMin
+    fset $vmbcam fmt_out $fmt_out
+    fset $vmbcam verb $verb
     
     if [ $rec = "y" ]; then
 	./h264encpip file $recpath width $Width height $Height bitrate $Bitrate > $curdir/h264enc.gst
-	filter gstenc enc -i -o
-	fset enc ch_in $ch_img
-	fset enc width $Width height $Height
-	fset enc fmt_in $fmt_out fmt_out I420
-	fset enc fps 30
-	fset enc fppl $curdir/h264enc.gst
-	fset enc fts $tspath
-	fset enc verb $verb
+	filter gstenc log$vmbcam -i -o
+	fset log$vmbcam ch_in $ch_img
+	fset log$vmbcam width $Width height $Height
+	fset log$vmbcam fmt_in $fmt_out fmt_out I420
+	fset log$vmbcam fps $fps
+	fset log$vmbcam fppl $curdir/h264enc.gst
+	fset log$vmbcam fts $tspath
+	fset log$vmbcam verb $verb
     fi
 
     if [ $go = "y" ]; then

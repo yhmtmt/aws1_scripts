@@ -20,15 +20,11 @@ do
 	    "ch_map") ch_map=${param[1]};;        # map
 	    "ch_obst") ch_obst=${param[1]};;      # obstacle 
 	    "ch_disp") ch_disp=${param[1]};;	  # disparity image 
+	    "verb") verb=${param[1]};;
+	    "go") go=${param[1]};;
 	esac
-    fi
-    
-    case $arg in
-	"verb") verb=y;;
-	"go") go=y;;
-    esac
+    fi    
 done
-
 
 . ./path
 . ./config_ui
