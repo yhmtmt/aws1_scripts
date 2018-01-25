@@ -1,0 +1,15 @@
+#!/bin/sh
+
+
+file=test.avi
+
+
+for arg in $*
+do
+	case $prev_arg in
+	     "file") file=$arg;;	     
+	esac
+	prev_arg=$arg
+done
+
+echo "filesrc location=test.avi ! avidemux ! h264parse ! omxh264dec "
