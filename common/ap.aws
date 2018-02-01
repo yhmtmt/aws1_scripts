@@ -26,7 +26,6 @@ do
     fi
 done
 
-. ./path
 . ./config_ap
 
 filter aws1_ap $aws1_ap -i -o

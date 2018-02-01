@@ -18,7 +18,7 @@ do
     fi
 done
 
-. ./path
+. ./config
 
 filter wp_manager $wp_manager
 fset $wp_manager ch_state $ch_state

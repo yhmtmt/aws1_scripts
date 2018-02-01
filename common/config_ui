@@ -1,5 +1,13 @@
 #!/bin/sh
 
+. ./config
+
 width=1000
 height=600
 joystick=0
+
+path_fshader=$path_aws/GLSL/sample.fs
+path_vshader=$path_aws/GLSL/sample.vs
+path_fnttex=$path_aws/res/gothic40.png
+path_fnttexinf=$path_aws/res/gothic40.fontsettings
+

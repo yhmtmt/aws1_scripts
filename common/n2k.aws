@@ -1,22 +1,17 @@
 #!/bin/bash
 
+go=n
 verb=n
 ShowTxt=n
 ShowJson=n
 ngt1=ngt1
-
-engstate=engstate
-genengstate=y
-
-go=n
 
 for arg in $*
 do
     if [[ $arg =~ ^[A-Za-z0-9_]*=[A-Za-z0-9_]*$ ]]; then
 	param=(${arg//=/ })
 	case ${param[0]} in
-	    "engstate") engstate=${param[1]}
-			genengstate=n;;
+	    "ch_engstate") ch_engstate=${param[1]};;
 	    "ngt1")ngt1=${param[1]};;
 	esac
     fi
@@ -29,22 +24,18 @@ do
     esac
 done
 
-
-if [ $genengstate = "y" ]; then
-    channel engstate $engstate
-else
-    echo "channel $engstate is given from outside." 
+if [ -z "$ch_engstate" ]; then
+    ch_engstate=engstate
+    channel engstate $ch_engstate
 fi
 
-. ./path
 . ./config_n2k
 
 filter ngt1 $ngt1
-fset ngt1 ch_eng_state $engstate
+fset ngt1 ch_eng_state $ch_engstate
 fset ngt1 dev $dev br $br
 fset ngt1 verb $verb
 fset ngt1 ShowTxt $ShowTxt ShowJson $ShowJson
-
 
 if [ $go = "y" ]; then
     go

@@ -1,2 +1,10 @@
 #!/bin/sh
 
+env=`uname`
+if [ $env = "Linux" ]; then
+    export path_aws=/mnt/ssd1/aws
+    export path_data=/mnt/ssd1/aws
+else
+    export path_aws=c:/cygwin64/home/yhmtmt/aws
+    export path_data=h:/aws
+fi

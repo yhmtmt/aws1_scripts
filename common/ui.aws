@@ -26,7 +26,6 @@ do
     fi    
 done
 
-. ./path
 . ./config_ui
 
 filter aws1_ui $aws1_ui -i -o
