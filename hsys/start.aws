@@ -2,6 +2,7 @@
 
 dbg_ui=n
 dbg_ap=n
+dbg_n2k=n
 dbg_obj=n
 dbg_cam=n
 dbg_sync=n
@@ -12,6 +13,7 @@ rep=n
 tcyc=0.033
 
 ch_state=state
+ch_engstate=engstate
 ch_env=env
 ch_wp=wp
 ch_ctrl_stat=aws1_ctrl_stat
@@ -22,11 +24,12 @@ ch_ais_obj=ais_obj
 ch_img=img
 
 
-logchan="state aws1_ctrl_ui aws1_ctrl_ap1 aws1_ctrl_stat ais_obj"
+logchan="state $ch_ctrl_ui $ch_ctrl_ap1 $ch_ctrl_stat $ch_ais_obj $ch_engstate"
 schin="$ch_ctrl_ui $ch_ctrl_ap1"
 schout="$ch_state $ch_env $ch_ctrl_stat $ch_ais_obj"
 
 channel state $ch_state
+channel state $ch_engstate
 channel env $ch_env
 channel wp $ch_wp
 channel ais_obj $ch_ais_obj
@@ -48,6 +51,9 @@ fi
 
 # autopilot
 ../common/ap.aws ch_state=$ch_state ch_wp=$ch_wp ch_ctrl_stat=$ctrl_stat ch_ctrl_inst=$ctrl_ap1 ch_ap_inst=$ap_inst verb=$dbg_ap
+
+# n2k interface
+../common/n2k.aws ch_engstate=$ch_engstate verb=$dbg_n2k
 
 # object manager
 ../common/obj.aws ch_state=$ch_state ch_ais_obj=$ch_ais_obj verb=$dbg_obj
