@@ -42,7 +42,8 @@ echo $och
 . ./config_share
 
 echo "Instantiating filter $share" 
-filter ch_share $share -i -o
+echo "filter ch_share $share -i $ich -o $och"
+filter ch_share $share -i $ich -o $och
 
 if [ $svr = "y" ]; then
     fset $share port $port_svr
@@ -51,7 +52,7 @@ else
     fset $share port_dst $port_svr
 fi
 
-fset $share verb $verb
+fset $share verb $verb 
 
 if [ $go = "y" ]; then
     go

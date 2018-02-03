@@ -20,6 +20,7 @@ do
     fi    
 done
 
+. ./config_obj
 
 filter obj_manager $obj_manager
 fset $obj_manager range $range

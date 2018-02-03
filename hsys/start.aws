@@ -39,6 +39,8 @@ channel aws1_ctrl_inst $ch_ctrl_ap1
 channel aws1_ap_inst $ch_ap_inst
 channel imgr $ch_img
 
+. ./config
+
 systime=`awstime n`
 
 logpath=$path_data/log/$stime
@@ -47,27 +49,34 @@ if [ ! -d "$logpath" ]; then
 fi
 
 # user interface
+echo "Setting up UI"
 ../common/ui.aws ch_state=$ch_state ch_wp=$ch_wp ch_ctrl_stat=$ch_ctrl_stat ch_ctrl_inst=$ch_ctrl_ui ch_ap_inst=$ch_ap_inst ch_ais_obj=$ch_ais_obj verb=$dbg_ui
 
 # autopilot
-../common/ap.aws ch_state=$ch_state ch_wp=$ch_wp ch_ctrl_stat=$ctrl_stat ch_ctrl_inst=$ctrl_ap1 ch_ap_inst=$ap_inst verb=$dbg_ap
+echo "Setting up AP"
+../common/ap.aws ch_state=$ch_state ch_wp=$ch_wp ch_ctrl_stat=$ch_ctrl_stat ch_ctrl_inst=$ch_ctrl_ap1 ch_ap_inst=$ch_ap_inst verb=$dbg_ap
 
 # n2k interface
 ../common/n2k.aws ch_engstate=$ch_engstate verb=$dbg_n2k
 
 # object manager
+echo "Setting up OBJM"
 ../common/obj.aws ch_state=$ch_state ch_ais_obj=$ch_ais_obj verb=$dbg_obj
 
 # waypoint manager
+echo "Setting up WPM"
 ../common/wp.aws ch_state=$ch_state ch_wp=$ch_wp verb=$dbg_wp
 
 # camera1
+echo "Setting up CAM"
 ../common/cam.aws vmbcam=mako0 ch_img=$ch_img stime=$systime rec=$rec rep=$rep verb=$dbg_cam
 
 # channel sharing
+echo "Settng up CHS"
 ../common/share.aws share=share -i $schin -o $schout verb=$dbg_share svr=n
 
 # time synchronizer
+echo "Setting up TSYN"
 ../common/sync.aws tsync=tsync svr=n verb=$dbg_sync
 
 cyc $tcyc

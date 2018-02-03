@@ -3,6 +3,7 @@
 
 verb=n
 go=n
+wp_manager=wpm
 
 for arg in $*
 do

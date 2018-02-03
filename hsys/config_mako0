@@ -1,12 +1,10 @@
 #!/bin/sh
 
-. ./path
-
 swidth=1936
 sheight=1216
-Width=1920
-Height=1080
-Ttrig=
+width=1920
+height=1080
+Ttrig=333000
 StreamBytesPersecond=100000000
 PacketSize=8228
 nfrmbuf=5
@@ -20,7 +18,7 @@ ExposureAutoMin=100
 ExposureTimeAbs=
 fmt_out=BGR8
 fmt=Bayer8
-addr=$ip_cam1;
+addr=172.18.2.8
 
-Bitrate=10000000
+bitrate=10000000
 fps=30

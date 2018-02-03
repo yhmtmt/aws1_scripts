@@ -25,8 +25,8 @@ done
 
 . ./config_$vmbcam
 
-offsetx=$(($swidth-$width)/2)
-offsety=$(($sheight-$height)/2)
+offsetx=$((($swidth-$width)/2))
+offsety=$((($sheight-$height)/2))
 
 recpath=$path_data/log/$stime/${vmbcam}.avi
 tspath=$path_data/log/$stime/${vmbcam}.ts
@@ -63,7 +63,7 @@ else
 	fset $vmbcam StreamBytesPerSecond $StreamBytesPersecond
     fi
     
-    fset $vmbcam Width $Width Height $Height OffsetX $offsetX OffsetY $offsetY
+    fset $vmbcam Width $width Height $height OffsetX $offsetx OffsetY $offsety
     fset $vmbcam GVCPCmdTimeout 1000
     fset $vmbcam Ttrig $Ttrig
     fset $vmbcam nfrmbuf $nfrmbuf
@@ -74,10 +74,10 @@ else
     fset $vmbcam verb $verb
     
     if [ $rec = "y" ]; then
-	./h264encpip file $recpath width $Width height $Height bitrate $Bitrate > $curdir/h264enc.gst
+	./h264encpip file $recpath width $width height $height bitrate $bitrate > $curdir/h264enc.gst
 	filter gstenc log$vmbcam -i -o
 	fset log$vmbcam ch_in $ch_img
-	fset log$vmbcam width $Width height $Height
+	fset log$vmbcam width $width height $height
 	fset log$vmbcam fmt_in $fmt_out fmt_out I420
 	fset log$vmbcam fps $fps
 	fset log$vmbcam fppl $curdir/h264enc.gst
