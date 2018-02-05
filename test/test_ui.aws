@@ -1,0 +1,30 @@
+#!/bin/bash
+
+
+ch_state=state
+ch_engstate=engstate
+ch_env=env
+ch_wp=wp
+ch_ctrl_stat=aws1_ctrl_stat
+ch_ctrl_ui=aws1_ctrl_ui
+ch_ctrl_ap1=aws1_ctrl_ap1
+ch_ap_inst=ap_inst
+ch_ais_obj=ais_obj
+ch_img=img
+
+channel state $ch_state
+channel state $ch_engstate
+channel env $ch_env
+channel wp $ch_wp
+channel ais_obj $ch_ais_obj
+channel aws1_ctrl_stat $ch_ctrl_stat
+channel aws1_ctrl_inst $ch_ctrl_ui
+channel aws1_ctrl_inst $ch_ctrl_ap1
+channel aws1_ap_inst $ch_ap_inst
+channel imgr $ch_img
+
+# user interface
+echo "Setting up UI"
+../common/ui.aws ch_state=$ch_state ch_wp=$ch_wp ch_ctrl_stat=$ch_ctrl_stat ch_ctrl_inst=$ch_ctrl_ui ch_ap_inst=$ch_ap_inst ch_ais_obj=$ch_ais_obj verb=$dbg_ui
+
+
