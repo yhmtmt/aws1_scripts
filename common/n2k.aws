@@ -13,14 +13,14 @@ do
 	case ${param[0]} in
 	    "ch_engstate") ch_engstate=${param[1]};;
 	    "ngt1")ngt1=${param[1]};;
+	    "verb") verb=${param[1]};;
+	    "go") go=${param[1]};;
+	    "ShowTxt") ShowTxt=${param[1]};;
+	    "ShowJson") ShowJson=${param[1]};;
 	esac
     fi
     
     case $arg in
-	"verb") verb=y;;
-	"ShowTxt") ShowTxt=y;;
-	"ShowJson") ShowJson=y;;
-	"go") go=y;;
     esac
 done
 
