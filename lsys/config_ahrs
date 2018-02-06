@@ -1,0 +1,5 @@
+#!/bin/sh
+
+dev=/dev/ttyUL1
+br=57600
+mode=ofb
