@@ -18,9 +18,7 @@ do
     fi    
 done
 
-echo `pwd`
-
-. ./config_sync
+. ../common/config_sync
 
 filter tsync $tsync
 if [ $svr = "y" ]; then

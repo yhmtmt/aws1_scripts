@@ -12,17 +12,7 @@ rec=n
 rep=n
 tcyc=0.033
 
-ch_state=state
-ch_engstate=engstate
-ch_env=env
-ch_wp=wp
-ch_ctrl_stat=aws1_ctrl_stat
-ch_ctrl_ui=aws1_ctrl_ui
-ch_ctrl_ap1=aws1_ctrl_ap1
-ch_ap_inst=ap_inst
-ch_ais_obj=ais_obj
-ch_img=img
-
+. ../common/config_channel
 
 logchan="state $ch_ctrl_ui $ch_ctrl_ap1 $ch_ctrl_stat $ch_ais_obj $ch_engstate"
 schin="$ch_ctrl_ui $ch_ctrl_ap1"
@@ -73,7 +63,7 @@ echo "Setting up CAM"
 
 # channel sharing
 echo "Settng up CHS"
-../common/share.aws share=share -i $schin -o $schout verb=$dbg_share svr=n
+../common/share.aws share=share -i $schh2l -o $schl2h verb=$dbg_share svr=n
 
 # time synchronizer
 echo "Setting up TSYN"

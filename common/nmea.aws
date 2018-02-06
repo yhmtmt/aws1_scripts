@@ -43,11 +43,11 @@ if [ -z "$ch_nmea_out" ]; then
     channel nmea $ch_nmea_out
 fi
 
-filter nmea $gps -i $ch_nmea_in -o $ch_nmea_out
-fset $gps src COM
-fset $gps fnmea $dev
-fset $gps bps $br
-fset $gps verb $verb
+filter nmea $nmea -i $ch_nmea_in -o $ch_nmea_out
+fset $nmea src COM
+fset $nmea fnmea $dev
+fset $nmea bps $br
+fset $nmea verb $verb
 
 if [ $go = "y" ]; then
     go

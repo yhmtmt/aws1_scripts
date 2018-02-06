@@ -28,18 +28,18 @@ fi
 
 filter aws1_ctrl $ctrl -i -o
 if [ -n "$ch_ctrl_ui" ]; then
-    fset $ctrl ch_ctrl_ui $ctrl_ui
+    fset $ctrl ch_ctrl_ui $ch_ctrl_ui
 fi
 
 if [ -n "$ch_ctrl_ap1" ]; then
-    fset $ctrl ch_ctrl_ap1 $ctrl_ap1
+    fset $ctrl ch_ctrl_ap1 $ch_ctrl_ap1
 fi
 
 if [ -n "$ch_ctrl_ap2" ]; then
-    fset $ctrl ch_ctrl_ap2 $ctrl_ap2
+    fset $ctrl ch_ctrl_ap2 $ch_ctrl_ap2
 fi
 
-fset $ctrl ch_ctrl_stat $ctrl_stat
+fset $ctrl ch_ctrl_stat $ch_ctrl_stat
 fset $ctrl device $dev
 fset $ctrl verb $verb
 fset $ctrl sim no

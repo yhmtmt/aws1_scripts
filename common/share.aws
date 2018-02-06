@@ -39,10 +39,8 @@ done
 echo $ich
 echo $och
 
-. ./config_share
+. ../common/config_share
 
-echo "Instantiating filter $share" 
-echo "filter ch_share $share -i $ich -o $och"
 filter ch_share $share -i $ich -o $och
 
 if [ $svr = "y" ]; then

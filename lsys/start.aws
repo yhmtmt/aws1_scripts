@@ -38,23 +38,19 @@ do
     fi    
 done
 
-ch_state=state
-ch_env=env
-ch_ctrl_stat=aws1_ctrl_stat
-ch_ctrl_ui=aws1_ctrl_ui
-ch_ctrl_ap1=aws1_ctrl_ap1
+. ../common/config_channel
+
 channel state $ch_state
 channel env $ch_env
 channel aws1_ctrl_stat $ch_ctrl_stat
 channel aws1_ctrl_inst $ch_ctrl_ui
 channel aws1_ctrl_inst $ch_ctrl_ap1
+channel ais_obj $ch_ais_obj
 
-schout="$ch_ctrl_ui $ch_ctrl_ap1"
-schin="$ch_state $ch_env $ch_ctrl_stat $ch_ais_obj"
 
 ../common/ctrl.aws ctrl=ctrl ch_ctrl_ui=$ch_ctrl_ui ch_ctrl_ap1=$ch_ctrl_ap1 ch_ctrl_stat=$ch_ctrl_stat verb=$dbg_ctrl
 
-../common/sw_nmea.aws sw=sw ch_nmea_in=$ch_nmea_in ch_nmea_out=$ch_nmea_out ch_state=$ch_state gff=$gff ais=$ais mrl=$mrl gps=$gps verb=$dbg_sw
+../common/sw_nmea.aws sw=sw ch_nmea_in=$ch_nmea_in ch_nmea_out=$ch_nmea_out ch_state=$ch_state gff=$gff ais=$ais ch_ais_obj=$ch_ais_obj mrl=$mrl gps=$gps verb=$dbg_sw
 
 if [ $ahrs = "y" ]; then
     ../common/ahrs.aws ahrs=ahrs ch_state=$ch_state verb=$dbg_ahrs
@@ -66,4 +62,6 @@ fi
 
 ../common/sync.aws tsync=tsync svr=y verb=$dbg_sync
 
-../common/share.aws share=share -i $schin -o $schout verb=$dbg_share svr=y
+../common/share.aws share=share -i $schl2h -o $schh2l verb=$dbg_share svr=y
+
+go

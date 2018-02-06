@@ -17,6 +17,7 @@ do
 	    "ch_nmea_in")ch_nmea_in=${param[1]};;
 	    "ch_nmea_out")ch_nmea_out=${param[1]};;
 	    "ch_state")ch_state=${param[1]};;
+	    "ch_ais_obj")ch_ais_obj=${param[1]};;
 	    "gff") gff=${param[1]};;
 	    "ais") ais=${param[1]};;
 	    "mrl") mrl=${param[1]};;
@@ -62,17 +63,18 @@ if [ $gff = y ]; then
     fset $sw gff_nmea_o gff_nmea_out
     fset $sw gffint 1
 
-    ./nmea.aws nmea=gff ch_nmea_in=gff_nmea_in ch_nmea_out=gff_nmea_out verb=$verb
+    ../common/nmea.aws nmea=gff ch_nmea_in=gff_nmea_out ch_nmea_out=gff_nmea_in verb=$verb
 fi
 
 if [ $ais = y ]; then
     channel nmea ais_nmea_in
     channel nmea ais_nmea_out
+    fset $sw ais_obj $ch_ais_obj
     fset $sw ais_nmea_i ais_nmea_in
     fset $sw ais_nmea_o ais_nmea_out
     fset $sw aisint 1
 
-    ./nmea.aws nmea=ais ch_nmea_in=ais_nmea_in ch_nmea_out=ais_nmea_out verb=$verb
+    ../common/nmea.aws nmea=ais ch_nmea_in=ais_nmea_out ch_nmea_out=ais_nmea_in verb=$verb
 fi
 
 if [ $gps = y ]; then
@@ -82,7 +84,7 @@ if [ $gps = y ]; then
     fset $sw gps_nmea_o gps_nmea_out
     fset $sw gpsint 1
 
-    ./nmea.aws nmea=gps ch_nmea_in=gps_nmea_in ch_nmea_out=gps_nmea_out verb=$verb
+    ../common/nmea.aws nmea=gps ch_nmea_in=gps_nmea_out ch_nmea_out=gps_nmea_in verb=$verb
 fi
 
 if [ $mrl = y ]; then
@@ -92,5 +94,5 @@ if [ $mrl = y ]; then
     fset $sw mrl_nmea_o mrl_nmea_out
     fset $sw mrlint 1
 
-    ./nmea.aws nmea=mrl ch_nmea_in=mrl_nmea_in ch_nmea_out=mrl_nmea_out verb=$verb
+    ../common/nmea.aws nmea=mrl ch_nmea_in=mrl_nmea_out ch_nmea_out=mrl_nmea_in verb=$verb
 fi
