@@ -16,6 +16,18 @@ tcyc=0.033
 
 logchan="state $ch_ctrl_ui $ch_ctrl_ap1 $ch_ctrl_stat $ch_ais_obj $ch_engstate"
 
+for arg in $*
+do
+    if [[ $arg =~ ^[A-Za-z0-9_]*=[A-Za-z0-9_]*$ ]]; then
+	param=(${arg//=/ })
+	case ${param[0]} in
+	    "rec") rec=${param[1]};;
+	    "rep") rep=${param[1]};;
+	esac
+    fi    
+done
+
+
 channel state $ch_state
 channel engstate $ch_engstate
 channel env $ch_env
@@ -78,6 +90,7 @@ if [ $rep = "y" ]; then
     go $stime
 else
     if [ $rec = "y" ]; then
+	echo "Logging start in $logpath"
 	filter write_ch_log log -i $logchan -o
 	fset log path $logpath
     fi

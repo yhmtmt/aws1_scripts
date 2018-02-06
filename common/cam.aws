@@ -36,7 +36,7 @@ if [ $rep = "y" ]; then
 	echo Log at $stime was not found.
 	exit
     fi
-    ./h264decpip file $recpath > $curdir/h264dec.gst
+    ../common/h264decpip file $recpath > $curdir/h264dec.gst
     filter gstcam log$vmbcam -i -o
     fset log$vmbcam ch_out $ch_img
     fset log$vmbcam width $width height $height
@@ -74,7 +74,7 @@ else
     fset $vmbcam verb $verb
     
     if [ $rec = "y" ]; then
-	./h264encpip file $recpath width $width height $height bitrate $bitrate > $curdir/h264enc.gst
+	../common/h264encpip file $recpath width $width height $height bitrate $bitrate > $curdir/h264enc.gst
 	filter gstenc log$vmbcam -i -o
 	fset log$vmbcam ch_in $ch_img
 	fset log$vmbcam width $width height $height
