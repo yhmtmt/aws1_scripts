@@ -23,6 +23,7 @@ do
 	case ${param[0]} in
 	    "rec") rec=${param[1]};;
 	    "rep") rep=${param[1]};;
+	    "dbg_n2k") dbg_n2k=${param[1]};;
 	esac
     fi    
 done
