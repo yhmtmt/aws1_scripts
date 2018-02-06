@@ -29,10 +29,12 @@ channel imgr $ch_img
 
 . ./config
 
-systime=`awstime n`
+stime=`awstime n`
 
 logpath=$path_data/log/$stime
+echo "Log path $logpath"
 if [ ! -d "$logpath" ]; then
+    echo "Creating $logpath"
     mkdir $logpath
 fi
 
@@ -57,7 +59,7 @@ echo "Setting up WPM"
 
 # camera1
 echo "Setting up CAM"
-../common/cam.aws vmbcam=mako0 ch_img=$ch_img stime=$systime rec=$rec rep=$rep verb=$dbg_cam
+../common/cam.aws vmbcam=mako0 ch_img=$ch_img stime=$stime rec=$rec rep=$rep verb=$dbg_cam
 
 # channel sharing
 echo "Settng up CHS"
@@ -73,7 +75,7 @@ if [ $rep = "y" ]; then
     filter read_ch_log log -i -o $logchan
     fset log path $logpath
     
-    go $systime
+    go $stime
 else
     if [ $rec = "y" ]; then
 	filter write_ch_log log -i $logchan -o
