@@ -12,6 +12,8 @@ do
 	case ${param[0]} in
 	    "aws1_ui") aws1_ui=${param[1]};;      # name of ui filter
 	    "ch_state") ch_state=${param[1]};;    # state of my own ship
+	    "ch_engstate") ch_engstate=${param[1]};;
+	    "ch_img") ch_img=${param[1]};;
 	    "ch_ctrl_stat") ch_ctrl_stat=${param[1]};; # state of controler
 	    "ch_ctrl_inst") ch_ctrl_inst=${param[1]};; # instruction to controler
 	    "ch_ap_inst") ch_ap_inst=${param[1]};;# instruction to autopilot
@@ -40,6 +42,14 @@ fset $aws1_ui storage $path_data
 
 if [ -n "$ch_state" ]; then
     fset $aws1_ui ch_state $ch_state
+fi
+
+if [ -n "$ch_engstate" ]; then
+    fset $aws1_ui ch_engstate $ch_engstate
+fi
+
+if [ -n "$ch_img" ]; then
+    fset $aws1_ui ch_cam $ch_img
 fi
 
 if [ -n "$ch_wp" ]; then

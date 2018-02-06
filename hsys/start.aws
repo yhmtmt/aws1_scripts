@@ -15,11 +15,9 @@ tcyc=0.033
 . ../common/config_channel
 
 logchan="state $ch_ctrl_ui $ch_ctrl_ap1 $ch_ctrl_stat $ch_ais_obj $ch_engstate"
-schin="$ch_ctrl_ui $ch_ctrl_ap1"
-schout="$ch_state $ch_env $ch_ctrl_stat $ch_ais_obj"
 
 channel state $ch_state
-channel state $ch_engstate
+channel engstate $ch_engstate
 channel env $ch_env
 channel wp $ch_wp
 channel ais_obj $ch_ais_obj
@@ -40,7 +38,7 @@ fi
 
 # user interface
 echo "Setting up UI"
-../common/ui.aws ch_state=$ch_state ch_wp=$ch_wp ch_ctrl_stat=$ch_ctrl_stat ch_ctrl_inst=$ch_ctrl_ui ch_ap_inst=$ch_ap_inst ch_ais_obj=$ch_ais_obj verb=$dbg_ui
+../common/ui.aws ch_state=$ch_state ch_engstate=$ch_engstate ch_img=$ch_img ch_wp=$ch_wp ch_ctrl_stat=$ch_ctrl_stat ch_ctrl_inst=$ch_ctrl_ui ch_ap_inst=$ch_ap_inst ch_ais_obj=$ch_ais_obj verb=$dbg_ui
 
 # autopilot
 echo "Setting up AP"

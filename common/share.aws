@@ -36,9 +36,6 @@ do
     fi        
 done
 
-echo $ich
-echo $och
-
 . ../common/config_share
 
 filter ch_share $share -i $ich -o $och
