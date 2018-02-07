@@ -25,6 +25,7 @@ do
 	    "rep") rep=${param[1]};;
 	    "stime") stime=${param[1]};;
 	    "dbg_n2k") dbg_n2k=${param[1]};;
+	    "dbg_cam") dbg_cam=${param[1]};;
 	esac
     fi    
 done
@@ -60,12 +61,11 @@ if [ $rep = "y" ]; then
 	done
 	echo "Select log number:"
 	read isel
-	echo $isel selected
 	ilog=0
 	for ltime in $logs
 	do
 	    if [ $ilog = $isel ]; then
-		stime=`echo $ltime | sed 's/.......$//'`
+		stime=$ltime
 		break;
 	    fi
 	    ilog=`expr $ilog + 1`
@@ -90,7 +90,8 @@ if [ $rep = "y" ]; then
     fset log path $logpath
 
     echo "Starting from $stime"
-    go $stime
+    stime_sec=`echo $stime | sed 's/.......$//'`
+    go $stime_sec
 else
     stime=`awstime n`
     # autopilot

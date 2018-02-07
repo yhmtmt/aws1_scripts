@@ -35,6 +35,8 @@ if [ $rep = "y" ]; then
 	echo Log at $stime was not found.
 	exit
     fi
+    echo $curdir/h264dec.gst
+    
     ../common/h264decpip file $recpath > $curdir/h264dec.gst
     filter gstcam log$vmbcam -i -o
     fset log$vmbcam ch_out $ch_img
@@ -43,7 +45,7 @@ if [ $rep = "y" ]; then
     fset log$vmbcam fppl $curdir/h264dec.gst
     fset log$vmbcam fts $tspath
     fset log$vmbcam verb $verb
-
+    fset log$vmbcam sz_frmbuf $sz_frmbuf
     if [ $go = "y" ]; then
 	go $stime
     fi
@@ -58,9 +60,9 @@ else
 	fset $vmbcam TriggerSource Software
     else
 	fset $vmbcam TriggerSource Freerun
-	fset $vmbcam BandwidthControlMode StreamBytesPerSecond
-	fset $vmbcam StreamBytesPerSecond $StreamBytesPersecond
     fi
+    fset $vmbcam BandwidthControlMode StreamBytesPerSecond
+    fset $vmbcam StreamBytesPerSecond $StreamBytesPersecond
     
     fset $vmbcam Width $width Height $height OffsetX $offsetx OffsetY $offsety
     fset $vmbcam GVCPCmdTimeout 1000
