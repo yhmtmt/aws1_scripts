@@ -23,11 +23,11 @@ do
 	case ${param[0]} in
 	    "rec") rec=${param[1]};;
 	    "rep") rep=${param[1]};;
+	    "stime") stime=${param[1]};;
 	    "dbg_n2k") dbg_n2k=${param[1]};;
 	esac
     fi    
 done
-
 
 channel state $ch_state
 channel engstate $ch_engstate
@@ -42,55 +42,88 @@ channel imgr $ch_img
 
 . ./config
 
-stime=`awstime n`
-
-logpath=$path_data/log/$stime
-echo "Log path $logpath"
-if [ ! -d "$logpath" ]; then
-    echo "Creating $logpath"
-    mkdir $logpath
-fi
-
 # user interface
 echo "Setting up UI"
 ../common/ui.aws ch_state=$ch_state ch_engstate=$ch_engstate ch_img=$ch_img ch_wp=$ch_wp ch_ctrl_stat=$ch_ctrl_stat ch_ctrl_inst=$ch_ctrl_ui ch_ap_inst=$ch_ap_inst ch_ais_obj=$ch_ais_obj verb=$dbg_ui
 
-# autopilot
-echo "Setting up AP"
-../common/ap.aws ch_state=$ch_state ch_wp=$ch_wp ch_ctrl_stat=$ch_ctrl_stat ch_ctrl_inst=$ch_ctrl_ap1 ch_ap_inst=$ch_ap_inst verb=$dbg_ap
-
-# n2k interface
-../common/n2k.aws ch_engstate=$ch_engstate verb=$dbg_n2k
-
-# object manager
-echo "Setting up OBJM"
-../common/obj.aws ch_state=$ch_state ch_ais_obj=$ch_ais_obj verb=$dbg_obj
-
-# waypoint manager
-echo "Setting up WPM"
-../common/wp.aws ch_state=$ch_state ch_wp=$ch_wp verb=$dbg_wp
-
-# camera1
-echo "Setting up CAM"
-../common/cam.aws vmbcam=mako0 ch_img=$ch_img stime=$stime rec=$rec rep=$rep verb=$dbg_cam
-
-# channel sharing
-echo "Settng up CHS"
-../common/share.aws share=share -i $schh2l -o $schl2h verb=$dbg_share svr=n
-
-# time synchronizer
-echo "Setting up TSYN"
-../common/sync.aws tsync=tsync svr=n verb=$dbg_sync
-
 cyc $tcyc
 
-if [ $rep = "y" ]; then    
+if [ $rep = "y" ]; then
+    if [ -z "$stime" ]; then
+	echo "No start time specified."
+	logs=`ls $path_data/log`
+	ilog=0
+	for ltime in $logs
+	do
+	    echo log $ilog t=$ltime :`t2str $ltime`
+	    ilog=`expr $ilog + 1`
+	done
+	echo "Select log number:"
+	read isel
+	echo $isel selected
+	ilog=0
+	for ltime in $logs
+	do
+	    if [ $ilog = $isel ]; then
+		stime=`echo $ltime | sed 's/.......$//'`
+		break;
+	    fi
+	    ilog=`expr $ilog + 1`
+	done
+	
+	if [ -z $stime ]; then
+	    echo "Valid start time is not specified."
+	    exit
+	else
+	    echo $log $ilog is selected.
+	fi
+    fi
+    
+    logpath=$path_data/log/$stime
+    
+    # camera1
+    echo "Setting up CAM"
+    ../common/cam.aws vmbcam=mako0 ch_img=$ch_img stime=$stime rec=$rec rep=$rep verb=$dbg_cam
+
+    echo "Setting up logs."
     filter read_ch_log log -i -o $logchan
     fset log path $logpath
-    
+
+    echo "Starting from $stime"
     go $stime
 else
+    stime=`awstime n`
+    # autopilot
+    echo "Setting up AP"
+    ../common/ap.aws ch_state=$ch_state ch_wp=$ch_wp ch_ctrl_stat=$ch_ctrl_stat ch_ctrl_inst=$ch_ctrl_ap1 ch_ap_inst=$ch_ap_inst verb=$dbg_ap
+    
+    # n2k interface
+    ../common/n2k.aws ch_engstate=$ch_engstate verb=$dbg_n2k
+    
+    # object manager
+    echo "Setting up OBJM"
+    ../common/obj.aws ch_state=$ch_state ch_ais_obj=$ch_ais_obj verb=$dbg_obj
+    
+    # waypoint manager
+    echo "Setting up WPM"
+    ../common/wp.aws ch_state=$ch_state ch_wp=$ch_wp verb=$dbg_wp
+    
+    
+    # channel sharing
+    echo "Settng up CHS"
+    ../common/share.aws share=share -i $schh2l -o $schl2h verb=$dbg_share svr=n
+
+    # time synchronizer
+    echo "Setting up TSYN"
+    ../common/sync.aws tsync=tsync svr=n verb=$dbg_sync
+    
     if [ $rec = "y" ]; then
+	logpath=$path_data/log/$stime
+	if [ ! -d "$logpath" ]; then
+	    echo "Creating $logpath"
+	    mkdir $logpath
+	fi
+
 	echo "Logging start in $logpath"
 	filter write_ch_log log -i $logchan -o
 	fset log path $logpath
