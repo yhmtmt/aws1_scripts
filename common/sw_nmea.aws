@@ -52,7 +52,6 @@ fset $sw awsint 1
 fset $sw verb $verb
 
 if [ -n "$ch_state" ]; then
-    echo "$ch_state is set"
     fset $sw state $ch_state
 fi
 
