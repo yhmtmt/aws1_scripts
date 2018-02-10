@@ -12,4 +12,4 @@ do
 	prev_arg=$arg
 done
 
-echo "filesrc location=test.avi ! avidemux ! h264parse ! omxh264dec "
+echo "filesrc location=$file ! avidemux ! h264parse ! omxh264dec "
