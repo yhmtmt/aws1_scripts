@@ -27,9 +27,9 @@ if [ -z "$nmea" ]; then
     exit
 fi
 
-echo "Setting up ${nmea}'s nmea filter on $dev $br"
-
 . ./config_$nmea
+
+echo "Setting up ${nmea}'s nmea filter on $dev $br"
 
 if [ -z "$ch_nmea_in" ]; then
     ch_nmea_in=${nmea}_in
