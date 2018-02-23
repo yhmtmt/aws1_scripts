@@ -27,6 +27,14 @@ done
 offsetx=$((($swidth-$width)/2))
 offsety=$((($sheight-$height)/2))
 
+env=`uname`
+
+fmt_in=NV12
+if [ $env != "Linux" ]; then
+    curdir=`cygpath -w $curdir`
+    fmt_in=I420
+fi
+
 recpath=$path_data/log/$stime/${vmbcam}.avi
 tspath=$path_data/log/$stime/${vmbcam}.ts
   
@@ -41,7 +49,7 @@ if [ $rep = "y" ]; then
     filter gstcam log$vmbcam -i -o
     fset log$vmbcam ch_out $ch_img
     fset log$vmbcam width $width height $height
-    fset log$vmbcam fmt_in NV12 fmt_out $fmt_out
+    fset log$vmbcam fmt_in $fmt_in fmt_out $fmt_out
     fset log$vmbcam fppl $curdir/h264dec.gst
     fset log$vmbcam fts $tspath
     fset log$vmbcam verb $verb

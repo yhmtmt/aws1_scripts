@@ -12,4 +12,10 @@ do
 	prev_arg=$arg
 done
 
-echo "filesrc location=$file ! avidemux ! h264parse ! omxh264dec "
+env=`uname`
+
+if [ $env = "Linux" ]; then
+    echo "filesrc location=$file ! avidemux ! h264parse ! omxh264dec "
+else
+    echo "filesrc location=$file ! avidemux ! h264parse ! openh264dec "
+fi
