@@ -20,6 +20,6 @@ fmt_out=BGR8
 fmt=Bayer8
 sz_frmbuf=64
 addr=172.18.2.8
-
+free=y
 bitrate=10000000
 fps=30
