@@ -7,5 +7,5 @@ if [ $env = "Linux" ]; then
 else
     user=`whoami`
     export path_aws=c:/cygwin64/home/$user/aws
-    export path_data=h:/aws
+    export path_data=d:/aws
 fi

@@ -1,13 +1,16 @@
 #!/bin/sh
 
 ch_state=state
+ch_state_sim=state_sim
 ch_env=env
 ch_ctrl_stat=aws1_ctrl_stat
+ch_ctrl_stat_sim=aws1_ctrl_stat_sim
 ch_ctrl_ui=aws1_ctrl_ui
 ch_ctrl_ap1=aws1_ctrl_ap1
 ch_ais_obj=ais_obj
 
 ch_engstate=engstate
+ch_engstate_sim=engstate_sim
 ch_wp=wp
 ch_ap_inst=ap_inst
 ch_img=img

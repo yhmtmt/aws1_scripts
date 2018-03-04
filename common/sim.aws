@@ -1,0 +1,95 @@
+#!/bin/bash
+
+verb=n
+go=n
+
+aws1_sim=aws1_sim
+stime=0
+
+for arg in $*
+do
+    if [[ $arg =~ ^[A-Za-z0-9_]*=[A-Za-z0-9_]*$ ]]; then
+	param=(${arg//=/ })
+	case ${param[0]} in
+	    "aws1_sim") aws1_sim=${param[1]};;   
+	    "ch_state") ch_state=${param[1]};;   
+	    "ch_engstate") ch_engstate=${param[1]};;
+	    "ch_ctrl_stat") ch_ctrl_stat=${param[1]};; 
+	    "ch_ctrl_ui") ch_ctrl_ui=${param[1]};; 
+	    "ch_ctrl_ap1") ch_ctrl_ap1=${param[1]};;
+	    "ch_ctrl_ap2") ch_ctrl_ap2=${param[1]};;
+	    "ch_state_sim") ch_state_sim=${param[1]};;
+	    "ch_engstate_sim") ch_engstate_sim=${param[1]};;
+	    "ch_ctrl_stat_sim") ch_ctrl_stat_sim=${param[1]};;
+	    "stime") stime=${param[1]};;
+	    "verb") verb=${param[1]};;
+	    "go") go=${param[1]};;
+	esac
+    fi    
+done
+
+. ./config_sim
+. ../lsys/config_ctrl
+
+path_csv=$path_data/sim_$stime.csv
+
+filter aws1_sim $aws1_sim -i -o
+
+if [ -n "$path_csv" ]; then
+    fset $aws1_sim fcsv $path_csv
+fi
+
+if [ -n "$ch_state" ]; then
+    fset $aws1_sim ch_state $ch_state
+fi
+
+if [ -n "$ch_engstate" ]; then
+    fset $aws1_sim ch_engstate $ch_engstate
+fi
+
+if [ -n "$ch_ctrl_stat" ]; then
+    fset $aws1_sim ch_ctrl_stat $ch_ctrl_stat
+fi
+
+if [ -n "$ch_ctrl_ui" ]; then
+    fset $aws1_sim ch_ctrl_ui $ch_ctrl_ui
+fi
+
+if [ -n "$ch_ctrl_ap1" ]; then
+    fset $aws1_sim ch_ctrl_ap1 $ch_ctrl_ap1
+fi
+
+if [ -n "$ch_ctrl_ap2" ]; then
+    fset $aws1_sim ch_ctrl_ap2 $ch_ctrl_ap2
+fi
+
+if [ -n "$ch_state_sim" ]; then    
+    fset $aws1_sim ch_state_sim $ch_state_sim
+fi
+
+if [ -n "$ch_engstate_sim" ]; then
+    fset $aws1_sim ch_engstate_sim $ch_engstate_sim
+fi
+
+if [ -n "$ch_ctrl_stat_sim" ]; then
+    fset $aws1_sim ch_ctrl_stat_sim $ch_ctrl_stat_sim
+fi
+
+fset $aws1_sim meng_max_rmc $meng_max_rmc meng_nuf_rmc $meng_nuf_rmc meng_nut_rmc $meng_nut_rmc meng_nub_rmc $meng_nub_rmc meng_min_rmc $meng_min_rmc
+fset $aws1_sim seng_max_rmc $seng_max_rmc seng_nuf_rmc $seng_nuf_rmc seng_nut_rmc $seng_nut_rmc seng_nub_rmc $seng_nub_rmc seng_min_rmc $seng_min_rmc
+fset $aws1_sim rud_max_rmc $rud_max_rmc rud_nut_rmc $rud_nut_rmc rud_min_rmc $rud_min_rmc
+fset $aws1_sim rud_sta_max $rud_sta_max rud_sta_nut $rud_sta_nut rud_sta_min $rud_sta_min
+fset $aws1_sim meng_max $meng_max meng_nuf $meng_nuf meng_nut $meng_nut meng_nub $meng_nub meng_min $meng_min
+fset $aws1_sim seng_max $seng_max seng_nuf $seng_nuf seng_nut $seng_nut seng_nub $seng_nub seng_min $seng_min
+fset $aws1_sim rud_max $rud_max rud_nut $rud_nut rud_min $rud_min
+fset $aws1_sim rud_sta_out_max $rud_sta_out_max rud_sta_out_nut $rud_sta_out_nut rud_sta_out_min $rud_sta_out_min
+fset $aws1_sim awsrud $awsrud awsmeng $awsmeng awsseng $awsseng
+
+
+fset $aws1_sim lat0  $lat0 lon0 $lon0 roll0 $roll0 pitch0 $pitch0 yaw0 $yaw0
+fset $aws1_sim cog0 $cog0 sog0 $sog0 meng0 $meng0 rud0 $rud0
+fset $aws1_sim rev0 $rev0 fuel0 $fuel0
+
+if [ $go = "y" ]; then
+    go
+fi
