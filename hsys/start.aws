@@ -46,9 +46,6 @@ channel imgr $ch_img
 
 . ./config
 
-# user interface
-echo "Setting up UI"
-../common/ui.aws ch_state=$ch_state ch_engstate=$ch_engstate ch_img=$ch_img ch_wp=$ch_wp ch_ctrl_stat=$ch_ctrl_stat ch_ctrl_inst=$ch_ctrl_ui ch_ap_inst=$ch_ap_inst ch_ais_obj=$ch_ais_obj verb=$dbg_ui
 
 # object manager
 echo "Setting up OBJM"
@@ -101,6 +98,10 @@ if [ $rep = "y" ]; then
     fi
     
     logpath=$path_data/log/$stime
+
+    # user interface
+    echo "Setting up UI"
+    ../common/ui.aws ch_state=$ch_state ch_engstate=$ch_engstate ch_img=$ch_img ch_wp=$ch_wp ch_ctrl_stat=$ch_ctrl_stat ch_ap_inst=$ch_ap_inst ch_ais_obj=$ch_ais_obj verb=$dbg_ui
     
     # camera
     echo "Setting up CAM"
@@ -126,6 +127,7 @@ else
     ###### real time mode (includes simulation mode) ######
     stime=`awstime n`
     # autopilot
+
     echo "Setting up AP"
     ../common/ap.aws ch_state=$ch_state ch_wp=$ch_wp ch_ctrl_stat=$ch_ctrl_stat ch_ctrl_inst=$ch_ctrl_ap1 ch_ap_inst=$ch_ap_inst verb=$dbg_ap
     
