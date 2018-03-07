@@ -1,0 +1,10 @@
+#!/bin/sh
+
+if [ $# -eq 0 ]; then
+   fget aws1_ui rud
+fi
+
+if [ $# -eq 1 ]; then
+   fset aws1_ui rud $1
+fi
+
