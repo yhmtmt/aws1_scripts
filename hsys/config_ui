@@ -2,8 +2,8 @@
 
 . ./config
 
-width=1920
-height=1080
+width=1280
+height=720
 joystick=0
 
 path_fshader=$path_aws/GLSL/sample.fs

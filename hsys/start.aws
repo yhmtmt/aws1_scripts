@@ -131,7 +131,17 @@ else
     echo "Setting up AP"
     ../common/ap.aws ch_state=$ch_state ch_wp=$ch_wp ch_ctrl_stat=$ch_ctrl_stat ch_ctrl_inst=$ch_ctrl_ap1 ch_ap_inst=$ch_ap_inst verb=$dbg_ap
     
-    if [ sim = "n" ]; then
+    echo "Setting up SIM"
+    if [ sim = "y" ]; then
+	../common/sim.aws ch_state=$ch_state ch_engstate=$ch_engstate ch_ctrl_stat=$ch_ctrl_stat ch_ctrl_ui=$ch_ctrl_ui ch_ctrl_ap1=$ch_ctrl_ap1 ch_state_sim=$ch_state ch_engstate_sim=$ch_engstate ch_ctrl_stat_sim=$ch_ctrl_stat stime=$stime
+	rep=n
+    else
+	channel state $ch_state_sim
+	channel engstate $ch_engstate_sim
+	channel aws1_ctrl_stat $ch_ctrl_stat_sim
+	
+#	../common/sim.aws ch_state=$ch_state ch_engstate=$ch_engstate ch_ctrl_stat=$ch_ctrl_stat ch_ctrl_ui=$ch_ctrl_ui ch_ctrl_ap1=$ch_ctrl_ap1  ch_state_sim=$ch_state_sim ch_engstate_sim=$ch_engstate_sim ch_ctrl_stat_sim=$ch_ctrl_stat_sim stime=$stime
+
 	# In simulation mode, following modules are not present.
 	# Instead of them, ch_engstate, ch_state, ch_ctrl_stat is simulated in aws_sim
 	# n2k interface
@@ -151,18 +161,9 @@ else
 	../common/sync.aws tsync=tsync svr=n verb=$dbg_sync
     fi
 
-    echo "Setting up SIM"
-    if [ sim = "y"]; then
-	../common/sim.aws ch_state=$ch_state ch_engstate=$ch_engstate ch_ctrl_stat=$ch_ctrl_stat ch_ctrl_ui=$ch_ctrl_ui ch_ctrl_ap1=$ch_ctrl_ap1 ch_state_sim=$ch_state ch_engstate_sim=$ch_engstate ch_ctrl_stat_sim=$ch_ctrl_stat stime=$stime
-	rep=n
-    else
-	channel state $ch_state_sim
-	channel engstate $ch_engstate_sim
-	channel aws1_ctrl_stat $ch_ctrl_stat_sim
-	
-	../common/sim.aws ch_state=$ch_state ch_engstate=$ch_engstate ch_ctrl_stat=$ch_ctrl_stat ch_ctrl_ui=$ch_ctrl_ui ch_ctrl_ap1=$ch_ctrl_ap1  ch_state_sim=$ch_state_sim ch_engstate_sim=$ch_engstate_sim ch_ctrl_stat_sim=$ch_ctrl_stat_sim stime=$stime
-    fi
-
+    # user interface
+    echo "Setting up UI"
+    ../common/ui.aws ch_state=$ch_state ch_engstate=$ch_engstate ch_img=$ch_img ch_wp=$ch_wp ch_ctrl_stat=$ch_ctrl_stat ch_ctrl_inst=$ch_ctrl_ui ch_ap_inst=$ch_ap_inst ch_ais_obj=$ch_ais_obj verb=$dbg_ui
     
     if [ $rec = "y" ]; then
 	logpath=$path_data/log/$stime
