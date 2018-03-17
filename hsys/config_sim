@@ -1,0 +1,18 @@
+#!/bin/sh
+
+. ./config
+
+int_smpl=0.1
+wismpl=100
+wosmpl=100
+lat0=35
+lon0=135
+roll0=0
+pitch0=0
+yaw0=0
+cog0=0
+sog0=0
+meng0=127
+rud0=127
+rev0=700
+fuel0=0.1
