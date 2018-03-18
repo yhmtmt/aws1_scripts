@@ -2,8 +2,14 @@
 
 . ./config
 
-width=1280
-height=720
+if [ $env = "Linux" ]; then
+    width=1280
+    height=720
+else
+    width=1920
+    height=1080
+fi
+
 joystick=0
 
 path_fshader=$path_aws/GLSL/sample.fs
