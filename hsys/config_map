@@ -1,0 +1,6 @@
+#!/bin/sh
+
+. ./config
+
+path_map=$path_data/aws1_map
+

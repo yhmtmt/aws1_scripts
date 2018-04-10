@@ -1,0 +1,33 @@
+#!/bin/bash
+
+verb=n
+go=n
+
+for arg in $*
+do
+    if [[ $arg =~ ^[A-Za-z0-9_]*=[A-Za-z0-9_]*$ ]]; then
+	param=(${arg//=/ })
+	case ${param[0]} in
+	    "map") map=${param[1]};;      # name of map filter
+	    "ch_map") ch_map=${param[1]};; # map channel
+	    "verb") verb=${param[1]};;
+	    "go") go=${param[1]};;
+	esac
+    fi    
+done
+
+. ./config_map
+
+if [ -z $ch_map ]; then
+   ch_map=map
+   channel map $ch_map
+fi
+
+filter map $map -i -o
+fset map ch_map $ch_map
+fset map path $path_map
+
+if [ $go = y ]; then
+   go
+fi
+
