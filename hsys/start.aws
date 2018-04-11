@@ -43,6 +43,7 @@ channel aws1_ctrl_inst $ch_ctrl_ui
 channel aws1_ctrl_inst $ch_ctrl_ap1
 channel aws1_ap_inst $ch_ap_inst
 channel imgr $ch_img
+#channel map map
 
 . ./config
 
@@ -54,6 +55,10 @@ echo "Setting up OBJM"
 # waypoint manager
 echo "Setting up WPM"
 ../common/wp.aws ch_state=$ch_state ch_wp=$ch_wp verb=$dbg_wp
+
+# Map manager
+#echo "Setting up MAP"
+#../common/map.aws
 
 
 cyc $tcyc

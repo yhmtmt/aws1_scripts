@@ -23,6 +23,10 @@ if [ -z $ch_map ]; then
    channel map $ch_map
 fi
 
+if [ -z $map ]; then
+    map=map
+fi
+
 filter map $map -i -o
 fset map ch_map $ch_map
 fset map path $path_map
