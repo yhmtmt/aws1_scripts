@@ -14,6 +14,7 @@ ch_engstate_sim=engstate_sim
 ch_wp=wp
 ch_ap_inst=ap_inst
 ch_img=img
+ch_map=map
 
 #channel sharing
 

@@ -18,12 +18,12 @@ done
 
 . ./config_map
 
-if [ -z $ch_map ]; then
+if [ -z "$ch_map" ]; then
    ch_map=map
    channel map $ch_map
 fi
 
-if [ -z $map ]; then
+if [ -z "$map" ]; then
     map=map
 fi
 

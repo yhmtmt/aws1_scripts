@@ -43,7 +43,7 @@ channel aws1_ctrl_inst $ch_ctrl_ui
 channel aws1_ctrl_inst $ch_ctrl_ap1
 channel aws1_ap_inst $ch_ap_inst
 channel imgr $ch_img
-#channel map map
+channel map $ch_map
 
 . ./config
 
@@ -57,8 +57,8 @@ echo "Setting up WPM"
 ../common/wp.aws ch_state=$ch_state ch_wp=$ch_wp verb=$dbg_wp
 
 # Map manager
-#echo "Setting up MAP"
-#../common/map.aws
+echo "Setting up MAP"
+../common/map.aws map=map ch_map=$ch_map
 
 
 cyc $tcyc
@@ -106,7 +106,7 @@ if [ $rep = "y" ]; then
 
     # user interface
     echo "Setting up UI"
-    ../common/ui.aws ch_state=$ch_state ch_engstate=$ch_engstate ch_img=$ch_img ch_wp=$ch_wp ch_ctrl_stat=$ch_ctrl_stat ch_ap_inst=$ch_ap_inst ch_ais_obj=$ch_ais_obj verb=$dbg_ui
+    ../common/ui.aws ch_state=$ch_state ch_engstate=$ch_engstate ch_img=$ch_img ch_wp=$ch_wp ch_ctrl_stat=$ch_ctrl_stat ch_ap_inst=$ch_ap_inst ch_ais_obj=$ch_ais_obj ch_map=$ch_map verb=$dbg_ui
     
     # camera
     echo "Setting up CAM"
@@ -168,7 +168,7 @@ else
 
     # user interface
     echo "Setting up UI"
-    ../common/ui.aws ch_state=$ch_state ch_engstate=$ch_engstate ch_img=$ch_img ch_wp=$ch_wp ch_ctrl_stat=$ch_ctrl_stat ch_ctrl_inst=$ch_ctrl_ui ch_ap_inst=$ch_ap_inst ch_ais_obj=$ch_ais_obj verb=$dbg_ui
+    ../common/ui.aws ch_state=$ch_state ch_engstate=$ch_engstate ch_img=$ch_img ch_wp=$ch_wp ch_ctrl_stat=$ch_ctrl_stat ch_ctrl_inst=$ch_ctrl_ui ch_ap_inst=$ch_ap_inst ch_ais_obj=$ch_ais_obj ch_map=$ch_map verb=$dbg_ui
     
     if [ $rec = "y" ]; then
 	logpath=$path_data/log/$stime
