@@ -40,6 +40,8 @@ fset $aws1_ui verb $verb
 fset $aws1_ui js $joystick
 fset $aws1_ui storage $path_data
 
+fset $aws1_ui dsas $dsas
+
 if [ -n "$ch_state" ]; then
     fset $aws1_ui ch_state $ch_state
 fi
@@ -83,3 +85,4 @@ fi
 if [ -n "$ch_disp" ]; then
     fset $aws1_ui ch_disp $ch_disp
 fi
+

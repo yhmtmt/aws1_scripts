@@ -35,7 +35,7 @@ fset $aws1_ap ch_ctrl_stat $ch_ctrl_stat
 fset $aws1_ap ch_ctrl_inst $ch_ctrl_inst
 fset $aws1_ap ch_ap_inst $ch_ap_inst
 fset $aws1_ap Interval 30
-fset $aws1_ap smax 15 smin 3
+fset $aws1_ap smax 15 smin 10
 fset $aws1_ap meng_max $meng_max meng_min $meng_min
 fset $aws1_ap pc $pc ic $ic dc $dc ps $ps is $is ds $ds
 fset $aws1_ap pc_s $pc_s ic_s $ic_s dc_s $dc_s ps_s $ps_s is_s $is_s ds_s $ds_s

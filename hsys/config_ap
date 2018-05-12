@@ -24,3 +24,6 @@ rud_min_stay=63
 
 ssmax=3
 dssmax=30
+
+smax=15
+smin=10
