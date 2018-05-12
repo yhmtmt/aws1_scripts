@@ -2,11 +2,11 @@
 verb=n
 go=n
 
-gff=n
-ais=n
+gff=y
+ais=y
 mrl=n
-gps=n
-ahrs=n
+gps=y
+ahrs=y
 mlb=n
 
 dbg_ctrl=n
