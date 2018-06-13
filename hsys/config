@@ -1,9 +1,15 @@
 #!/bin/sh
 
 env=`uname`
+cpu=`uname -p`
 if [ $env = "Linux" ]; then
-    export path_aws=/mnt/ssd1/aws
-    export path_data=/mnt/ssd1/aws
+    if [ $cpu = "x86_64" ]; then
+	export path_aws=/home/ubuntu/matumoto/aws
+	export path_data=/home/ubuntu/matumoto/aws
+    else
+	export path_aws=/mnt/ssd1/aws
+	export path_data=/mnt/ssd1/aws
+    fi
 else
     user=`whoami`
     export path_aws=c:/cygwin64/home/$user/aws

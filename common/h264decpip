@@ -13,9 +13,14 @@ do
 done
 
 env=`uname`
+cpu=`uname -p`
 
 if [ $env = "Linux" ]; then
-    echo "filesrc location=$file ! avidemux ! h264parse ! omxh264dec "
+    if [ $cpu = "x86_64" ]; then
+	echo "filesrc location=$file ! avidemux ! h264parse ! avdec_h264 "	
+    else
+	echo "filesrc location=$file ! avidemux ! h264parse ! omxh264dec "
+    fi
 else
     echo "filesrc location=$file ! avidemux ! h264parse ! openh264dec "
 fi

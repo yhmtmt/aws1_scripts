@@ -28,13 +28,18 @@ offsetx=$((($swidth-$width)/2))
 offsety=$((($sheight-$height)/2))
 
 env=`uname`
+cpu=`uname -p`
 
 fmt_in=NV12
 if [ $env != "Linux" ]; then
-    curdir=`cygpath -w $curdir`
-    fmt_in=I420
-fi
 
+	curdir=`cygpath -w $curdir`
+	fmt_in=I420
+else
+    if [ $cpu == "x86_64" ]; then
+	fmt_in=I420
+    fi    
+fi
 recpath=$path_data/log/$stime/${vmbcam}.avi
 tspath=$path_data/log/$stime/${vmbcam}.ts
   
