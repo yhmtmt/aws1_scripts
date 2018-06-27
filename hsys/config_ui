@@ -17,4 +17,21 @@ path_vshader=$path_aws/GLSL/sample.vs
 path_fnttex=$path_aws/res/gothic40.png
 path_fnttexinf=$path_aws/res/gothic40.fontsettings
 
+nf=225
+flah=220
+hfah=210
+slah=200
+dsah=152
+stp=127
 dsas=105
+slas=53
+hfas=43
+flas=33
+
+mds=127
+s10=140
+s20=180
+has=255
+p10=87
+p20=47
+hap=0
