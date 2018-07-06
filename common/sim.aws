@@ -85,11 +85,22 @@ fset $aws1_sim rud_max $rud_max rud_nut $rud_nut rud_min $rud_min
 fset $aws1_sim rud_sta_out_max $rud_sta_out_max rud_sta_out_nut $rud_sta_out_nut rud_sta_out_min $rud_sta_out_min
 fset $aws1_sim awsrud $awsrud awsmeng $awsmeng awsseng $awsseng
 
-
+# setting initial state
 fset $aws1_sim lat0  $lat0 lon0 $lon0 roll0 $roll0 pitch0 $pitch0 yaw0 $yaw0
 fset $aws1_sim cog0 $cog0 sog0 $sog0 meng0 $meng0 rud0 $rud0
 fset $aws1_sim rev0 $rev0 fuel0 $fuel0
 
+# setting model parameters
+fset $aws1_sim xg $xg yg $yg
+fset $aws1_sim m $m ma_xu $ma_xu ma_yv $ma_yv ma_yr $ma_yr ma_nr $ma_nr
+fset $aws1_sim dl_xu $dl_xu dl_yv $dl_yv dl_yr $dl_yr dl_nv $dl_nv dl_nr $dl_nr
+fset $aws1_sim dq_xu $dq_xu dq_yv $dq_yv dq_yr $dq_yr dq_nv $dq_nv dq_nr $dq_nr
+fset $aws1_sim rslack $rslack rrud $rrud ruds $ruds rudp $rudp
+fset $aws1_sim fth $fth bth $bth umax $umax umin $umin rgamma $rgamma rfdelta $rfdelta rbdelta $rbdelta fslack $fslack bslack $bslack
+fset $aws1_sim xr $xr yr $yr CTL $CTL CTQ $CTQ CD $CD CL $CL
+
+
+fset $aws1_sim 
 if [ $go = "y" ]; then
     go
 fi
