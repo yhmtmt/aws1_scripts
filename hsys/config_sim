@@ -5,8 +5,8 @@
 int_smpl=0.1
 wismpl=100
 wosmpl=100
-lat0=35
-lon0=135
+lat0=35.629929
+lon0=139.899366
 roll0=0
 pitch0=0
 yaw0=0
@@ -16,3 +16,50 @@ meng0=127
 rud0=127
 rev0=700
 fuel0=0.1
+
+#3dof model parameters
+xg=0 #gravity center in x
+yg=0 #gravity center in y
+m=3000 #mass in kg
+ma_xu=0 #added mass matrix(0,0)
+ma_yv=0 #added mass matrix(1,1)
+ma_yr=0 #added mass matrix(1,2)
+ma_nv=0 #added mass matrix(2,1)
+ma_nr=0 #added mass matrix(2,2)
+
+dl_xu=0 #linear drag matrix(0,0)
+dl_yv=0 #linear drag matrix(1,1)
+dl_yr=0 #linear drag matrix(1,2)
+dl_nv=0 #linear drag matrix(2,1)
+dl_nr=0 #linear drag matrix(2,2)
+
+dq_xu=0 #quadratic drag matrix(0,0)
+dq_yv=0 #quadratic drag matrix(1,1)
+dq_yr=0 #quadratic drag matrix(1,2)
+dq_nv=0 #quadratic drag matrix(2,1)
+dq_nr=0 #quadratic drag matrix(2,2)
+
+#rudder control model
+rslack=3 #Rudder slack (port positive)
+rrud=0.2 #Speed of rudder rotatin (rate per sec, 0.2 means 5sec for full swing)
+ruds=-30 # Hard a starboard (degree)
+rudp=30  # Hard a port (port)
+
+#engine control model
+fth=152 # Nutral to Forward threshold
+bth=102 # Nutral to Backward threshold
+umax=255 # maximum control input
+umin=0 # minimum control input
+rgamma=0.5 # speed for gear lever (rate per sec)
+rfdelta=0.5 # speed for throttle lever (rate per sec)
+rbdelta=0.5 # speed for throttle lever (rate per sec) 
+fslack=0.05 # slack of throttle lever in forward gear (rate)
+bslack=0.05 # slack of throttle lever in backward gear (rate)
+
+#outboard mortor's force model
+xr=-3.2 # rudder x position relative to the center of boat
+yr=0.0 # rudder y position relative to the center of boat
+CTL=0 # Linear Thrust force coefficient
+CTQ=0 # Quadratic Thrust force coefficient
+CD=0 # Drag coefficient of rudder
+CL=0 # Lift coefficient of rudder
