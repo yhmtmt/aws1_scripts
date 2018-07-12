@@ -33,6 +33,16 @@ do
     fi    
 done
 
+
+if [ $rep = "y" ]; then
+    echo "aws starts with replay mode."
+elif [ $sim = "y" ]; then
+    echo "aws starts with simulation mode."
+else
+    echo "aws starts"
+fi
+
+
 channel state $ch_state
 channel engstate $ch_engstate
 channel env $ch_env
@@ -65,6 +75,7 @@ cyc $tcyc
 
 if [ $rep = "y" ]; then
     ###### replay mode #######
+
     if [ -z "$stime" ]; then
 	echo "No start time specified."
 	logs=`ls $path_data/log`
@@ -136,8 +147,8 @@ else
     echo "Setting up AP"
     ../common/ap.aws ch_state=$ch_state ch_wp=$ch_wp ch_ctrl_stat=$ch_ctrl_stat ch_ctrl_inst=$ch_ctrl_ap1 ch_ap_inst=$ch_ap_inst verb=$dbg_ap
     
-    echo "Setting up SIM"
-    if [ sim = "y" ]; then
+    if [ $sim = "y" ]; then
+	echo "Setting up SIM"
 	../common/sim.aws ch_state=$ch_state ch_engstate=$ch_engstate ch_ctrl_stat=$ch_ctrl_stat ch_ctrl_ui=$ch_ctrl_ui ch_ctrl_ap1=$ch_ctrl_ap1 ch_state_sim=$ch_state ch_engstate_sim=$ch_engstate ch_ctrl_stat_sim=$ch_ctrl_stat stime=$stime
 	rep=n
     else
@@ -150,12 +161,12 @@ else
 	# In simulation mode, following modules are not present.
 	# Instead of them, ch_engstate, ch_state, ch_ctrl_stat is simulated in aws_sim
 	# n2k interface
+	echo "Setting up N2K"
 	../common/n2k.aws ch_engstate=$ch_engstate verb=$dbg_n2k
 	
 	# camera1
 	echo "Setting up CAM"
 	../common/cam.aws vmbcam=mako0 ch_img=$ch_img stime=$stime rec=$rec rep=$rep verb=$dbg_cam
-	
 	
 	# channel sharing
 	echo "Settng up CHS"
