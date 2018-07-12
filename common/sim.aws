@@ -86,7 +86,10 @@ fset $aws1_sim rud_sta_out_max $rud_sta_out_max rud_sta_out_nut $rud_sta_out_nut
 fset $aws1_sim awsrud $awsrud awsmeng $awsmeng awsseng $awsseng
 
 # setting initial state
-fset $aws1_sim lat0  $lat0 lon0 $lon0 roll0 $roll0 pitch0 $pitch0 yaw0 $yaw0
+lat0_rad=`echo "scale=12; $lat0 * 3.14159265359 / 180.0" | bc`
+lon0_rad=`echo "scale=12; $lon0 * 3.14159265359 / 180.0" | bc`
+
+fset $aws1_sim lat0  $lat0_rad lon0 $lon0_rad roll0 $roll0 pitch0 $pitch0 yaw0 $yaw0
 fset $aws1_sim cog0 $cog0 sog0 $sog0 meng0 $meng0 rud0 $rud0
 fset $aws1_sim rev0 $rev0 fuel0 $fuel0
 
