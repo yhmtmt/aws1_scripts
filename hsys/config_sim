@@ -18,7 +18,7 @@ rev0=700
 fuel0=0.1
 
 #3dof model parameters
-xg=0 #gravity center in x
+xg=-1.5 #gravity center in x
 yg=0 #gravity center in y
 m=3000 #mass in kg
 ma_xu=0 #added mass matrix(0,0)
@@ -27,17 +27,17 @@ ma_yr=0 #added mass matrix(1,2)
 ma_nv=0 #added mass matrix(2,1)
 ma_nr=0 #added mass matrix(2,2)
 
-dl_xu=0 #linear drag matrix(0,0)
-dl_yv=0 #linear drag matrix(1,1)
+dl_xu=100 #linear drag matrix(0,0)
+dl_yv=200 #linear drag matrix(1,1)
 dl_yr=0 #linear drag matrix(1,2)
 dl_nv=0 #linear drag matrix(2,1)
 dl_nr=0 #linear drag matrix(2,2)
 
-dq_xu=0 #quadratic drag matrix(0,0)
-dq_yv=0 #quadratic drag matrix(1,1)
+dq_xu=50 #quadratic drag matrix(0,0)
+dq_yv=100 #quadratic drag matrix(1,1)
 dq_yr=0 #quadratic drag matrix(1,2)
 dq_nv=0 #quadratic drag matrix(2,1)
-dq_nr=0 #quadratic drag matrix(2,2)
+dq_nr=100 #quadratic drag matrix(2,2)
 
 #rudder control model
 rslack=3 #Rudder slack (port positive)
@@ -59,7 +59,7 @@ bslack=0.05 # slack of throttle lever in backward gear (rate)
 #outboard mortor's force model
 xr=-3.2 # rudder x position relative to the center of boat
 yr=0.0 # rudder y position relative to the center of boat
-CTL=0 # Linear Thrust force coefficient
-CTQ=0 # Quadratic Thrust force coefficient
+CTL=0.4 # Linear Thrust force coefficient
+CTQ=0.0002 # Quadratic Thrust force coefficient
 CD=0 # Drag coefficient of rudder
 CL=0 # Lift coefficient of rudder
