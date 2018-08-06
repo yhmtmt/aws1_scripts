@@ -1,0 +1,9 @@
+#!/bin/bash
+
+./start_lsys0
+sleep 1
+cd lsys
+./start.aws
+sleep 3 
+fset ahrs cmd ofb
+cd ..

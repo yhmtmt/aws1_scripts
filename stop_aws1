@@ -1,0 +1,4 @@
+#!/bin/sh
+
+./stop_lsys
+./stop_hsys

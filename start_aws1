@@ -1,0 +1,28 @@
+#!/bin/bash
+
+rec=n
+rep=n
+sim=n
+
+for arg in $*
+do
+    if [[ $arg =~ ^[A-Za-z0-9_]*=[A-Za-z0-9_]*$ ]]; then
+	param=(${arg//=/ })
+	case ${param[0]} in
+	    "sim") sim=${param[1]};;
+	    "rec") rec=${param[1]};;
+	    "rep") rep=${param[1]};;
+	esac
+    fi    
+done
+
+if [ $sim = "n" ]; then
+    if [ $rep = "n" ]; then
+    ./start_lsys
+    fi
+fi
+
+
+./start_hsys rec=$rec sim=$sim rep=$rep
+
+

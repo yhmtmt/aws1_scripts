@@ -1,0 +1,12 @@
+#!/usr/bin/expect
+
+spawn ssh root@192.168.128.3
+expect "password:"
+send "root\n"
+expect "zynq>"
+send "cd /mnt/aws1_scripts\n"
+expect "zynq>"
+send "quit\n"
+expect "zynq>"
+send "reboot\n"
+interact

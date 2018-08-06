@@ -1,0 +1,5 @@
+#!/usr/bin/expect
+spawn sudo reboot
+expect "password for ubuntu:"
+send "ubuntu\n"
+interact
