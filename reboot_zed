@@ -8,5 +8,7 @@ send "cd /mnt/aws1_scripts\n"
 expect "zynq>"
 send "quit\n"
 expect "zynq>"
+send "touch reboot_from_hsys\n"
+expect "zynq>"
 send "reboot\n"
 interact

@@ -10,10 +10,15 @@ export PATH=$PATH:/mnt/bin
 cd /mnt/module
 szgpio.sh
 
-# Wakening Jetson TK1 
-zgpio /dev/zgpio1 set2 40000000
-sleep 2
-zgpio /dev/zgpio1 set2 00000000
+# Wakening Jetson TK1
+cd /mnt/aws1_scripts
+if [ -e reboot_from_hsys ]; then
+    rm reboot_from_hsys
+else
+    zgpio /dev/zgpio1 set2 40000000
+    sleep 2
+    zgpio /dev/zgpio1 set2 00000000
+fi
 
 # Wakening Jetson TX1
 /mnt/jtxon.sh 100
