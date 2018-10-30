@@ -94,13 +94,22 @@ fset $aws1_sim cog0 $cog0 sog0 $sog0 meng0 $meng0 rud0 $rud0
 fset $aws1_sim rev0 $rev0 fuel0 $fuel0
 
 # setting model parameters
-fset $aws1_sim xg $xg yg $yg
-fset $aws1_sim m $m ma_xu $ma_xu ma_yv $ma_yv ma_yr $ma_yr ma_nr $ma_nr
-fset $aws1_sim dl_xu $dl_xu dl_yv $dl_yv dl_yr $dl_yr dl_nv $dl_nv dl_nr $dl_nr
-fset $aws1_sim dq_xu $dq_xu dq_yv $dq_yv dq_yr $dq_yr dq_nv $dq_nv dq_nr $dq_nr
+fset $aws1_sim xg0 $xg0 yg0 $yg0
+fset $aws1_sim m0 $m0 ma_xu0 $ma_xu0 ma_yv0 $ma_yv0 ma_yr0 $ma_yr0 ma_nr0 $ma_nr0
+fset $aws1_sim dl_xu0 $dl_xu0 dl_yv0 $dl_yv0 dl_yr0 $dl_yr0 dl_nv0 $dl_nv0 dl_nr0 $dl_nr0
+fset $aws1_sim dq_xu0 $dq_xu0 dq_yv0 $dq_yv0 dq_yr0 $dq_yr0 dq_nv0 $dq_nv0 dq_nr0 $dq_nr0
+fset $aws1_sim xg1 $xg1 yg1 $yg1
+fset $aws1_sim m1 $m1 ma_xu1 $ma_xu1 ma_yv1 $ma_yv1 ma_yr1 $ma_yr1 ma_nr1 $ma_nr1
+fset $aws1_sim dl_xu1 $dl_xu1 dl_yv1 $dl_yv1 dl_yr1 $dl_yr1 dl_nv1 $dl_nv1 dl_nr1 $dl_nr1
+fset $aws1_sim dq_xu1 $dq_xu1 dq_yv1 $dq_yv1 dq_yr1 $dq_yr1 dq_nv1 $dq_nv1 dq_nr1 $dq_nr1
+
+fset $aws1_sim xr0 $xr0 yr0 $yr0 CTL0 $CTL0 CTQ0 $CTQ0 CD0 $CD0 CL0 $CL0
+fset $aws1_sim xr1 $xr1 yr1 $yr1 CTL1 $CTL1 CTQ1 $CTQ1 CD1 $CD1 CL1 $CL1
+
 fset $aws1_sim rslack $rslack rrud $rrud ruds $ruds rudp $rudp
+
 fset $aws1_sim fth $fth bth $bth umax $umax umin $umin rgamma $rgamma rfdelta $rfdelta rbdelta $rbdelta fslack $fslack bslack $bslack
-fset $aws1_sim xr $xr yr $yr CTL $CTL CTQ $CTQ CD $CD CL $CL
+
 
 
 fset $aws1_sim 
