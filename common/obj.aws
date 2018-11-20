@@ -26,7 +26,7 @@ filter obj_manager $obj_manager
 fset $obj_manager range $range
 fset $obj_manager dtold $dtold
 fset $obj_manager ch_state $ch_state
-fset $obj_manager verb $verb
+#fset $obj_manager verb $verb
 
 if [ -n "$ch_ais_obj" ]; then
    fset $obj_manager ch_ais_obj $ch_ais_obj
