@@ -9,21 +9,9 @@ dc=0.0
 ps=0.1
 is=0.01
 ds=0.0
-
-pc_s=1.0
-ic_s=0.01
-dc_s=0.0
-ps_s=0.1
-is_s=0.01
-ds_s=0.0
-
-meng_max_stay=167
-meng_min_stay=87
-rud_max_stay=191
-rud_min_stay=63
-
-ssmax=3
-dssmax=30
+prev=0.1
+irev=0.01
+drev=0.0
 
 smax=15
 smin=10

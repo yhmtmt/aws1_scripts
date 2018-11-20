@@ -38,9 +38,6 @@ fset $aws1_ap Interval 30
 fset $aws1_ap smax 15 smin 10
 fset $aws1_ap meng_max $meng_max meng_min $meng_min
 fset $aws1_ap pc $pc ic $ic dc $dc ps $ps is $is ds $ds
-fset $aws1_ap pc_s $pc_s ic_s $ic_s dc_s $dc_s ps_s $ps_s is_s $is_s ds_s $ds_s
-fset $aws1_ap meng_max_stay $meng_max_stay meng_min_stay $meng_min_stay
-fset $aws1_ap rud_max_stay $rud_max_stay rud_min_stay $rud_min_stay
-fset $aws1_ap ssmax $ssmax dssmax $dssmax
+fset $aws1_ap prev $prev irev $irev drev $drev 
 fset $aws1_ap verb $verb
 

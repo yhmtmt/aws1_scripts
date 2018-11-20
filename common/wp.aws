@@ -25,4 +25,4 @@ filter wp_manager $wp_manager
 fset $wp_manager ch_state $ch_state
 fset $wp_manager ch_wp $ch_wp
 fset $wp_manager path $path_data
-fset $wp_manager verb $verb
+#fset $wp_manager verb $verb
