@@ -16,6 +16,7 @@ do
 	case ${param[0]} in
 	    "aws1_ap") aws1_ap=${param[1]};;
 	    "ch_state") ch_state=${param[1]};;
+	    "ch_engstate")ch_engstate=${param[1]};;			  
 	    "ch_wp") ch_wp=${param[1]};;
 	    "ch_ctrl_stat") ch_ctrl_stat=${param[1]};;
 	    "ch_ctrl_inst") ch_ctrl_inst=${param[1]};;
@@ -31,6 +32,7 @@ done
 filter aws1_ap $aws1_ap -i -o
 fset $aws1_ap ch_state $ch_state
 fset $aws1_ap ch_wp $ch_wp
+fset $aws1_ap ch_engstate $ch_engstate
 fset $aws1_ap ch_ctrl_stat $ch_ctrl_stat
 fset $aws1_ap ch_ctrl_inst $ch_ctrl_inst
 fset $aws1_ap ch_ap_inst $ch_ap_inst
