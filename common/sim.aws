@@ -111,8 +111,6 @@ fset $aws1_sim rslack $rslack rrud $rrud ruds $ruds rudp $rudp
 fset $aws1_sim fth $fth bth $bth umax $umax umin $umin rgamma $rgamma rfdelta $rfdelta rbdelta $rbdelta fslack $fslack bslack $bslack
 
 
-
-fset $aws1_sim 
 if [ $go = "y" ]; then
     go
 fi
