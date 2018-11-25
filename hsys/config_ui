@@ -3,8 +3,8 @@
 . ./config
 
 if [ $env = "Linux" ]; then
-    width=1280
-    height=720
+    width=960
+    height=540
 else
     width=1920
     height=1080
@@ -17,16 +17,16 @@ path_vshader=$path_aws/GLSL/sample.vs
 path_fnttex=$path_aws/res/gothic40.png
 path_fnttexinf=$path_aws/res/gothic40.fontsettings
 
-nf=225
-flah=220
-hfah=210
-slah=200
+nf=223
+flah=218
+hfah=208
+slah=198
 dsah=152
 stp=127
-dsas=102
-slas=53
-hfas=43
-flas=33
+dsas=104
+slas=55
+hfas=45
+flas=35
 
 has=255
 s20=213
