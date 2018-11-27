@@ -40,6 +40,10 @@ fset $aws1_ap Interval 30
 fset $aws1_ap smax 15 smin 10
 fset $aws1_ap meng_max $meng_max meng_min $meng_min
 fset $aws1_ap pc $pc ic $ic dc $dc ps $ps is $is ds $ds
-fset $aws1_ap prev $prev irev $irev drev $drev 
+fset $aws1_ap prev $prev irev $irev drev $drev
+fset $aws1_ap devyaw $devyaw devcog $devcog devrev $devrev
+fset $aws1_ap alpha_flw $alpha_flw alpha_yaw_bias $alpha_yaw_bias
+fset $aws1_ap alpha_rud_mid $alpha_rud_mid alpha_tbl_stable_rpm $alpha_tbl_stable_rpm
+fset $aws1_ap fctrl_state $fctrl_state
 fset $aws1_ap verb $verb
 

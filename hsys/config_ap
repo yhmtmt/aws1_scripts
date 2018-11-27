@@ -1,5 +1,7 @@
 #!/bin/sh
 
+. ./config
+
 meng_max=220
 meng_min=80
 rev_max=5500
@@ -16,3 +18,16 @@ drev=0.0
 
 smax=15
 smin=10
+
+alpha_tbl_stable_rpm=0.05
+alpha_rud_mid=0.01
+alpha_yaw_bias=0.01
+alpha_flw=0.1
+twindow_stability_check=3
+devyaw=3.0
+devcog=3.0
+devsog=1.0
+devrev=500
+
+fctrl_state=$path_aws/ctrl_state.aws1_ap
+
