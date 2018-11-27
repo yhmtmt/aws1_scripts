@@ -28,6 +28,5 @@ devyaw=3.0
 devcog=3.0
 devsog=1.0
 devrev=500
-
 fctrl_state=$path_aws/ctrl_state.aws1_ap
 
