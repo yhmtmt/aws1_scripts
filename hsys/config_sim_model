@@ -34,13 +34,35 @@ dl_xu1=100 #linear drag matrix(0,0)
 dl_yv1=200 #linear drag matrix(1,1)
 dl_yr1=0 #linear drag matrix(1,2)
 dl_nv1=0 #linear drag matrix(2,1)
-dl_nr1=0 #linear drag matrix(2,2)
+dl_nr1=100 #linear drag matrix(2,2)
 
 dq_xu1=50 #quadratic drag matrix(0,0)
 dq_yv1=100 #quadratic drag matrix(1,1)
 dq_yr1=0 #quadratic drag matrix(1,2)
 dq_nv1=0 #quadratic drag matrix(2,1)
 dq_nr1=100 #quadratic drag matrix(2,2)
+
+#3dof model astern parameters
+xg2=-1.5 #gravity center in x
+yg2=0 #gravity center in y
+m2=3000 #mass in kg
+ma_xu2=0 #added mass matrix(0,0)
+ma_yv2=0 #added mass matrix(1,1)
+ma_yr2=0 #added mass matrix(1,2)
+ma_nv2=0 #added mass matrix(2,1)
+ma_nr2=0 #added mass matrix(2,2)
+
+dl_xu2=100 #linear drag matrix(0,0)
+dl_yv2=200 #linear drag matrix(1,1)
+dl_yr2=0 #linear drag matrix(1,2)
+dl_nv2=0 #linear drag matrix(2,1)
+dl_nr2=100 #linear drag matrix(2,2)
+
+dq_xu2=50 #quadratic drag matrix(0,0)
+dq_yv2=100 #quadratic drag matrix(1,1)
+dq_yr2=0 #quadratic drag matrix(1,2)
+dq_nv2=0 #quadratic drag matrix(2,1)
+dq_nr2=100 #quadratic drag matrix(2,2)
 
 #rudder control model
 rslack=3 #Rudder slack (port positive)
@@ -65,7 +87,7 @@ yr0=0.0 # rudder y position relative to the center of boat
 CTL0=0.4 # Linear Thrust force coefficient
 CTQ0=0.0002 # Quadratic Thrust force coefficient
 CD0=0 # Drag coefficient of rudder
-CL0=0 # Lift coefficient of rudder
+CL0=100 # Lift coefficient of rudder
 
 #outboard mortor's force model planing parameters
 xr1=-3.2 # rudder x position relative to the center of boat
@@ -74,3 +96,11 @@ CTL1=0.4 # Linear Thrust force coefficient
 CTQ1=0.0002 # Quadratic Thrust force coefficient
 CD1=0 # Drag coefficient of rudder
 CL1=0 # Lift coefficient of rudder
+
+#outboard mortor's force model astern  parameters
+xr2=-3.2 # rudder x position relative to the center of boat
+yr2=0.0 # rudder y position relative to the center of boat
+CTL2=0.4 # Linear Thrust force coefficient
+CTQ2=0.0002 # Quadratic Thrust force coefficient
+CD2=0 # Drag coefficient of rudder
+CL2=0 # Lift coefficient of rudder
