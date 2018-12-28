@@ -65,10 +65,10 @@ dq_nv2=0 #quadratic drag matrix(2,1)
 dq_nr2=100 #quadratic drag matrix(2,2)
 
 #rudder control model
-rslack=3 #Rudder slack (port positive)
-rrud=0.2 #Speed of rudder rotatin (rate per sec, 0.2 means 5sec for full swing)
-ruds=-30 # Hard a starboard (degree)
-rudp=30  # Hard a port (port)
+rudp=0.541052 #Hard a port (radian)
+ruds=-0.45852 #Hard a starboard (radian)
+rslack=0.02144 #Rudder slack (radian)
+rrud=1.7453289 #Speed of rudder rotatin (radian/sec)
 
 #engine control model
 fth=152 # Nutral to Forward threshold
