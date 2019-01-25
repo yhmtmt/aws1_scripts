@@ -108,8 +108,9 @@ fset $aws1_sim xr1 $xr1 yr1 $yr1 CTL1 $CTL1 CTQ1 $CTQ1 CD1 $CD1 CL1 $CL1
 
 fset $aws1_sim rslack $rslack rrud $rrud ruds $ruds rudp $rudp
 
-fset $aws1_sim fth $fth bth $bth umax $umax umin $umin rgamma $rgamma rfdelta $rfdelta rbdelta $rbdelta fslack $fslack bslack $bslack
-
+fset $aws1_sim fth $fth bth $bth umax $umax umin $umin rgamma $rgamma rfdelta $rfdelta rbdelta $rbdelta
+fset $aws1_sim r0f $r0f rpf $rpf rff $rff e0f $e0f e0df $e0df epf $epf epdf $epdf eff $eff qddf $qddf qudf $qudf qdpf $qdpf qupf $qupf
+fset $aws1_sim r0b $r0b rfb $rfb e0b $e0b e0db $e0db efb $efb qdb $qdb qub $qub
 
 if [ $go = "y" ]; then
     go
