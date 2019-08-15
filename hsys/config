@@ -4,11 +4,11 @@ env=`uname`
 cpu=`uname -p`
 if [ $env = "Linux" ]; then
     if [ $cpu = "x86_64" ]; then
-	export path_aws=/home/ubuntu/matumoto/aws
-	export path_data=/home/ubuntu/matumoto/aws
+	export path_aws=/mnt/c/cygwin64/home/yhmtm/aws
+	export path_data=/mnt/c/cygwin64/home/yhmtm/aws
     else
-	export path_aws=/mnt/ssd1/aws
-	export path_data=/mnt/ssd1/aws
+	export path_aws=/mnt/aws
+	export path_data=/mnt/aws
     fi
 else
     user=`whoami`
