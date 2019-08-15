@@ -1,0 +1,4 @@
+#!/bin/sh
+
+export dev=/dev/ttyUL3
+export br=38400

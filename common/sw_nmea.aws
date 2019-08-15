@@ -5,8 +5,8 @@ go=n
 
 gff=n
 ais=n
-mrl=n
-gps=n
+v104=n
+wx220=n
 
 for arg in $*
 do
@@ -20,8 +20,8 @@ do
 	    "ch_ais_obj")ch_ais_obj=${param[1]};;
 	    "gff") gff=${param[1]};;
 	    "ais") ais=${param[1]};;
-	    "mrl") mrl=${param[1]};;
-	    "gps") gps=${param[1]};;  
+	    "v104") v104=${param[1]};;
+	    "wx220") wx220=${param[1]};;  
 	    "verb") verb=${param[1]};;
 	    "go") go=${param[1]};;
 	esac
@@ -74,24 +74,27 @@ if [ $ais = y ]; then
     fset $sw aisint 1
 
     ../common/nmea.aws nmea=ais ch_nmea_in=ais_nmea_out ch_nmea_out=ais_nmea_in verb=$verb
+fiif [ $mlb = "y" ]; then
+    ../common/mlb.aws mlb=mlb ch_env=$ch_env verb=$dbg_mlb
 fi
 
-if [ $gps = y ]; then
-    channel nmea gps_nmea_in
-    channel nmea gps_nmea_out
-    fset $sw gps_nmea_i gps_nmea_in
-    fset $sw gps_nmea_o gps_nmea_out
-    fset $sw gpsint 1
 
-    ../common/nmea.aws nmea=gps ch_nmea_in=gps_nmea_out ch_nmea_out=gps_nmea_in verb=$verb
+if [ $wx220 = y ]; then
+    channel nmea wx220_nmea_in
+    channel nmea wx220_nmea_out
+    fset $sw wx220_nmea_i wx220_nmea_in
+    fset $sw wx220_nmea_o wx220_nmea_out
+    fset $sw wx220int 1
+
+    ../common/nmea.aws nmea=wx220 ch_nmea_in=wx220_nmea_out ch_nmea_out=wx220_nmea_in verb=$verb
 fi
 
-if [ $mrl = y ]; then
-    channel nmea mrl_nmea_in
-    channel nmea mrl_nmea_out
-    fset $sw mrl_nmea_i mrl_nmea_in
-    fset $sw mrl_nmea_o mrl_nmea_out
-    fset $sw mrlint 1
+if [ $v104 = y ]; then
+    channel nmea v104_nmea_in
+    channel nmea v104_nmea_out
+    fset $sw v104_nmea_i v104_nmea_in
+    fset $sw v104_nmea_o v104_nmea_out
+    fset $sw v104int 1
 
-    ../common/nmea.aws nmea=mrl ch_nmea_in=mrl_nmea_out ch_nmea_out=mrl_nmea_in verb=$verb
+    ../common/nmea.aws nmea=v104 ch_nmea_in=v104_nmea_out ch_nmea_out=v104_nmea_in verb=$verb
 fi
