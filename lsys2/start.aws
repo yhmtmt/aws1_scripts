@@ -1,0 +1,57 @@
+#!/bin/bash
+verb=n
+go=n
+
+gff=y
+ais=y
+v104=y
+wx220=y
+
+
+dbg_ctrl=n
+dbg_sw=n
+dbg_sync=n
+dbg_share=n
+dbg_ahrs=n
+dbg_mlb=n
+
+for arg in $*
+do
+    if [[ $arg =~ ^[A-Za-z0-9_]*=[A-Za-z0-9_]*$ ]]; then
+	param=(${arg//=/ })
+	case ${param[0]} in
+	    "ctrl") ctrl=${param[1]};;      # name of ctrl filter
+	    "ch_ctrl_ui") ch_ctrl_ui=${param[1]};;    # state of my own ship
+	    "ch_ctrl_ap1") ch_ctrl_ap1=${param[1]};; # state of controler
+	    "ch_ctrl_ap2") ch_ctrl_ap2=${param[1]};; # instruction to controler
+	    "ch_ctrl_stat") ch_ctrl_stat=${param[1]};;# instruction to autopilot
+	    "gff") gff=${param[1]};;
+	    "ais") ais=${param[1]};;
+	    "v104") mrl=${param[1]};;
+	    "wx220") gps=${param[1]};;
+	    "verb") verb=${param[1]};;
+	    "go") go=${param[1]};;
+	esac
+    fi    
+done
+
+. ../common/config_channel
+
+channel state $ch_state
+channel env $ch_env
+channel aws1_ctrl_stat $ch_ctrl_stat
+channel aws1_ctrl_inst $ch_ctrl_ui
+channel aws1_ctrl_inst $ch_ctrl_ap1
+channel ais_obj $ch_ais_obj
+
+
+../common/ctrl.aws ctrl=ctrl ch_ctrl_ui=$ch_ctrl_ui ch_ctrl_ap1=$ch_ctrl_ap1 ch_ctrl_stat=$ch_ctrl_stat verb=$dbg_ctrl
+
+../common/sw_nmea.aws sw=sw ch_nmea_in=$ch_nmea_in ch_nmea_out=$ch_nmea_out ch_state=$ch_state gff=$gff ais=$ais ch_ais_obj=$ch_ais_obj v104=$v104 wx220=$wx220 verb=$dbg_sw
+
+
+../common/sync.aws tsync=tsync svr=y verb=$dbg_sync
+
+../common/share.aws share=share -i $schl2h -o $schh2l verb=$dbg_share svr=y
+
+go
