@@ -27,8 +27,8 @@ do
 	    "ch_ctrl_stat") ch_ctrl_stat=${param[1]};;# instruction to autopilot
 	    "gff") gff=${param[1]};;
 	    "ais") ais=${param[1]};;
-	    "v104") mrl=${param[1]};;
-	    "wx220") gps=${param[1]};;
+	    "v104") v104=${param[1]};;
+	    "wx220") wx220=${param[1]};;
 	    "verb") verb=${param[1]};;
 	    "go") go=${param[1]};;
 	esac
@@ -49,8 +49,7 @@ channel ais_obj $ch_ais_obj
 
 ../common/sw_nmea.aws sw=sw ch_nmea_in=$ch_nmea_in ch_nmea_out=$ch_nmea_out ch_state=$ch_state gff=$gff ais=$ais ch_ais_obj=$ch_ais_obj v104=$v104 wx220=$wx220 verb=$dbg_sw
 
-
-../common/sync.aws tsync=tsync svr=y verb=$dbg_sync
+#../common/sync.aws tsync=tsync svr=y verb=$dbg_sync
 
 ../common/share.aws share=share -i $schl2h -o $schh2l verb=$dbg_share svr=y
 

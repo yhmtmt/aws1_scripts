@@ -74,10 +74,7 @@ if [ $ais = y ]; then
     fset $sw aisint 1
 
     ../common/nmea.aws nmea=ais ch_nmea_in=ais_nmea_out ch_nmea_out=ais_nmea_in verb=$verb
-fiif [ $mlb = "y" ]; then
-    ../common/mlb.aws mlb=mlb ch_env=$ch_env verb=$dbg_mlb
 fi
-
 
 if [ $wx220 = y ]; then
     channel nmea wx220_nmea_in
