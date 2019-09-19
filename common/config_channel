@@ -16,6 +16,10 @@ ch_ap_inst=ap_inst
 ch_img=img
 ch_map=map
 
+radar_image=radar_image
+radar_state=radar_state
+radar_ctrl=radar_ctrl
+
 #channel sharing
 
 schh2l="$ch_ctrl_ui $ch_ctrl_ap1"

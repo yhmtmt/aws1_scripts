@@ -55,8 +55,11 @@ channel aws1_ap_inst $ch_ap_inst
 channel imgr $ch_img
 channel map $ch_map
 
-. ./config
+channel radar_state $radar_state
+channel radar_image $radar_image
+channel radar_ctrl $radar_ctrl
 
+. ./config
 
 # object manager
 echo "Setting up OBJM"
@@ -163,18 +166,22 @@ else
 	# n2k interface
 	echo "Setting up N2K"
 	../common/n2k.aws ch_engstate=$ch_engstate verb=$dbg_n2k
+
+	# radar
+	echo "Setting up Radar"
+	../common/radar.aws radar="radar" state=$ch_state radar_state=$radar_state radar_image=$radar_image radar_ctrl=$radar_ctrl
 	
 	# camera1
-	echo "Setting up CAM"
-	../common/cam.aws vmbcam=mako0 ch_img=$ch_img stime=$stime rec=$rec rep=$rep verb=$dbg_cam
+#	echo "Setting up CAM"
+#	../common/cam.aws vmbcam=mako0 ch_img=$ch_img stime=$stime rec=$rec rep=$rep verb=$dbg_cam
 	
 	# channel sharing
 	echo "Settng up CHS"
 	../common/share.aws share=share -i $schh2l -o $schl2h verb=$dbg_share svr=n
 	
 	# time synchronizer
-	echo "Setting up TSYN"
-	../common/sync.aws tsync=tsync svr=n verb=$dbg_sync
+#	echo "Setting up TSYN"
+#	../common/sync.aws tsync=tsync svr=n verb=$dbg_sync
     fi
 
     # user interface
