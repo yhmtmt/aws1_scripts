@@ -1,0 +1,55 @@
+#!/bin/bash
+
+verb=n
+go=n
+radar="radar"
+state=
+radar_state=
+radar_image=
+radar_ctrl=
+
+for arg in $*
+do
+    if [[ $arg =~ ^[A-Za-z0-9_]*=[A-Za-z0-9_]*$ ]]; then
+        param=(${arg//=/ })
+        case ${param[0]} in
+	    "radar")radar=${param[1]};;
+            "state")state=${param[1]};;
+            "radar_state")radar_state=${param[1]};;
+            "radar_image")radar_image=${param[1]};;
+	    "radar_ctrl")radar_ctrl=${param[1]};;
+            "verb") verb=${param[1]};;
+            "go") go=${param[1]};;
+        esac
+    fi        
+done
+
+. ./config_radar
+
+if [ -z "$state" ]; then
+   state = "state"
+   channel state $state
+fi
+
+if [ -z "$radar_state" ]; then
+   radar_state = "radar_state"
+   channel radar_state radar_state
+fi
+
+if [ -z "$radar_image" ]; then
+   radar_image = "radar_image"
+   channel radar_image $radar_image
+fi
+
+if [ -z "$radar_ctrl" ]; then
+   radar_ctrl = "radar_ctrl"
+   channel radar_ctrl $radar_ctrl
+fi
+
+filter radar $radar -i -o
+fset $radar state $state
+fset $radar radar_state $radar_state
+fset $radar radar_image $radar_image
+fset $radar radar_ctrl $radar_ctrl
+
+ 
