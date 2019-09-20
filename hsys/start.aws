@@ -55,8 +55,11 @@ channel aws1_ap_inst $ch_ap_inst
 channel imgr $ch_img
 channel map $ch_map
 
-. ./config
+channel radar_state $radar_state
+channel radar_image $radar_image
+channel radar_ctrl $radar_ctrl
 
+. ./config
 
 # object manager
 echo "Setting up OBJM"
@@ -163,6 +166,10 @@ else
 	# n2k interface
 	echo "Setting up N2K"
 	../common/n2k.aws ch_engstate=$ch_engstate verb=$dbg_n2k
+
+	# radar
+	echo "Setting up Radar"
+	../common/radar.aws radar="radar" state=$ch_state radar_state=$radar_state radar_image=$radar_image radar_ctrl=$radar_ctrl
 	
 	# camera1
 #	echo "Setting up CAM"

@@ -1,0 +1,19 @@
+#!/bin/sh
+
+# state -1: OFF 0: MANUAL 1: AUTO
+# txoff
+# txon
+# bearing_alignment <0-359> 
+# no_transmit_start <-180to180> <-1 or 0>
+# no_transmit_start <-180to180> <-1 or 0>
+# range <meter>
+# gain <value> <0 or 1>
+# sea <value> <-1 or 0 or 1>
+# rain <value=1to50> <-1 or 0>
+# interference_rejection <value>
+# scan_speed <value>
+# timed_idle <value> <-1 or 0>
+# timed_run <value>
+# img <value>
+fset radar cmd_val $2 cmd_state $3
+fset radar cmd_id $1
