@@ -27,23 +27,23 @@ done
 . ./config_radar
 
 if [ -z "$state" ]; then
-   state = "state"
-   channel state $state
+   state="state"
+   `channel state $state`
 fi
 
 if [ -z "$radar_state" ]; then
-   radar_state = "radar_state"
-   channel radar_state $radar_state
+   radar_state="radar_state"
+   `channel radar_state $radar_state`
 fi
 
 if [ -z "$radar_image" ]; then
-   radar_image = "radar_image"
-   channel radar_image $radar_image
+   radar_image="radar_image"
+   `channel radar_image $radar_image`
 fi
 
 if [ -z "$radar_ctrl" ]; then
-   radar_ctrl = "radar_ctrl"
-   channel radar_ctrl $radar_ctrl
+   radar_ctrl="radar_ctrl"
+   `channel radar_ctrl $radar_ctrl`
 fi
 
 filter radar $radar -i -o
