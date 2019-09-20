@@ -17,5 +17,7 @@
 # img <value>
 if [ $# -eq 1 ]; then
     fset radar cmd_val $1
+else
+    fset radar cmd_val 0
 fi
 fset radar cmd_id img
