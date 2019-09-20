@@ -1,0 +1,3 @@
+#!/bin/sh
+
+fset radar cmd_id txon
