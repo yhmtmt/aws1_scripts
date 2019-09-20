@@ -33,7 +33,7 @@ fi
 
 if [ -z "$radar_state" ]; then
    radar_state = "radar_state"
-   channel radar_state radar_state
+   channel radar_state $radar_state
 fi
 
 if [ -z "$radar_image" ]; then
