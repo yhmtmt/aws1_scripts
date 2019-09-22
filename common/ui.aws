@@ -21,7 +21,10 @@ do
 	    "ch_ais_obj") ch_ais_obj=${param[1]};;# ais object	    
 	    "ch_map") ch_map=${param[1]};;        # map
 	    "ch_obst") ch_obst=${param[1]};;      # obstacle 
-	    "ch_disp") ch_disp=${param[1]};;	  # disparity image 
+	    "ch_disp") ch_disp=${param[1]};;	  # disparity image
+	    "ch_radar_image") ch_radar_image=${param[1]};;
+	    "ch_radar_ctrl") ch_radar_ctrl=${param[1]};;
+	    "ch_radar_state") ch_radar_state=${param[1]};;	    
 	    "verb") verb=${param[1]};;
 	    "go") go=${param[1]};;
 	esac
@@ -87,3 +90,16 @@ if [ -n "$ch_disp" ]; then
     fset $aws1_ui ch_disp $ch_disp
 fi
 
+if [ -n "$ch_radar_image" ]; then
+    fset $aws1_ui ch_radar_image $ch_radar_image
+fi
+
+
+if [ -n "$ch_radar_state" ]; then
+    fset $aws1_ui ch_radar_state $ch_radar_state
+fi
+
+
+if [ -n "$ch_radar_ctrl" ]; then
+    fset $aws1_ui ch_radar_ctrl $ch_radar_ctrl
+fi

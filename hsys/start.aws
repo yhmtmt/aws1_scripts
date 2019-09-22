@@ -186,7 +186,7 @@ else
 
     # user interface
     echo "Setting up UI"
-    ../common/ui.aws ch_state=$ch_state ch_engstate=$ch_engstate ch_img=$ch_img ch_wp=$ch_wp ch_ctrl_stat=$ch_ctrl_stat ch_ctrl_inst=$ch_ctrl_ui ch_ap_inst=$ch_ap_inst ch_ais_obj=$ch_ais_obj ch_map=$ch_map verb=$dbg_ui
+    ../common/ui.aws ch_state=$ch_state ch_engstate=$ch_engstate ch_img=$ch_img ch_wp=$ch_wp ch_ctrl_stat=$ch_ctrl_stat ch_ctrl_inst=$ch_ctrl_ui ch_ap_inst=$ch_ap_inst ch_ais_obj=$ch_ais_obj ch_map=$ch_map verb=$dbg_ui ch_radar_state=$radar_state ch_radar_image=$radar_image ch_radar_ctrl=$radar_ctrl
     
     if [ $rec = "y" ]; then
 	logpath=$path_data/log/$stime
