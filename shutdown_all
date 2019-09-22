@@ -1,0 +1,8 @@
+#!/bin/sh
+
+stop_hsys
+stop_lsys
+
+
+./shutdown_all0
+

@@ -1,5 +1,5 @@
 #!/bin/sh
 
-cd lsys
+cd lsys2
 quit
 
