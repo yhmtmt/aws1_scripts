@@ -154,6 +154,9 @@ else
 	echo "Setting up SIM"
 	../common/sim.aws ch_state=$ch_state ch_engstate=$ch_engstate ch_ctrl_stat=$ch_ctrl_stat ch_ctrl_ui=$ch_ctrl_ui ch_ctrl_ap1=$ch_ctrl_ap1 ch_state_sim=$ch_state ch_engstate_sim=$ch_engstate ch_ctrl_stat_sim=$ch_ctrl_stat stime=$stime
 	rep=n
+	echo "Setting up Radar"
+	../common/radar_sim.aws radar="radar" state=$ch_state radar_state=$radar_state radar_image=$radar_image radar_ctrl=$radar_ctrl
+	
     else
 	channel state $ch_state_sim
 	channel engstate $ch_engstate_sim
